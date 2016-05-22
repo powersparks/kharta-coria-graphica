@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kharta.coria.graphica", "kharta.coria.graphica\kharta.coria.graphica.csproj", "{7C05745D-B9C7-4ACB-A7BE-D8A0BC39D001}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "te.extension.kharta", "te.extension.kharta\te.extension.kharta.csproj", "{574D44FC-70EB-42A2-9272-6BDFB2D22C1C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "te.extension.coria", "te.extension.coria\te.extension.coria.csproj", "{CC46C641-0F17-464C-97A5-60010D2CB018}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "te.extension.graphica", "te.extension.graphica\te.extension.graphica.csproj", "{0898828C-13BA-4119-B23A-0467A2EA3133}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7C05745D-B9C7-4ACB-A7BE-D8A0BC39D001}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C05745D-B9C7-4ACB-A7BE-D8A0BC39D001}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C05745D-B9C7-4ACB-A7BE-D8A0BC39D001}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C05745D-B9C7-4ACB-A7BE-D8A0BC39D001}.Release|Any CPU.Build.0 = Release|Any CPU
+		{574D44FC-70EB-42A2-9272-6BDFB2D22C1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{574D44FC-70EB-42A2-9272-6BDFB2D22C1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{574D44FC-70EB-42A2-9272-6BDFB2D22C1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{574D44FC-70EB-42A2-9272-6BDFB2D22C1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC46C641-0F17-464C-97A5-60010D2CB018}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC46C641-0F17-464C-97A5-60010D2CB018}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC46C641-0F17-464C-97A5-60010D2CB018}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC46C641-0F17-464C-97A5-60010D2CB018}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0898828C-13BA-4119-B23A-0467A2EA3133}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0898828C-13BA-4119-B23A-0467A2EA3133}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0898828C-13BA-4119-B23A-0467A2EA3133}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0898828C-13BA-4119-B23A-0467A2EA3133}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
