@@ -38,6 +38,30 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="Telligent.Common">
+      <HintPath>..\..\..\References\Telligent.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Telligent.DynamicConfiguration">
+      <HintPath>..\..\..\References\Telligent.DynamicConfiguration.dll</HintPath>
+    </Reference>
+    <Reference Include="Telligent.Evolution.Api">
+      <HintPath>..\..\..\References\Telligent.Evolution.Api.dll</HintPath>
+    </Reference>
+    <Reference Include="Telligent.Evolution.Components">
+      <HintPath>..\..\..\References\Telligent.Evolution.Components.dll</HintPath>
+    </Reference>
+    <Reference Include="Telligent.Evolution.Controls">
+      <HintPath>..\..\..\References\Telligent.Evolution.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Telligent.Evolution.Core">
+      <HintPath>..\..\..\References\Telligent.Evolution.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Telligent.Evolution.Rest">
+      <HintPath>..\..\..\References\Telligent.Evolution.Rest.dll</HintPath>
+    </Reference>
+    <Reference Include="Telligent.Evolution.ScriptedContentFragments">
+      <HintPath>..\..\..\References\Telligent.Evolution.ScriptedContentFragments.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Plugins\Applications.cs" />
