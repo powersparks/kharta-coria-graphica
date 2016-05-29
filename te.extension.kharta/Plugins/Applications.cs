@@ -20,7 +20,7 @@ using Permission = Telligent.Evolution.Extensibility.Security.Version1.Permissio
 using Telligent.Evolution.Extensibility;
 
 using Telligent.Evolution.Extensibility.Content.Version1;
-namespace te.extension.kharta
+namespace te.extension.kharta.Plugins
 {
     public class Applications : IPlugin, IPluginGroup, IApplications, IConfigurablePlugin
     {

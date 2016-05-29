@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace te.extension.kharta.Plugins
 {
-    class Contents
+    public class Contents
     {
     }
 }

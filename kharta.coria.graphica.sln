@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "te.extension.coria", "te.ex
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "te.extension.graphica", "te.extension.graphica\te.extension.graphica.csproj", "{0898828C-13BA-4119-B23A-0467A2EA3133}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kharta.coria.graphica.test", "kharta.coria.graphica.test\kharta.coria.graphica.test.csproj", "{620E0F55-8771-4F47-AADC-E2D55EFFE6DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{0898828C-13BA-4119-B23A-0467A2EA3133}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0898828C-13BA-4119-B23A-0467A2EA3133}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0898828C-13BA-4119-B23A-0467A2EA3133}.Release|Any CPU.Build.0 = Release|Any CPU
+		{620E0F55-8771-4F47-AADC-E2D55EFFE6DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{620E0F55-8771-4F47-AADC-E2D55EFFE6DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{620E0F55-8771-4F47-AADC-E2D55EFFE6DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{620E0F55-8771-4F47-AADC-E2D55EFFE6DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

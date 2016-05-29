@@ -30,8 +30,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,44 +51,53 @@
     <Reference Include="System.Xml" />
     <Reference Include="Telligent.Common">
       <HintPath>..\..\..\References\Telligent.Common.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Telligent.DynamicConfiguration">
       <HintPath>..\..\..\References\Telligent.DynamicConfiguration.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Telligent.Evolution.Api">
       <HintPath>..\..\..\References\Telligent.Evolution.Api.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Telligent.Evolution.Components">
       <HintPath>..\..\..\References\Telligent.Evolution.Components.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Telligent.Evolution.Controls">
       <HintPath>..\..\..\References\Telligent.Evolution.Controls.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Telligent.Evolution.Core">
       <HintPath>..\..\..\References\Telligent.Evolution.Core.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Telligent.Evolution.Rest">
       <HintPath>..\..\..\References\Telligent.Evolution.Rest.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Telligent.Evolution.ScriptedContentFragments">
       <HintPath>..\..\..\References\Telligent.Evolution.ScriptedContentFragments.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="InternalApi\Entity\KhartaOntology.cs" />
+    <Compile Include="InternalApi\OntologyDataService.cs" />
     <Compile Include="Plugins\Applications.cs" />
     <Compile Include="Plugins\Containers.cs" />
+    <Compile Include="Plugins\Container\KhartaOntologyEvents.cs" />
     <Compile Include="Plugins\Contents.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PublicApi\Entity\KhartaOntology.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="InternalApi\Entity\" />
     <Folder Include="InternalApi\Utility\" />
     <Folder Include="Plugins\Application\" />
-    <Folder Include="Plugins\Container\" />
     <Folder Include="Plugins\Content\" />
     <Folder Include="Plugins\REST\" />
     <Folder Include="Plugins\UI\" />
-    <Folder Include="PublicApi\Entity\" />
     <Folder Include="Resources\Css\" />
     <Folder Include="Resources\EcmaScript\" />
     <Folder Include="Resources\Pages\" />
@@ -91,7 +111,17 @@
     <Content Include="Resources\Widgets\exampleKhartaName\supplementary\ui.js" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Resources\Widgets\exampleKhartaName\supplementary\ui.vm" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\kharta.coria.graphica\kharta.coria.graphica.csproj">
+      <Project>{7c05745d-b9c7-4acb-a7be-d8a0bc39d001}</Project>
+      <Name>kharta.coria.graphica</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
