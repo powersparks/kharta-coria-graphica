@@ -29,6 +29,20 @@ namespace te.extension.kharta.InternalApi
             }
             return ontology;
         }
+        private static KhartaOntology FromOntology(Ontology ontology)
+        {
+            KhartaOntology container = new KhartaOntology();
+            //Type ct = container.GetType();
+            Type ot = ontology.GetType();
+            // IList<PropertyInfo> cprop = new List<PropertyInfo>(ct.GetProperties());
+            IList<PropertyInfo> oprop = new List<PropertyInfo>(ot.GetProperties());
+            foreach (PropertyInfo op in oprop)
+            {
+                var value = op.GetValue(ontology, null);
+                op.SetValue( container, value, null);
+            }
+            return container;
+        }
 
         /// <summary>
         /// A "find", unlike "get", makes a call once to the database,
@@ -57,17 +71,20 @@ namespace te.extension.kharta.InternalApi
         /// </summary>
         /// <returns></returns>
         internal static KhartaOntology getContainer(int id)
-        {
-            KhartaOntology kcgContainer = new KhartaOntology();
+        { 
+            Func<Ontology, KhartaOntology> toContainer = (Ontology fromOntology) => FromOntology(fromOntology);
+            KhartaOntology container = new KhartaOntology();
             using (var dbcontext = new KhartaDataModel())
             {
-                var container = from o in dbcontext.Ontologies
-                                where o.Id.Equals(id)
-                                select o;
-                kcgContainer = (KhartaOntology)container.FirstOrDefault();
-                
+                var result = from o in dbcontext.Ontologies
+                             where o.Id.Equals(id)
+                             select o;
+                Ontology ontology = result.FirstOrDefault();
+
+                 container = toContainer(ontology);
             }
-            return kcgContainer;
+            
+            return container;
         }
 
        

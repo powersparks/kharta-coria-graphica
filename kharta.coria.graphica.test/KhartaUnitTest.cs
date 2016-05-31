@@ -14,33 +14,35 @@ namespace kharta.coria.graphica.test
     [TestClass]
     public class KhartaUnitTest
     {
-        internal teKharta.InternalApi.KhartaOntology addContainer(kcgCore.Models.Ontology ontology)
+        [TestMethod]
+        public void addUpdateContainerTest()
         {
-            
-            teKharta.InternalApi.KhartaOntology container = new teKharta.InternalApi.KhartaOntology();
-            Type ct = container.GetType();
-            Type ot = ontology.GetType();
-            IList<PropertyInfo> cprop = new List<PropertyInfo>(ct.GetProperties());
-            IList<PropertyInfo> oprop = new List<PropertyInfo>(ot.GetProperties());
-             
-            using (var dbcontext = new kharta.coria.graphica.Models.KhartaDataModel())
+            var id = 0;
+            try
             {
-                var _ontology = dbcontext.Ontologies.Add(ontology);
-                
-                dbcontext.SaveChanges();
-                foreach (PropertyInfo op in oprop) {
-                   var value = op.GetValue(_ontology, null);
-                    op.SetValue(container,value ,null);
-                }
-               
+                kcgCore.Models.Ontology ontology = new kcgCore.Models.Ontology();
+                teKharta.InternalApi.KhartaOntology container = new teKharta.InternalApi.KhartaOntology();
+
+                container = teKharta.InternalApi.OntologyDataService.addUpdateContainer(container);
+                  
+                id = container.Id;
+                Debug.WriteLine("addContainer:");
+                Debug.WriteLine("list id: " + container.Id);
+
+                Assert.IsTrue(id != 0);
             }
-            return  container;
+            catch (Exception ex)
+            {
+                Assert.Fail();
+                Debug.WriteLine("error: " + ex.Message);
+            }
         }
         [TestMethod]
-        public void getContainerTest(int id)
+        public void getContainerTest()
         {
-
-            Assert.Fail();
+            int id = 1;
+            teKharta.InternalApi.KhartaOntology container = teKharta.InternalApi.OntologyDataService.getContainer(id);
+            Assert.IsTrue(id == container.Id);
         }
         [TestMethod]
         public void deleteContainerTest()
@@ -74,16 +76,6 @@ namespace kharta.coria.graphica.test
                 Debug.WriteLine("error: " + ex.Message);
             }
         }
-        [TestMethod]
-        public void getContainerTest()
-        {
-          int id = 0;
-          var list = teKharta.InternalApi.OntologyDataService.getContainer(id);
-            Debug.WriteLine("getContainer");
-            Debug.WriteLine(list);
-          
-            Assert.AreEqual(list.Id, id);
-
-        }
+      
     }
 }
