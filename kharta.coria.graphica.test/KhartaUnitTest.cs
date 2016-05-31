@@ -48,6 +48,8 @@ namespace kharta.coria.graphica.test
 
             Assert.Fail();
         }
+
+
         [TestMethod]
         public void addContainerTest()
         {
@@ -55,12 +57,11 @@ namespace kharta.coria.graphica.test
             try
             {
                 kcgCore.Models.Ontology ontology = new kcgCore.Models.Ontology();
-               // teKharta.InternalApi.KhartaOntology container = new teKharta.InternalApi.KhartaOntology();
-                //addUpdateContainer()
-                teKharta.InternalApi.KhartaOntology container = teKharta.InternalApi.OntologyDataService.addContainer(ontology);// new teKharta.InternalApi.KhartaOntology();
-               // teKharta.InternalApi.KhartaOntology container = teKharta.InternalApi.OntologyDataService.addUpdateContainer(ontology);// new teKharta.InternalApi.KhartaOntology();
+                teKharta.InternalApi.KhartaOntology container = new teKharta.InternalApi.KhartaOntology();
+             
+                container = teKharta.InternalApi.OntologyDataService.addContainer( container);// new teKharta.InternalApi.KhartaOntology();
 
-                //container = teKharta.InternalApi.OntologyDataService.addUpdateContainer(container);
+               // container = teKharta.InternalApi.OntologyDataService.addUpdateContainer(container);
                 id = container.Id;
                 Debug.WriteLine("addContainer:");
                 Debug.WriteLine("list id: " + container.Id);

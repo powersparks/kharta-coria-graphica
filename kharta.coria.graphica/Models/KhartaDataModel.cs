@@ -1,11 +1,10 @@
 using System;
 using System.Data.Entity;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("te.extension.kharta.InternalApi")]
-[assembly: InternalsVisibleTo("kharta.coria.graphica.test")]
+
+
+ 
 namespace kharta.coria.graphica.Models
 {
     

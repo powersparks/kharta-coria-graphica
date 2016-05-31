@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 using kharta.coria.graphica.Models;
 using System.Runtime.CompilerServices;
 using System.Diagnostics;
-using System.Linq;
-using System.Collections.Generic;
+
 using System.Reflection;
  
 [assembly: InternalsVisibleTo("kharta.coria.graphica.test")]
@@ -16,6 +15,21 @@ namespace te.extension.kharta.InternalApi
 
     internal class OntologyDataService
     {
+        private static Ontology FromContainer(KhartaOntology container)
+        {
+            Ontology ontology = new Ontology();
+            //Type ct = container.GetType();
+            Type ot = ontology.GetType();
+            // IList<PropertyInfo> cprop = new List<PropertyInfo>(ct.GetProperties());
+            IList<PropertyInfo> oprop = new List<PropertyInfo>(ot.GetProperties());
+            foreach (PropertyInfo op in oprop)
+            {
+                var value = op.GetValue(container, null);
+                op.SetValue(ontology, value, null);
+            }
+            return ontology;
+        }
+
         /// <summary>
         /// A "find", unlike "get", makes a call once to the database,
         /// cache results are kept in the context until saved. If the current 
@@ -24,7 +38,7 @@ namespace te.extension.kharta.InternalApi
         /// <param name="id"></param>
         /// <returns></returns>
 
-        
+
         internal static IList<KhartaOntology> findContainer(int id)
         {
             IList<KhartaOntology> kcgContainers = new List<KhartaOntology>();
@@ -56,18 +70,21 @@ namespace te.extension.kharta.InternalApi
             return kcgContainer;
         }
 
-        internal static KhartaOntology addContainer(Ontology ontology)
+       
+        internal static KhartaOntology addContainer(KhartaOntology container)
         {
+            Func<KhartaOntology, Ontology> toOntology = (KhartaOntology fromContainer) => FromContainer(fromContainer);
+            Ontology _ontology = toOntology(container);
 
-            KhartaOntology container = new KhartaOntology();
+            //KhartaOntology container = new KhartaOntology();
             Type ct = container.GetType();
-            Type ot = ontology.GetType();
+            Type ot = _ontology.GetType();
             IList<PropertyInfo> cprop = new List<PropertyInfo>(ct.GetProperties());
             IList<PropertyInfo> oprop = new List<PropertyInfo>(ot.GetProperties());
 
             using (var dbcontext = new KhartaDataModel())
             {
-                var _ontology = dbcontext.Ontologies.Add(ontology);
+                 _ontology = dbcontext.Ontologies.Add(_ontology);
 
                 dbcontext.SaveChanges();
                 foreach (PropertyInfo op in oprop)
@@ -81,8 +98,10 @@ namespace te.extension.kharta.InternalApi
         }
         internal static KhartaOntology addUpdateContainer(KhartaOntology container)
         {
+            Func<KhartaOntology, Ontology> toOntology = (KhartaOntology fromContainer) => FromContainer(fromContainer);
+            Ontology _ontology = toOntology(container);
 
-            Ontology _ontology =  container;// new Ontology() ;//(Ontology) container;
+            //Ontology _ontology = (Ontology) container;// new Ontology() ;//(Ontology) container;
             int id = container.Id;
             // KhartaOntology container = new KhartaOntology();
             Type ct = container.GetType();
