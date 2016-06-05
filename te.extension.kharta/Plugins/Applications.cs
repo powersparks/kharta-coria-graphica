@@ -22,94 +22,63 @@ using Telligent.Evolution.Extensibility;
 using Telligent.Evolution.Extensibility.Content.Version1;
 namespace te.extension.kharta.Plugins
 {
-    public class Applications : IPlugin, IPluginGroup, IApplications, IConfigurablePlugin
+    public class Applications : IPlugin , IApplications, IConfigurablePlugin
     {
         public readonly Guid Applications_id = new Guid("5127c319-fda6-40e4-bfd7-37bbfef3ba39");
         public readonly Guid ApplicationsType_id = new Guid("e504f58d-c1d8-40a8-bf55-bc38c65625e9");
 
         #region IPlugin
-
-        public string Description
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public string Name { get { return "Sources"; } }
+        public string Description { get { return "Kharta data sources inventory and mananagement tools"; } }
+        public Guid DataTypeId { get { return Applications_id; } }
         public void Initialize()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
-
-
-        public string Name
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-        #region IPluginGroup
-        public IEnumerable<Type> Plugins
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-        #endregion
-
- 
 
         #region IConfigurablePlugin
         public PropertyGroup[] ConfigurationOptions
         {
             get
             {
-                throw new NotImplementedException();
+                PropertyGroup pgroup = new PropertyGroup("options", "Options", 1);
+                pgroup.Properties.Add(new Property("replaceProperty", "replace properties", PropertyType.String, 1, "") { DescriptionText = "options go here." });
+                return new PropertyGroup[] { pgroup }; // throw new NotImplementedException();
             }
         }
-
-        public Guid DataTypeId
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        
-
         public void Update(IPluginConfiguration configuration)
         {
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
+        #endregion
+
+      
         #region IApplications
 
         public IApplicationEvents Events
         {
             get
             {
-                throw new NotImplementedException();
+                return null;// throw new NotImplementedException();
             }
         }
         public Application Get([Documentation("Application Id")] Guid applicationId, [Documentation("Application type Id")] Guid applicationTypeId)
         {
-            throw new NotImplementedException();
+            return null;// throw new NotImplementedException();
         }
 
         public ApiList<Application> List(Guid containerTypeId, Guid containerId)
         {
-            throw new NotImplementedException();
+            return null; // throw new NotImplementedException();
         }
 
         public ApiList<Application> Search(Guid containerTypeId, Guid containerId, string searchText)
         {
-            throw new NotImplementedException();
+            return null; // throw new NotImplementedException();
         }
 
         #endregion
-        #endregion
+       
 
 
 

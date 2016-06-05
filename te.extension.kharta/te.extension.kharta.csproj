@@ -87,7 +87,6 @@
     <Compile Include="InternalApi\OntologyDataService.cs" />
     <Compile Include="Plugins\Applications.cs" />
     <Compile Include="Plugins\Containers.cs" />
-    <Compile Include="Plugins\Container\KhartaOntologyEvents.cs" />
     <Compile Include="Plugins\Contents.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PublicApi\Entity\KhartaOntology.cs" />
@@ -95,6 +94,7 @@
   <ItemGroup>
     <Folder Include="InternalApi\Utility\" />
     <Folder Include="Plugins\Application\" />
+    <Folder Include="Plugins\Container\" />
     <Folder Include="Plugins\Content\" />
     <Folder Include="Plugins\REST\" />
     <Folder Include="Plugins\UI\" />

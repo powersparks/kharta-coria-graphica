@@ -15,33 +15,81 @@ namespace te.extension.kharta.InternalApi
 
     internal class OntologyDataService
     {
+        private static Ontology toOntology(KhartaOntology container)
+        {
+            Ontology ontology = FromContainer(container);
+            return ontology;
+        }
         private static Ontology FromContainer(KhartaOntology container)
         {
             Ontology ontology = new Ontology();
-            //Type ct = container.GetType();
-            Type ot = ontology.GetType();
-            // IList<PropertyInfo> cprop = new List<PropertyInfo>(ct.GetProperties());
-            IList<PropertyInfo> oprop = new List<PropertyInfo>(ot.GetProperties());
-            foreach (PropertyInfo op in oprop)
+            if (container != null)
             {
-                var value = op.GetValue(container, null);
-                op.SetValue(ontology, value, null);
+                //Type ct = container.GetType();
+                Type ot = ontology.GetType();
+                // IList<PropertyInfo> cprop = new List<PropertyInfo>(ct.GetProperties());
+                IList<PropertyInfo> oprop = new List<PropertyInfo>(ot.GetProperties());
+                foreach (PropertyInfo op in oprop)
+                {
+                    var value = op.GetValue(container, null);
+                    op.SetValue(ontology, value, null);
+                }
             }
             return ontology;
+        }
+        private static KhartaOntology ToContainer(Ontology ontology)
+        {
+            KhartaOntology khartaOntolgy = FromOntology(ontology);
+            return khartaOntolgy;
         }
         private static KhartaOntology FromOntology(Ontology ontology)
         {
             KhartaOntology container = new KhartaOntology();
-            //Type ct = container.GetType();
-            Type ot = ontology.GetType();
-            // IList<PropertyInfo> cprop = new List<PropertyInfo>(ct.GetProperties());
-            IList<PropertyInfo> oprop = new List<PropertyInfo>(ot.GetProperties());
-            foreach (PropertyInfo op in oprop)
-            {
-                var value = op.GetValue(ontology, null);
-                op.SetValue( container, value, null);
+            if (ontology != null)
+            { 
+                 
+                Type ot = ontology.GetType();
+                 
+                IList<PropertyInfo> oprop = new List<PropertyInfo>(ot.GetProperties());
+                foreach (PropertyInfo op in oprop)
+                {
+                    var value = op.GetValue(ontology, null);
+                    op.SetValue(container, value, null);
+                }
             }
             return container;
+        }
+
+        internal static void deleteContainer(KhartaOntology container)
+        {
+           // Ontology ontology = FromContainer(container);
+            using (var dbcontext = new KhartaDataModel()) {
+                var result = (from o in dbcontext.Ontologies
+                             where o.Id.Equals(container.Id)
+                             select o).FirstOrDefault();
+                Ontology ontology = result;
+               // dbcontext.Ontologies.i.Select(ontology);
+                dbcontext.Ontologies.Remove(ontology);
+                dbcontext.SaveChanges();
+            }
+        }
+        internal static void deleteContainers(List<KhartaOntology> containers)
+        {
+            IList<Ontology> ontologies = FromContainers(containers);
+            using (var dbcontext = new KhartaDataModel())
+            {
+               // IList<Ontology> ontologies = new List<Ontology>(); // (new { ontology });
+               // ontologies.Add(ontology);
+                var db = dbcontext.Ontologies.RemoveRange(ontologies);
+                dbcontext.SaveChanges();
+            }
+        }
+
+        private static IList<Ontology> FromContainers(List<KhartaOntology> containers)
+        {
+            //not sure this can work... since it was next to impossible to cast Containers to the base type Ontology 
+            IList<Ontology> ontologies = containers.Cast<Ontology>().ToList(); 
+            return ontologies;
         }
 
         /// <summary>
@@ -80,8 +128,10 @@ namespace te.extension.kharta.InternalApi
                              where o.Id.Equals(id)
                              select o;
                 Ontology ontology = result.FirstOrDefault();
-
-                 container = toContainer(ontology);
+                if (ontology != null)
+                {
+                    container = toContainer(ontology);
+                }
             }
             
             return container;
@@ -156,14 +206,18 @@ namespace te.extension.kharta.InternalApi
                     var containers = from o in dbcontext.Ontologies
                                      where o.Id.Equals(_ontology.Id)
                                      select o;
-                    _ontology = containers.FirstOrDefault();
+                    var currentContainer = containers.FirstOrDefault();
                     
-                    dbcontext.SaveChanges();
+                    
                     foreach (PropertyInfo op in oprop)
                     {
-                        var value = op.GetValue(_ontology, null);
-                        op.SetValue(container, value, null);
+                        if(op.CanWrite){
+                            var value = op.GetValue(_ontology, null);
+                            op.SetValue(currentContainer, value, null);
+                        }
                     }
+                    dbcontext.SaveChanges();
+                   container = ToContainer(currentContainer);
                 }
             }
 

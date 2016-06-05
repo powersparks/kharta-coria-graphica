@@ -40,7 +40,7 @@ namespace te.extension.kharta.PublicApi
         {
             get
             {
-                throw new NotImplementedException();
+                return null;//throw new NotImplementedException();
             }
         }
 
