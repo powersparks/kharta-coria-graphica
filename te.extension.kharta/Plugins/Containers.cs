@@ -18,15 +18,17 @@ using UIApi = Telligent.Evolution.Extensibility.UI.Version1;
 using System.Reflection;
 using System.Text;
 using Telligent.Evolution.Extensibility.UI.Version1;
-
+ 
+using Telligent.Evolution.Extensibility.Content.Version1;
 
 namespace te.extension.kharta.Plugins
 {
-    public class Containers : IPlugin, IInstallablePlugin, IPluginGroup, IContainers,  IConfigurablePlugin, IAdministrationPanel, IAdministrationPanelCategory, IAdministrationExplicitPanel, IAdministrationExplicitPanelController
+    public class Containers : IPlugin, IInstallablePlugin, IPluginGroup, IContainers, IContainerTypes, IConfigurablePlugin, IAdministrationPanel, IAdministrationPanelCategory, IAdministrationExplicitPanel, IAdministrationExplicitPanelController
     {
         public readonly Guid Panel_id = new Guid("4ebcc1b3-9daa-4550-aca5-77bb13d026d0");
         public readonly Guid Containers_id = new Guid("5127c319-fda6-40e4-bfd7-37bbfef3ba39");
         public readonly Guid ContainersType_id = new Guid("e504f58d-c1d8-40a8-bf55-bc38c65625e9");
+        private IAdministrationExplicitPanelController _iAdministrationExplicitPanelController;// = new AdministrationExplicitPanelController();
         //private static readonly List<Containers> AllContainers = new List<Container>()
         //{
         //    new kharta.PublicApi.KhartaOntology(){ ContainerId = new Guid("cd3cdc13-8b4f-4dfd-9a97-9e5c06d1fa73"), Name = "Best Search Engines", Description = "List of the popular engines" },
@@ -137,7 +139,9 @@ namespace te.extension.kharta.Plugins
             get
             {
                 return new Type[] {
-                    typeof(Applications)
+                    typeof(Applications),
+                    typeof(KhartaContainer),
+                    typeof(KhartaContainerType)
                };
             }
         }
@@ -173,7 +177,14 @@ namespace te.extension.kharta.Plugins
      
         public Container Get([Documentation("Container Id")] Guid containerId, [Documentation("Container type Id")] Guid containerTypeId)
         {
-            return null;       // throw new NotImplementedException();
+            
+            //PublicApi.KhartaOntology khartaOntology = new PublicApi.KhartaOntology();
+            //Container _container = null;
+           
+            //InternalApi.KhartaOntology kContainer = InternalApi.OntologyDataService.getContainerByGuidType(containerTypeId, containerId);
+            
+            return null;// Container;       // 
+             
         }
 
 
@@ -184,14 +195,19 @@ namespace te.extension.kharta.Plugins
         {
             get
             {
-                PropertyGroup group = new PropertyGroup("setup", "Setup", 1);
-                group.Properties.Add(new Property("connectionString", "Database Connection String", PropertyType.String, 1, "") { DescriptionText = "The connection string used to access a SQL 2008 or newer database. The user identified should have db_owner permissions to the database." });
-                return new PropertyGroup[] { group }; // throw new NotImplementedException();
+                PropertyGroup group1 = new PropertyGroup("option1", "Setup", 1);//tab 1 ui
+                group1.Properties.Add(new Property("propertyKeyName1", "Property Key Name Title", PropertyType.String, 1, "property key default value") { DescriptionText = "Property Key and Value Description." });
+                PropertyGroup group2 = new PropertyGroup("option2", "Advanced", 2);//tab 2 ui
+                group2.Properties.Add(new Property("propertyKeyName2", "Property Key Name Title", PropertyType.String, 1, "property key default value") { DescriptionText = "Property Key and Value Description." });
+
+                return new PropertyGroup[] { group1, group2 };  
             }
         }
         public void Update(IPluginConfiguration configuration)
         {
-           // throw new NotImplementedException();
+            //TODO: configuration values need to be passed in and used somewhere
+            //InternalApi.InternalClassName.PropertyKeyName1 = configuration.GetString("propertyKeyName1");
+      
         }
         #endregion
 
@@ -337,17 +353,30 @@ namespace te.extension.kharta.Plugins
 
         public string GetViewHtml(NameValueCollection parameters)
         {
-            return "KCG view html"; throw new NotImplementedException();
+            return "KCG view html"; //throw new NotImplementedException();
         }
 
         public void SetController(IAdministrationExplicitPanelController controller)
         {
-            //
+            _iAdministrationExplicitPanelController = controller;
         }
 
-      
+        #endregion
+        #region IContainerTypes
+        public IApiList<ContainerType> List()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ContainerType Get([Documentation("Container type identifier")] Guid contentContainerTypeId)
+        {
+            throw new NotImplementedException();
+        }
+
+
         /*****/
 
         #endregion
+
     }
 }

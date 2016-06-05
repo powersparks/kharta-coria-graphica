@@ -137,7 +137,26 @@ namespace te.extension.kharta.InternalApi
             return container;
         }
 
-       
+        internal static KhartaOntology getContainerByGuid(Guid id)
+        {
+            
+            Func<Ontology, KhartaOntology> toContainer = (Ontology fromOntology) => FromOntology(fromOntology);
+            KhartaOntology container = new KhartaOntology();
+            using (var dbcontext = new KhartaDataModel())
+            {
+                var result = from o in dbcontext.Ontologies
+                             where o.ContainerId.Value == id
+                             select o;
+                Ontology ontology = result.FirstOrDefault();
+                if (ontology != null)
+                {
+                    container = toContainer(ontology);
+                }
+            }
+
+            return container;
+        }
+
         internal static KhartaOntology addContainer(KhartaOntology container)
         {
             Func<KhartaOntology, Ontology> toOntology = (KhartaOntology fromContainer) => FromContainer(fromContainer);
@@ -218,6 +237,25 @@ namespace te.extension.kharta.InternalApi
                     }
                     dbcontext.SaveChanges();
                    container = ToContainer(currentContainer);
+                }
+            }
+
+            return container;
+        }
+
+        internal static KhartaOntology getContainerByGuidType(Guid containerTypeId, Guid containerId)
+        {
+            Func<Ontology, KhartaOntology> toContainer = (Ontology fromOntology) => FromOntology(fromOntology);
+            KhartaOntology container = new KhartaOntology();
+            using (var dbcontext = new KhartaDataModel())
+            {
+                var result = from o in dbcontext.Ontologies
+                             where o.ContainerTypeId.Value == containerTypeId && o.ContainerId.Value == containerId
+                             select o;
+                Ontology ontology = result.FirstOrDefault();
+                if (ontology != null)
+                {
+                    container = toContainer(ontology);
                 }
             }
 

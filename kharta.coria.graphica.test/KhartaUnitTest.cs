@@ -10,36 +10,24 @@ using System.Reflection;
 
 namespace kharta.coria.graphica.test
 {
-  
     [TestClass]
-    public class KhartaUnitTest
+    public class KhartaApplicationsUnitTest {
+        [TestMethod]
+        public void getApplicationTest() {
+            Assert.Fail();
+        }
+    }
+    [TestClass]
+    public class KhartaContainersUnitTest
     {
         [TestMethod]
-        public void addUpdateContainerTest()
+        public void getContainerByGuidTest()
         {
-            var id = 0;
-            try
-            {
-                kcgCore.Models.Ontology ontology = new kcgCore.Models.Ontology();
-                teKharta.InternalApi.KhartaOntology container = newTestContainer();
-                //new teKharta.InternalApi.KhartaOntology();
-                string containerName = container.Name;
-                string containerDescription = container.Description;
-                container = teKharta.InternalApi.OntologyDataService.addUpdateContainer(container);
-                id = container.Id;
-                if (container.Name == containerName)
-                {
-                    container.Name = "Test Name Changed";
+            teKharta.InternalApi.KhartaOntology newContainer = newTestContainer();
 
-                    container =  teKharta.InternalApi.OntologyDataService.addUpdateContainer(container);
-                }           
-                Assert.IsTrue(id != 0 && id == container.Id && container.Name == "Test Name Changed");
-            }
-            catch (Exception ex)
-            {
-                Assert.Fail();
-                Debug.WriteLine("error: " + ex.Message);
-            }
+            teKharta.InternalApi.KhartaOntology existingContainer = teKharta.InternalApi.OntologyDataService.addContainer(newContainer);
+            teKharta.InternalApi.KhartaOntology container = teKharta.InternalApi.OntologyDataService.getContainerByGuid(existingContainer.ContainerId.Value);
+            Assert.IsTrue(existingContainer.Id == container.Id);
         }
         [TestMethod]
         public void getContainerTest()
@@ -50,21 +38,7 @@ namespace kharta.coria.graphica.test
             teKharta.InternalApi.KhartaOntology container = teKharta.InternalApi.OntologyDataService.getContainer(existingContainer.Id );
             Assert.IsTrue(existingContainer.Id == container.Id);
         }
-        internal teKharta.InternalApi.KhartaOntology newTestContainer() {
-            teKharta.InternalApi.KhartaOntology container = new teKharta.InternalApi.KhartaOntology()
-            {
-                Id = 0,
-                AvatarUrl = "https://s.gravatar.com/avatar/533c75456f1e9fa7d8e539bccdb3eff7?s=80",
-                ContainerId = Guid.NewGuid(),
-                ContainerTypeId = Guid.NewGuid(),
-                Description = "test description",
-                Name = "TestName",
-                IsEnabled = true,
-                Url = "/testurl"
-
-            };
-            return container;
-        }
+        
         [TestMethod]
         public void deleteContainerTest()
         {
@@ -95,7 +69,33 @@ namespace kharta.coria.graphica.test
             }
         }
 
+        [TestMethod]
+        public void addUpdateContainerTest()
+        {
+            var id = 0;
+            try
+            {
+                kcgCore.Models.Ontology ontology = new kcgCore.Models.Ontology();
+                teKharta.InternalApi.KhartaOntology container = newTestContainer();
+                //new teKharta.InternalApi.KhartaOntology();
+                string containerName = container.Name;
+                string containerDescription = container.Description;
+                container = teKharta.InternalApi.OntologyDataService.addUpdateContainer(container);
+                id = container.Id;
+                if (container.Name == containerName)
+                {
+                    container.Name = "Test Name Changed";
 
+                    container = teKharta.InternalApi.OntologyDataService.addUpdateContainer(container);
+                }
+                Assert.IsTrue(id != 0 && id == container.Id && container.Name == "Test Name Changed");
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail();
+                Debug.WriteLine("error: " + ex.Message);
+            }
+        }
         [TestMethod]
         public void addContainerTest()
         {
@@ -116,6 +116,25 @@ namespace kharta.coria.graphica.test
                 Debug.WriteLine("error: " + ex.Message);
             }
         }
-      
+        /// <summary>
+        /// creates a new test container obect
+        /// </summary>
+        /// <returns>KhartaOntology</returns>
+        internal teKharta.InternalApi.KhartaOntology newTestContainer()
+        {
+            teKharta.InternalApi.KhartaOntology container = new teKharta.InternalApi.KhartaOntology()
+            {
+                Id = 0,
+                AvatarUrl = "https://s.gravatar.com/avatar/533c75456f1e9fa7d8e539bccdb3eff7?s=80",
+                ContainerId = Guid.NewGuid(),
+                ContainerTypeId = Guid.NewGuid(),
+                Description = "test description",
+                Name = "TestName",
+                IsEnabled = true,
+                Url = "/testurl"
+
+            };
+            return container;
+        }
     }
 }

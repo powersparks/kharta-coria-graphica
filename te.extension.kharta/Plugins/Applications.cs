@@ -28,7 +28,7 @@ namespace te.extension.kharta.Plugins
         public readonly Guid ApplicationsType_id = new Guid("e504f58d-c1d8-40a8-bf55-bc38c65625e9");
 
         #region IPlugin
-        public string Name { get { return "Sources"; } }
+        public string Name { get { return "Data Tools"; } }
         public string Description { get { return "Kharta data sources inventory and mananagement tools"; } }
         public Guid DataTypeId { get { return Applications_id; } }
         public void Initialize()
@@ -41,18 +41,22 @@ namespace te.extension.kharta.Plugins
         {
             get
             {
-                PropertyGroup pgroup = new PropertyGroup("options", "Options", 1);
-                pgroup.Properties.Add(new Property("replaceProperty", "replace properties", PropertyType.String, 1, "") { DescriptionText = "options go here." });
-                return new PropertyGroup[] { pgroup }; // throw new NotImplementedException();
+                PropertyGroup group3 = new PropertyGroup("option1", "Setup", 1);//tab 1 ui
+                group3.Properties.Add(new Property("propertyKeyName1", "Property Key Name Title", PropertyType.String, 1, "property key default value") { DescriptionText = "Property Key and Value Description." });
+                PropertyGroup group4 = new PropertyGroup("option2", "Advanced", 2);//tab 2 ui
+                group4.Properties.Add(new Property("propertyKeyName2", "Property Key Name Title", PropertyType.String, 1, "property key default value") { DescriptionText = "Property Key and Value Description." });
+
+                return new PropertyGroup[] { group3, group4 };
             }
         }
         public void Update(IPluginConfiguration configuration)
         {
-            // throw new NotImplementedException();
+            //TODO: configuration values need to be passed in and used somewhere
+            //InternalApi.InternalClassName.PropertyKeyName1 = configuration.GetString("propertyKeyName1");
         }
         #endregion
 
-      
+
         #region IApplications
 
         public IApplicationEvents Events

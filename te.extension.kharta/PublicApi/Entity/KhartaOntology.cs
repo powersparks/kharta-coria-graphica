@@ -7,15 +7,27 @@ using Telligent.Evolution.Extensibility.Api.Entities.Version1;
 using Telligent.Evolution.Extensibility.Api.Version1;
 using Telligent.Evolution.Extensibility.Content.Version1;
 using System.Runtime.CompilerServices;
+using kcgModels = kharta.coria.graphica.Models;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace te.extension.kharta.PublicApi
 {
+     
     
     public class KhartaOntology : ApiEntity, IContainer
     {
-        InternalApi.KhartaOntology _kartaOntology = null;
-       
+        InternalApi.KhartaOntology _kartaOntology = new InternalApi.KhartaOntology();
+         //public Container(AdditionalInfo additionalInfo);
+        //public Container(Error error);
+        //public Container(Warning warning);
+        //public Container(IContainer container);
+        //public Container(IList<Warning> warnings, IList<Error> errors);
 
+       
+      
+       
+         
         public KhartaOntology()
 			: base()
 		{
@@ -36,11 +48,12 @@ namespace te.extension.kharta.PublicApi
 		{
             _kartaOntology = khartaOntology;
         }
+        [StringLength(512)]
         public string AvatarUrl
         {
             get
             {
-                return null;//throw new NotImplementedException();
+                return _kartaOntology.AvatarUrl;
             }
         }
 
@@ -48,7 +61,7 @@ namespace te.extension.kharta.PublicApi
         {
             get
             {
-                throw new NotImplementedException();
+                return _kartaOntology.ContainerId.Value;
             }
         }
 
@@ -56,7 +69,7 @@ namespace te.extension.kharta.PublicApi
         {
             get
             {
-                throw new NotImplementedException();
+                return _kartaOntology.ContainerTypeId.Value;
             }
         }
 
@@ -64,21 +77,36 @@ namespace te.extension.kharta.PublicApi
         {
             get
             {
-                throw new NotImplementedException();
+                return _kartaOntology.IsEnabled.Value;
             }
         }
 
+        [StringLength(512)]
         public string Url
         {
             get
             {
-                throw new NotImplementedException();
+                return _kartaOntology.Url;
             }
         }
+        public int Id { get; set; }
+
+        [StringLength(256)]
+        public string Name { get { return _kartaOntology.Name; } }
+
+        [StringLength(512)]
+        public string Description { get { return _kartaOntology.Description; } }
+
+
+        public Container ParentContainer { get {
+                Container container = null;
+                //container.ParentContainer = _kartaOntology.ParentContainer;
+
+                return container; } }
 
         public string HtmlName(string target)
         {
-            throw new NotImplementedException();
+            return _kartaOntology.HtmlName(target);
         }
     }
 }
