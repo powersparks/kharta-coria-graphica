@@ -26,7 +26,7 @@ namespace kharta.coria.graphica.test
             teKharta.InternalApi.KhartaOntology newContainer = newTestContainer();
 
             teKharta.InternalApi.KhartaOntology existingContainer = teKharta.InternalApi.OntologyDataService.addContainer(newContainer);
-            teKharta.InternalApi.KhartaOntology container = teKharta.InternalApi.OntologyDataService.getContainerByGuid(existingContainer.ContainerId.Value);
+            teKharta.InternalApi.KhartaOntology container = teKharta.InternalApi.OntologyDataService.getContainerByGuid(existingContainer.ContainerId);
             Assert.IsTrue(existingContainer.Id == container.Id);
         }
         [TestMethod]
@@ -126,13 +126,14 @@ namespace kharta.coria.graphica.test
             {
                 Id = 0,
                 AvatarUrl = "https://s.gravatar.com/avatar/533c75456f1e9fa7d8e539bccdb3eff7?s=80",
-                ContainerId = Guid.NewGuid(),
-                ContainerTypeId = Guid.NewGuid(),
+                ContainerId = Guid.NewGuid(),//required
+                ContainerTypeId = Guid.NewGuid(),//not null
                 Description = "test description",
                 Name = "TestName",
                 IsEnabled = true,
-                Url = "/testurl"
-
+                Url = "/testurl",
+                ParentOntologyId = 1,
+                SafeName ="testurl"
             };
             return container;
         }

@@ -17,96 +17,49 @@ namespace te.extension.kharta.PublicApi
     
     public class KhartaOntology : ApiEntity, IContainer
     {
-        InternalApi.KhartaOntology _kartaOntology = new InternalApi.KhartaOntology();
-         //public Container(AdditionalInfo additionalInfo);
-        //public Container(Error error);
-        //public Container(Warning warning);
-        //public Container(IContainer container);
-        //public Container(IList<Warning> warnings, IList<Error> errors);
-
-       
-      
-       
-         
-        public KhartaOntology()
-			: base()
-		{
-        }
-
-        public KhartaOntology(AdditionalInfo additionalInfo)
-			: base(additionalInfo)
-		{
-        }
-
-        public KhartaOntology(IList<Warning> warnings, IList<Error> errors)
-			: base(warnings, errors)
-		{
-        }
-
-        internal KhartaOntology(InternalApi.KhartaOntology khartaOntology)
-			: base()
-		{
-            _kartaOntology = khartaOntology;
-        }
-        [StringLength(512)]
-        public string AvatarUrl
-        {
-            get
-            {
-                return _kartaOntology.AvatarUrl;
-            }
-        }
-
-        public Guid ContainerId
-        {
-            get
-            {
-                return _kartaOntology.ContainerId.Value;
-            }
-        }
-
-        public Guid ContainerTypeId
-        {
-            get
-            {
-                return _kartaOntology.ContainerTypeId.Value;
-            }
-        }
-
-        public bool IsEnabled
-        {
-            get
-            {
-                return _kartaOntology.IsEnabled.Value;
-            }
-        }
-
-        [StringLength(512)]
-        public string Url
-        {
-            get
-            {
-                return _kartaOntology.Url;
-            }
-        }
-        public int Id { get; set; }
-
-        [StringLength(256)]
-        public string Name { get { return _kartaOntology.Name; } }
-
-        [StringLength(512)]
-        public string Description { get { return _kartaOntology.Description; } }
-
-
-        public Container ParentContainer { get {
-                Container container = null;
-                //container.ParentContainer = _kartaOntology.ParentContainer;
-
-                return container; } }
-
+        InternalApi.KhartaOntology _khartaOntology = null;
+        #region ApiEntity
+        public KhartaOntology() : base() { }
+        public KhartaOntology(AdditionalInfo additionalInfo) : base(additionalInfo) { }
+        public KhartaOntology(IList<Warning> warnings, IList<Error> errors) : base(warnings, errors) { }
+        internal KhartaOntology(InternalApi.KhartaOntology khartaOntology) : base() { _khartaOntology = khartaOntology; }
+        #endregion
+        #region IContainer
+        public string AvatarUrl { get { return _khartaOntology.AvatarUrl; } }
+        public Guid ContainerId { get { return _khartaOntology.ContainerId; } }
+        public Guid ContainerTypeId { get { return _khartaOntology.ContainerTypeId; } }
+        public bool IsEnabled { get { return _khartaOntology.IsEnabled.Value; } }
+        public string Url { get { return _khartaOntology.Url; } }
         public string HtmlName(string target)
         {
-            return _kartaOntology.HtmlName(target);
+            return _khartaOntology.HtmlName(target);
         }
+        #endregion
+        #region kharta.coria.graphica.Ontology
+        public int Id { get { return _khartaOntology.Id; } }
+
+        [StringLength(256)]
+        public string Name { get { return _khartaOntology.Name; } }
+
+        [StringLength(512)]
+        public string Description { get { return _khartaOntology.Description; } }
+        public int? ParentOntologyId { get { return _khartaOntology.ParentOntologyId.Value; } }
+
+        [StringLength(256)]
+        public string SafeName { get; set; }
+         
+        public Container ParentContainer
+        {
+            get
+            {
+                InternalApi.KhartaOntology  parentIContainer = InternalApi.OntologyDataService.getParentContainer(_khartaOntology.Id);
+                KhartaOntology iContainer = new KhartaOntology(parentIContainer);
+                
+                Container container = new Container(iContainer);
+                
+                return container;
+            }
+        }
+        #endregion
     }
 }

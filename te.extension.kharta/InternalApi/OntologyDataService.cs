@@ -136,6 +136,28 @@ namespace te.extension.kharta.InternalApi
             
             return container;
         }
+        internal static KhartaOntology getParentContainer(int id)
+        {
+            Func<Ontology, KhartaOntology> toContainer = (Ontology fromOntology) => FromOntology(fromOntology);
+            KhartaOntology container = new KhartaOntology();
+            using (var dbcontext = new KhartaDataModel())
+            {
+                var id2 = from o in dbcontext.Ontologies
+                             where o.Id.Equals(id)
+                             select o.ParentOntologyId.Value;
+                int pId = id2.FirstOrDefault();
+                var result = from o in dbcontext.Ontologies
+                             where o.ParentOntologyId.Value.Equals(pId)
+                             select o;
+                Ontology ontology = result.FirstOrDefault();
+                if (ontology != null)
+                {
+                    container = toContainer(ontology);
+                }
+            }
+
+            return container;
+        }
 
         internal static KhartaOntology getContainerByGuid(Guid id)
         {
@@ -145,7 +167,7 @@ namespace te.extension.kharta.InternalApi
             using (var dbcontext = new KhartaDataModel())
             {
                 var result = from o in dbcontext.Ontologies
-                             where o.ContainerId.Value == id
+                             where o.ContainerId == id
                              select o;
                 Ontology ontology = result.FirstOrDefault();
                 if (ontology != null)
@@ -250,7 +272,7 @@ namespace te.extension.kharta.InternalApi
             using (var dbcontext = new KhartaDataModel())
             {
                 var result = from o in dbcontext.Ontologies
-                             where o.ContainerTypeId.Value == containerTypeId && o.ContainerId.Value == containerId
+                             where o.ContainerTypeId == containerTypeId && o.ContainerId == containerId
                              select o;
                 Ontology ontology = result.FirstOrDefault();
                 if (ontology != null)

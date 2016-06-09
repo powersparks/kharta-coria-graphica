@@ -17,9 +17,7 @@ namespace te.extension.kharta.InternalApi
     [Serializable]
     internal class KhartaOntology : kcgModels.Ontology 
     {
-        internal Container ParentContainer {
-            get { return null; }
-        }
+         
         internal string HtmlName(string target)
         {
             // var _kcgName = new KhartaOntology();

@@ -86,10 +86,7 @@
     <Compile Include="InternalApi\Entity\KhartaOntology.cs" />
     <Compile Include="InternalApi\OntologyDataService.cs" />
     <Compile Include="Plugins\Applications.cs" />
-    <Compile Include="Plugins\Containers.cs" />
-    <Compile Include="Plugins\Container\KhartaContainer.cs" />
     <Compile Include="Plugins\Container\KhartaContainerType.cs" />
-    <Compile Include="Plugins\Contents.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PublicApi\Entity\KhartaOntology.cs" />
   </ItemGroup>
@@ -109,12 +106,12 @@
     <EmbeddedResource Include="Resources\Sql\OntologyCreate.sql" />
     <EmbeddedResource Include="Resources\Sql\OntologyDrop.sql" />
     <Content Include="Resources\Widgets\exampleKhartaName\exampleKhartaName.xml" />
-    <Content Include="Resources\Widgets\exampleKhartaName\supplementary\ui.css" />
-    <Content Include="Resources\Widgets\exampleKhartaName\supplementary\ui.js" />
+    <Content Include="Resources\Widgets\exampleKhartaName\Supplementary\ui.css" />
+    <Content Include="Resources\Widgets\exampleKhartaName\Supplementary\ui.js" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Resources\Widgets\exampleKhartaName\supplementary\ui.vm" />
+    <None Include="Resources\Widgets\exampleKhartaName\Supplementary\ui.vm" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

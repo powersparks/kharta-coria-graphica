@@ -23,7 +23,7 @@ namespace te.extension.kharta.Plugins
     {
         IContainerStateChanges _containerState = null;
        
-           KhartaContainer _khContainer = new KhartaContainer();
+          PublicApi.KhartaOntology _khContainer = new PublicApi.KhartaOntology();
 
         public readonly Guid ContainerType_id = new Guid("8c25d5e3-18b6-4af7-9f37-e1a297c01605");
         InternalApi.OntologyDataService _internalKHC = new InternalApi.OntologyDataService();
@@ -67,8 +67,9 @@ namespace te.extension.kharta.Plugins
 
         public IContainer Get(Guid containerId)
         {
-              IContainer iContainer = (IContainer)InteralApi.OntologyDataService.getContainerByGuid(containerId) ;
-            return iContainer;
+            InternalApi.KhartaOntology khartaOntology = InteralApi.OntologyDataService.getContainerByGuid(containerId);
+            PublicApi.KhartaOntology kIContainer = new PublicApi.KhartaOntology(khartaOntology);
+            return kIContainer;
         }
 
         public void Initialize()
