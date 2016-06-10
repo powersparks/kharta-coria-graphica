@@ -43,6 +43,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -83,19 +84,36 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="InternalApi\Entity\KhartaHosting.cs" />
     <Compile Include="InternalApi\Entity\KhartaOntology.cs" />
+    <Compile Include="InternalApi\Entity\KhartaSource.cs" />
+    <Compile Include="InternalApi\HostingDataService.cs" />
     <Compile Include="InternalApi\OntologyDataService.cs" />
+    <Compile Include="InternalApi\SourceDataService.cs" />
     <Compile Include="Plugins\Applications.cs" />
-    <Compile Include="Plugins\Container\KhartaContainerType.cs" />
+    <Compile Include="Plugins\Application\KhartaHostingType.cs" />
+    <Compile Include="Plugins\Application\KhartaOntologyType.cs" />
+    <Compile Include="Plugins\Application\KhartaSourceType.cs" />
+    <Compile Include="Plugins\Container\KhartaOntologyType.cs" />
+    <Compile Include="Plugins\Content\KhartaOntologyType.cs" />
+    <Compile Include="Plugins\REST\KhartaRestEndpoints.cs" />
+    <Compile Include="Plugins\UI\Navigation\HostingNewPostLink.cs" />
+    <Compile Include="Plugins\UI\Navigation\OntologyNewPostLink.cs" />
+    <Compile Include="Plugins\UI\Navigation\SourceNewPostLink.cs" />
+    <Compile Include="Plugins\UI\WidgetExtension\HostingWidgetExtension.cs" />
+    <Compile Include="Plugins\UI\WidgetExtension\OntologyWidgetExtension.cs" />
+    <Compile Include="Plugins\UI\WidgetProviders\KhartaFactoryDefaultWidgetProvider.cs" />
+    <Compile Include="Plugins\UI\WidgetExtension\SourceWidgetExtension.cs" />
+    <Compile Include="Plugins\UI\WidgetProviders\KhartaWidgetContextProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PublicApi\Entity\KhartaHosting.cs" />
     <Compile Include="PublicApi\Entity\KhartaOntology.cs" />
+    <Compile Include="PublicApi\Entity\KhartaSource.cs" />
+    <Compile Include="PublicApi\KhartaOntologies.cs" />
+    <Compile Include="PublicApi\KhartaSources.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="InternalApi\Utility\" />
-    <Folder Include="Plugins\Application\" />
-    <Folder Include="Plugins\Content\" />
-    <Folder Include="Plugins\REST\" />
-    <Folder Include="Plugins\UI\" />
     <Folder Include="Resources\Css\" />
     <Folder Include="Resources\EcmaScript\" />
     <Folder Include="Resources\Pages\" />

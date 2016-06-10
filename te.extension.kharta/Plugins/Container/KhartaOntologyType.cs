@@ -17,9 +17,9 @@ using Telligent.Evolution.Urls.Routing;
 using Permission = Telligent.Evolution.Extensibility.Security.Version1.Permission;
 using InteralApi = te.extension.kharta.InternalApi;
 
-namespace te.extension.kharta.Plugins
+namespace te.extension.kharta.Plugins.Container
 {
-    public class KhartaContainerType : IPlugin, IContainerType
+    public class KhartaOntologyType : IPlugin, IContainerType
     {
         IContainerStateChanges _containerState = null;
        

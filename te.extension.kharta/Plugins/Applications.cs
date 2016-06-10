@@ -142,7 +142,13 @@ namespace te.extension.kharta.Plugins
         }
         #endregion
         #region IPluginGroup
-        public IEnumerable<Type> Plugins {  get { return new Type[] { typeof(KhartaContainerType) };} }
+        public IEnumerable<Type> Plugins {  get { return new Type[] {
+            typeof(Container.KhartaOntologyType),
+            typeof(Application.KhartaOntologyType),
+            typeof(Content.KhartaOntologyType),
+            typeof(Application.KhartaSourceType),
+            typeof(Content.KhartaOntologyType)
+        };} }
         #endregion
         #endregion
         #region Administration Panels

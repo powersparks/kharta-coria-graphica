@@ -9,15 +9,10 @@ using Telligent.Evolution.Extensibility.Api.Entities.Version1;
 using Telligent.Evolution.Extensibility.Api.Version1;
 using Telligent.Evolution.Extensibility.Content.Version1;
 
-[assembly: InternalsVisibleTo("kharta.coria.graphica.test")]
 namespace te.extension.kharta.InternalApi
 {
-    
-    
-    [Serializable]
-    internal class KhartaOntology : kcgModels.Ontology 
+    internal class KhartaSource: kcgModels.Source
     {
-         
         internal string HtmlName(string target)
         {
             // var _kcgName = new KhartaOntology();
@@ -27,7 +22,7 @@ namespace te.extension.kharta.InternalApi
                 //html s/b applied, translated, etc.. unless raw
             }
             return name;
-        //    throw new NotImplementedException();
+            //    throw new NotImplementedException();
         }
     }
 }

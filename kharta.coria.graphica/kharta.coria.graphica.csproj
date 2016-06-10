@@ -54,8 +54,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core.cs" />
+    <Compile Include="Models\Hosting.cs" />
     <Compile Include="Models\KhartaDataModel.cs" />
     <Compile Include="Models\Ontology.cs" />
+    <Compile Include="Models\Source.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
