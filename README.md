@@ -8,5 +8,5 @@ This concept design is still evolving, as such, this preview may change. As an a
 ### Telligent Plugin
 ![Cover](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/GeoSocialContentModeling.png)
 ### Core Services
-![Services](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/GeoSocialContentModeling-Services.jpg)
+![Services](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/GeoSocialContentModeling-Services.jpeg)
 ![Preliminary Concept Design](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/kcgComponents.png)
