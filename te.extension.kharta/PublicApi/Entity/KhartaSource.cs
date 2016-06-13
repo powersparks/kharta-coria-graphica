@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using Telligent.Evolution.Extensibility.Api.Entities.Version1;
 using Telligent.Evolution.Extensibility.Api.Version1;
 using Telligent.Evolution.Extensibility.Content.Version1;
+
+using Telligent.Evolution.Extensibility;
+ 
 using System.Runtime.CompilerServices;
 using kcgModels = kharta.coria.graphica.Models;
 using System.ComponentModel.DataAnnotations;
@@ -23,21 +26,32 @@ namespace te.extension.kharta.PublicApi
         internal KhartaSource(InternalApi.KhartaSource khartaSource) : base() { _khartaSource = khartaSource; }
         #endregion
         #region IApplication
-        public Guid ApplicationId { get { throw new NotImplementedException(); } }
+        public Guid ApplicationId { get { return _khartaSource.ApplicationId; } }
 
-        public Guid ApplicationTypeId { get { throw new NotImplementedException(); } }
+        public Guid ApplicationTypeId { get { return _khartaSource.ApplicationTypeId; } }
 
-        public string AvatarUrl { get { throw new NotImplementedException(); } }
+        public string AvatarUrl { get { return _khartaSource.AvatarUrl; } }
+        
+        public IContainer Container
+        {
+            get
+            {
+                GroupsGetOptions groupOpt = new GroupsGetOptions();
+                groupOpt.Id = _khartaSource.GroupId.Value;
+                if (groupOpt.Id > 0)
+                {
+                    return Apis.Get<IGroups>().Get(groupOpt);
+                }
+                return Apis.Get<IGroups>().Root;
+            }
+        }
+        public bool IsEnabled { get { return _khartaSource.IsEnabled != null ? _khartaSource.IsEnabled.Value : false; } }
 
-        public IContainer Container { get { throw new NotImplementedException(); } }
+        public string Url { get { return _khartaSource.Url; } }
 
-        public bool IsEnabled { get { throw new NotImplementedException(); } }
+        public string HtmlDescription(string target) { return _khartaSource.HtmlDescription(target); }
 
-        public string Url { get { throw new NotImplementedException(); } }
-
-        public string HtmlDescription(string target) { throw new NotImplementedException(); }
-
-        public string HtmlName(string target) { throw new NotImplementedException(); }
+        public string HtmlName(string target) { return _khartaSource.HtmlName(target); }
         #endregion
     }
 }

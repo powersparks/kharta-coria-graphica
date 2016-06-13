@@ -12,7 +12,7 @@ using System.Reflection;
 [assembly: InternalsVisibleTo("kharta.coria.graphica.test")]
 namespace te.extension.kharta.InternalApi
 {
-    internal class HostingDataService
+    internal class TransformDataService
     {
     }
 }

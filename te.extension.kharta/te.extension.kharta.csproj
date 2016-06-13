@@ -84,11 +84,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="InternalApi\Entity\KhartaTransform.cs" />
     <Compile Include="InternalApi\Entity\KhartaHosting.cs" />
     <Compile Include="InternalApi\Entity\KhartaOntology.cs" />
     <Compile Include="InternalApi\Entity\KhartaSource.cs" />
     <Compile Include="InternalApi\HostingDataService.cs" />
     <Compile Include="InternalApi\OntologyDataService.cs" />
+    <Compile Include="InternalApi\TransformDataService.cs" />
     <Compile Include="InternalApi\SourceDataService.cs" />
     <Compile Include="Plugins\Applications.cs" />
     <Compile Include="Plugins\Application\KhartaHostingType.cs" />
@@ -121,8 +123,8 @@
     <Folder Include="WidgetApi\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Sql\OntologyCreate.sql" />
-    <EmbeddedResource Include="Resources\Sql\OntologyDrop.sql" />
+    <EmbeddedResource Include="Resources\Sql\KhartaCreateTables.sql" />
+    <EmbeddedResource Include="Resources\Sql\KhartaDropTables.sql" />
     <Content Include="Resources\Widgets\exampleKhartaName\exampleKhartaName.xml" />
     <Content Include="Resources\Widgets\exampleKhartaName\Supplementary\ui.css" />
     <Content Include="Resources\Widgets\exampleKhartaName\Supplementary\ui.js" />

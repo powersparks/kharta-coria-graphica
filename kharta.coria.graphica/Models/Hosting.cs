@@ -1,14 +1,16 @@
-﻿namespace kharta.coria.graphica.Models
+namespace kharta.coria.graphica.Models
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+
     [Table("Hosting")]
-    public class Hosting
+    public partial class Hosting
     {
         public int Id { get; set; }
+
         public Guid ApplicationTypeId { get; set; }
 
         public Guid ApplicationId { get; set; }
@@ -28,7 +30,8 @@
         [StringLength(512)]
         public string Url { get; set; }
 
-        public int? OntologyId { get; set; }
+        public int? TransformId { get; set; }
+
         public int? GroupId { get; set; }
 
         [StringLength(256)]

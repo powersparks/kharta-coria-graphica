@@ -12,10 +12,7 @@ namespace kharta.coria.graphica.Models
         {
         }
 
-        public virtual DbSet<Hosting> Hostings { get; set; }
         public virtual DbSet<Ontology> Ontologies { get; set; }
-        public virtual DbSet<Source> Sources { get; set; }
-        public virtual DbSet<Transform> Transforms { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

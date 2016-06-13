@@ -9,33 +9,10 @@ namespace te.extension.kharta.Plugins.UI
 {
     public class KhartaFactoryDefaultWidgetProvider : IScriptedContentFragmentFactoryDefaultProvider
     {
-        public string Description
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public string Name
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public Guid ScriptedContentFragmentFactoryDefaultIdentifier
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public void Initialize()
-        {
-            throw new NotImplementedException();
-        }
+        public static readonly Guid WidgetFactoryDefault_id = new Guid("c1b6977e-c23d-4bb7-9227-8a1c57c83499");
+        public string Name { get { return "Kharta Factory Default Widget Provider"; } }
+        public string Description { get { return "Kharta widgets must use this provider identifier to load"; } }
+        public Guid ScriptedContentFragmentFactoryDefaultIdentifier { get { return WidgetFactoryDefault_id; } }
+        public void Initialize() { }
     }
 }

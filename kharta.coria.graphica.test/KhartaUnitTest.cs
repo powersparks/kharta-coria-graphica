@@ -87,6 +87,7 @@ namespace kharta.coria.graphica.test
                     container.Name = "Test Name Changed";
 
                     container = teKharta.InternalApi.OntologyDataService.addUpdateContainer(container);
+                    teKharta.InternalApi.OntologyDataService.deleteContainer(container);
                 }
                 Assert.IsTrue(id != 0 && id == container.Id && container.Name == "Test Name Changed");
             }
@@ -117,25 +118,126 @@ namespace kharta.coria.graphica.test
             }
         }
         /// <summary>
+        /// test Creates new Source Application. 
+        /// </summary>
+        /// 
+        [TestMethod]
+        public void CreateInternalKhartaSourceTest() {
+
+            teKharta.InternalApi.KhartaSource result = teKharta.InternalApi.SourceDataService.CreateNewSourceApplication(newSourceApplication());
+            int id = result.Id;
+            teKharta.InternalApi.SourceDataService.DeleteSourceApplication(result);
+            Equals(id > 0);
+        }
+        [TestMethod]
+        public void ReadInternalKhartaSourceTest() {
+            teKharta.InternalApi.KhartaSource result = teKharta.InternalApi.SourceDataService.CreateNewSourceApplication(newSourceApplication());
+            int id = result.Id;
+            result = teKharta.InternalApi.SourceDataService.GetSourceApplication(id);
+            int id2 = result.Id;
+            teKharta.InternalApi.SourceDataService.DeleteSourceApplication(result);
+            Equals(id == id2);
+
+        }
+        [TestMethod]
+        public void UpdateInternalKhartaSourceTest() {
+            teKharta.InternalApi.KhartaSource result = teKharta.InternalApi.SourceDataService.AddUpdateSourceApplication(newSourceApplication());
+            int id = result.Id;
+            Guid appId = result.ApplicationId;
+            Guid appTypeId = result.ApplicationId;
+            string avatarUrl = result.AvatarUrl;
+            string description = result.Description;
+            string name = result.Name;
+            int ontologyId = result.OntologyId.Value;
+            bool isEnabled = result.IsEnabled.Value;
+            string SafeName = result.SafeName;
+            string url = result.Url;
+            int groupId = result.GroupId.Value;
+             
+            result.ApplicationId = Guid.NewGuid();
+            result.ApplicationTypeId = Guid.NewGuid();
+            result.AvatarUrl = "new url";
+            result.Name = "New Name";
+            result.Description = "new description";
+            result.GroupId = 10;
+            result.IsEnabled = false;
+            result.SafeName = "new safe name";
+            result.Url = "new url";
+            teKharta.InternalApi.SourceDataService.DeleteSourceApplication(result);
+           // result = teKharta.InternalApi.SourceDataService.AddUpdateSourceApplication(result);
+           // need a test for what happens when entities are deleted and id doesn't exist
+            result = teKharta.InternalApi.SourceDataService.GetSourceApplication(result.Id);
+             
+            int id2 = result.Id;
+            Guid appId2 = result.ApplicationId;
+            Guid appTypeId2 = result.ApplicationId;
+            string avatarUrl2 = result.AvatarUrl;
+            string description2 = result.Description;
+            string name2 = result.Name;
+            int ontologyId2 = result.OntologyId.Value;
+            bool isEnabled2 = result.IsEnabled.Value;
+            string SafeName2 = result.SafeName;
+            string url2 = result.Url;
+            int groupId2 = result.GroupId.Value;
+  
+             teKharta.InternalApi.SourceDataService.DeleteSourceApplication(result);
+
+            Equals(  SafeName == SafeName2);
+        }
+        
+        [TestMethod]
+        public void DeleteInternalKhartaSourceTest() {
+            teKharta.InternalApi.KhartaSource result = teKharta.InternalApi.SourceDataService.CreateNewSourceApplication(newSourceApplication());
+            int id = result.Id;
+            teKharta.InternalApi.SourceDataService.DeleteSourceApplication(result);
+            result = teKharta.InternalApi.SourceDataService.GetSourceApplication(id);
+            id = result.Id; 
+            Equals(id == 0);
+        }
+
+        /// <summary>
         /// creates a new test container obect
         /// </summary>
         /// <returns>KhartaOntology</returns>
         internal teKharta.InternalApi.KhartaOntology newTestContainer()
         {
-            teKharta.InternalApi.KhartaOntology container = new teKharta.InternalApi.KhartaOntology()
-            {
-                Id = 0,
-                AvatarUrl = "https://s.gravatar.com/avatar/533c75456f1e9fa7d8e539bccdb3eff7?s=80",
-                ContainerId = Guid.NewGuid(),//required
-                ContainerTypeId = Guid.NewGuid(),//not null
-                Description = "test description",
-                Name = "TestName",
-                IsEnabled = true,
-                Url = "/testurl",
-                ParentOntologyId = 1,
-                SafeName ="testurl"
-            };
+            teKharta.InternalApi.KhartaOntology container = new teKharta.InternalApi.KhartaOntology();
+
+
+
+            container.AvatarUrl = "https://s.gravatar.com/avatar/533c75456f1e9fa7d8e539bccdb3eff7?s=80";
+            container.ContainerId = Guid.NewGuid();
+            container.ContainerTypeId = Guid.NewGuid();
+            container.Description = "test description";
+            container.Name = "TestName";
+            container.IsEnabled = true;
+            container.Url = "/testurl";
+            container.ParentOntologyId = 1;
+            container.SafeName = "testurl";
+            
+
             return container;
+        }
+        /// <summary>
+        /// Creates a new test application
+        /// </summary>
+        /// <returns></returns>
+        internal teKharta.InternalApi.KhartaSource newSourceApplication() {
+            teKharta.InternalApi.KhartaSource khartaSource = new te.extension.kharta.InternalApi.KhartaSource();
+            khartaSource.ApplicationId = Guid.NewGuid();
+            khartaSource.ApplicationTypeId = Guid.NewGuid();
+            khartaSource.AvatarUrl = "https://s.gravatar.com/avatar/533c75456f1e9fa7d8e539bccdb3eff7?s=80";
+            khartaSource.Description = "test application description";
+            khartaSource.Name = "test application name";
+            khartaSource.OntologyId = 1;
+            khartaSource.GroupId = -1;
+            khartaSource.IsEnabled = true;
+            khartaSource.SafeName = "testapplicationname";
+
+
+
+
+            return khartaSource;
         }
     }
 }

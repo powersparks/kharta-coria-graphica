@@ -58,6 +58,7 @@
     <Compile Include="Models\KhartaDataModel.cs" />
     <Compile Include="Models\Ontology.cs" />
     <Compile Include="Models\Source.cs" />
+    <Compile Include="Models\Transform.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

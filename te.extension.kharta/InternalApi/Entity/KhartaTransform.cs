@@ -11,20 +11,8 @@ using Telligent.Evolution.Extensibility.Content.Version1;
 
 namespace te.extension.kharta.InternalApi
 {
-    [Serializable]
-    internal class KhartaSource: kcgModels.Source
+   internal class KhartaTransform : kcgModels.Hosting
     {
-        internal string HtmlDescription(string target)
-        {
-            // var _kcgName = new KhartaOntology();
-            string description = Description;
-            if (target == "web" || target == "email" || target == "raw")
-            {
-                //html s/b applied, translated, etc.. unless raw
-            }
-            return description;
-            //    throw new NotImplementedException();
-        }
         internal string HtmlName(string target)
         {
             // var _kcgName = new KhartaOntology();
