@@ -144,10 +144,14 @@ namespace te.extension.kharta.Plugins
         #region IPluginGroup
         public IEnumerable<Type> Plugins {  get { return new Type[] {
             typeof(Container.KhartaOntologyType),
-            typeof(Application.KhartaOntologyType),
-            typeof(Content.KhartaOntologyType),
+            //typeof(Application.KhartaOntologyType),
+           // typeof(Content.KhartaOntologyType),
             typeof(Application.KhartaSourceType),
-            typeof(Content.KhartaOntologyType)
+            typeof (UI.KhartaFactoryDefaultWidgetProvider),
+            typeof(UI.KhartaWidgetContextProvider),
+            typeof(UI.WidgetExtension.SourceWidgetExtension),
+            typeof(UI.Navigation.SourceNewPostLink)
+            
         };} }
         #endregion
         #endregion

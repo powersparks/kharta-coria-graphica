@@ -15,14 +15,14 @@ namespace te.extension.kharta.PublicApi
 {
      
     
-    public class KhartaOntology : ApiEntity, IContainer
+    public class Ontology : ApiEntity, IContainer, IApplication
     {
         InternalApi.KhartaOntology _khartaOntology = null;
         #region ApiEntity
-        public KhartaOntology() : base() { }
-        public KhartaOntology(AdditionalInfo additionalInfo) : base(additionalInfo) { }
-        public KhartaOntology(IList<Warning> warnings, IList<Error> errors) : base(warnings, errors) { }
-        internal KhartaOntology(InternalApi.KhartaOntology khartaOntology) : base() { _khartaOntology = khartaOntology; }
+        public Ontology() : base() { }
+        public Ontology(AdditionalInfo additionalInfo) : base(additionalInfo) { }
+        public Ontology(IList<Warning> warnings, IList<Error> errors) : base(warnings, errors) { }
+        internal Ontology(InternalApi.KhartaOntology khartaOntology) : base() { _khartaOntology = khartaOntology; }
         #endregion
         #region IContainer
         public string AvatarUrl { get { return _khartaOntology.AvatarUrl; } }
@@ -33,6 +33,11 @@ namespace te.extension.kharta.PublicApi
         public string HtmlName(string target)
         {
             return _khartaOntology.HtmlName(target);
+        }
+
+        public string HtmlDescription(string target)
+        {
+            throw new NotImplementedException();
         }
         #endregion
         #region kharta.coria.graphica.Ontology
@@ -53,11 +58,36 @@ namespace te.extension.kharta.PublicApi
             get
             {
                 InternalApi.KhartaOntology  parentIContainer = InternalApi.OntologyDataService.getParentContainer(_khartaOntology.Id);
-                KhartaOntology iContainer = new KhartaOntology(parentIContainer);
+                Ontology iContainer = new Ontology(parentIContainer);
                 
                 Container container = new Container(iContainer);
                 
                 return container;
+            }
+        }
+
+        public Guid ApplicationId
+        {
+            get
+            {
+                return _khartaOntology.ContainerId;
+                //throw new NotImplementedException();
+            }
+        }
+
+        public Guid ApplicationTypeId
+        {
+            get
+            {
+                return _khartaOntology.ContainerTypeId;//throw new NotImplementedException();
+            }
+        }
+
+        public IContainer Container
+        {
+            get
+            {
+                throw new NotImplementedException();
             }
         }
         #endregion

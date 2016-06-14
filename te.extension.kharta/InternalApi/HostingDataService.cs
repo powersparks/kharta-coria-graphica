@@ -14,5 +14,9 @@ namespace te.extension.kharta.InternalApi
 {
     internal class HostingDataService
     {
+        internal static KhartaHosting GetHostingApplication(Guid applicationId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

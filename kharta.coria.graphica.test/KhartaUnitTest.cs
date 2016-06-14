@@ -163,7 +163,7 @@ namespace kharta.coria.graphica.test
             result.IsEnabled = false;
             result.SafeName = "new safe name";
             result.Url = "new url";
-            teKharta.InternalApi.SourceDataService.DeleteSourceApplication(result);
+            
            // result = teKharta.InternalApi.SourceDataService.AddUpdateSourceApplication(result);
            // need a test for what happens when entities are deleted and id doesn't exist
             result = teKharta.InternalApi.SourceDataService.GetSourceApplication(result.Id);

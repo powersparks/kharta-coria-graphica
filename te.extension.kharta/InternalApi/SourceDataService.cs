@@ -48,6 +48,25 @@ namespace te.extension.kharta.InternalApi
             }
             return _khSource;
         }
+        internal static KhartaSource GetSourceApplication(Guid id)
+        {
+
+            Source _source = new Source();
+            KhartaSource _khSource = new KhartaSource();
+            Func<Source, KhartaSource> toKhartaSource = (Source fromSource) => ToKhartaSource(fromSource);
+
+            using (KhartaDataModel dbcontext = new KhartaDataModel())
+            {
+                _source = (from s in dbcontext.Sources
+                           where s.ApplicationId.Equals(id)
+                           select s).FirstOrDefault();
+                if (_source != null)
+                {
+                    _khSource = ToKhartaSource(_source);
+                }
+            }
+            return _khSource;
+        }
         internal static KhartaSource AddUpdateSourceApplication(KhartaSource khartaSource)
         {
             if (khartaSource.Id == 0)

@@ -24,5 +24,17 @@ namespace te.extension.kharta.InternalApi
             return name;
             //    throw new NotImplementedException();
         }
+
+        internal string HtmlDescription(string target)
+        {
+            // var _kcgName = new KhartaOntology();
+            string description = Description;
+            if (target == "web" || target == "email" || target == "raw")
+            {
+                //html s/b applied, translated, etc.. unless raw
+            }
+            return description;
+            //    throw new NotImplementedException();
+        }
     }
 }

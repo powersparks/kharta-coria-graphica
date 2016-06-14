@@ -16,14 +16,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace te.extension.kharta.PublicApi
 {
-    public class KhartaSource : ApiEntity, IApplication
+    public class Source : ApiEntity, IApplication
     {
         InternalApi.KhartaSource _khartaSource = null;
         #region ApiEntity
-        public KhartaSource() : base() { }
-        public KhartaSource(AdditionalInfo additionalInfo) : base(additionalInfo) { }
-        public KhartaSource(IList<Warning> warnings, IList<Error> errors) : base(warnings, errors) { }
-        internal KhartaSource(InternalApi.KhartaSource khartaSource) : base() { _khartaSource = khartaSource; }
+        public Source() : base() { }
+        public Source(AdditionalInfo additionalInfo) : base(additionalInfo) { }
+        public Source(IList<Warning> warnings, IList<Error> errors) : base(warnings, errors) { }
+        internal Source(InternalApi.KhartaSource khartaSource) : base() { _khartaSource = khartaSource; }
         #endregion
         #region IApplication
         public Guid ApplicationId { get { return _khartaSource.ApplicationId; } }
