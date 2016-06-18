@@ -6,8 +6,12 @@ Kharta Coria Graphic (KCG) is a Telligent Community Plugin, a Visual Studio solu
 ## Inception Phase Concept Design
 This concept design is still evolving, as such, this preview may change. As an abstract, it seems right, although after more thought in context with 2005 Wilkinson's Grammar of Graphics: Statistics and Computing, a more concise way forward should appear. However, the overall design will be in concert with the Telligent Community paradigm, so this first version should be able to contribute to the final product easily enough.  With this in mind, here is a preliminary Concept Design:
 ### Telligent Plugin
-![Cover](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/GeoSocialContentModeling.png)
+![Cover](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/slide1.png)
 ### Core Services
-![Core Services](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/GeoSocialContentModel-Services.jpg)
+![Core Services](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/slide2.jpg)
 ### Kharta Coria Graphica Concept
-![Preliminary Concept Design](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/kcgComponents.png)
+![Preliminary Concept Design](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/slide3.png)
+### Kharta Coria Graphica Concept
+![Preliminary Concept Design](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/slide4.png)
+### Kharta Coria Graphica Concept
+![Preliminary Concept Design](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/slide5.png)
