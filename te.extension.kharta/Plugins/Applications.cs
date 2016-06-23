@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using te.extension.kharta.Plugins.UI;
 using Telligent.DynamicConfiguration.Components;
 using Telligent.Evolution.Components;
 using Telligent.Evolution.Extensibility;
@@ -22,16 +23,16 @@ using Permission = Telligent.Evolution.Extensibility.Security.Version1.Permissio
 using TEApi = Telligent.Evolution.Extensibility.Api.Version1.PublicApi;
 using UIApi = Telligent.Evolution.Extensibility.UI.Version1;
 
- 
+
 
 namespace te.extension.kharta.Plugins
 {
-    public class Applications :  IPlugin, IInstallablePlugin, IPluginGroup, IConfigurablePlugin, IAdministrationPanel, IAdministrationPanelCategory, IAdministrationExplicitPanel, IAdministrationExplicitPanelController
+    public class Applications :  IPlugin, IInstallablePlugin, IPluginGroup, IConfigurablePlugin
     {
         private static readonly Version _emptyVersion = new Version(0, 0, 0, 0);
-        public static readonly Guid Panel_id = new Guid("4ebcc1b3-9daa-4550-aca5-77bb13d026d0");
         public static readonly Guid ApplicationsType_id = new Guid("e504f58d-c1d8-40a8-bf55-bc38c65625e9");
-        private IAdministrationExplicitPanelController _iAdministrationExplicitPanelController;// = new AdministrationExplicitPanelController();
+       // private KhartaFactoryDefaultWidgetProvider _widgetProvider;
+        private AdminPanel _adminWidgetProvider;
 
         #region IPlugin
         public string Name { get { return "Kharta Coria Graphica"; } }
@@ -75,6 +76,37 @@ namespace te.extension.kharta.Plugins
             #endregion
 
             #region Install Widgets
+            #region AdminPanelWidget Install
+           // _widgetProvider = Telligent.Evolution.Extensibility.Version1.PluginManager.Get<UI.KhartaFactoryDefaultWidgetProvider>().FirstOrDefault();
+            _adminWidgetProvider = Telligent.Evolution.Extensibility.Version1.PluginManager.Get<UI.AdminPanel>().FirstOrDefault();
+            UIApi.FactoryDefaultScriptedContentFragmentProviderFiles.DeleteAllFiles(_adminWidgetProvider);
+            var definitionFiles = new string[] {
+                "KhartaAdminPanel/KhartaAdminPanel.xml"
+            };
+            foreach (var definitionFile in definitionFiles) {
+                using (var stream = InternalApi.Utility.EmbeddedResources.GetStream("te.extension.kharta.Resources.Widgets." + definitionFile.Replace("/", ".")))
+                {
+                    UIApi.FactoryDefaultScriptedContentFragmentProviderFiles.AddUpdateDefinitionFile(_adminWidgetProvider, definitionFile.Substring(definitionFile.LastIndexOf("/", StringComparison.InvariantCultureIgnoreCase) + 1), stream);
+
+                }
+            }
+            var supplementaryFiles = new Dictionary<Guid, string[]>();
+            supplementaryFiles[new Guid("b089b96795074ad1ad130141f62bc937")] = new string[] {
+                "KhartaAdminPanel/Supplementary/KhartaAdminPanel.css",
+                "KhartaAdminPanel/Supplementary/KhartaAdminPanel.js",
+                "KhartaAdminPanel/Supplementary/KhartaAdminPanel.vm",
+            };
+            foreach (var instanceId in supplementaryFiles.Keys)
+            {
+                foreach (var relativePath in supplementaryFiles[instanceId])
+                {
+                    using (var stream = InternalApi.Utility.EmbeddedResources.GetStream("te.extension.kharta.Resources.Widgets." + relativePath.Replace("/", ".")))
+                    {
+                        UIApi.FactoryDefaultScriptedContentFragmentProviderFiles.AddUpdateSupplementaryFile(_adminWidgetProvider, instanceId, relativePath.Substring(relativePath.LastIndexOf("/", StringComparison.InvariantCultureIgnoreCase) + 1), stream);
+                    }
+                }
+            }
+            #endregion
             /*****
             _widgetProvider = Telligent.Evolution.Extensibility.Version1.PluginManager.Get<KhartaApplicationsFactoryDefaultWidgetProvider>().FirstOrDefault();
             UIApi.FactoryDefaultScriptedContentFragmentProviderFiles.DeleteAllFiles(_widgetProvider);
@@ -135,6 +167,8 @@ namespace te.extension.kharta.Plugins
         public void Uninstall()
         {
             #region Remove Widget Files
+            _adminWidgetProvider = Telligent.Evolution.Extensibility.Version1.PluginManager.Get<UI.AdminPanel>().FirstOrDefault();
+            UIApi.FactoryDefaultScriptedContentFragmentProviderFiles.DeleteAllFiles(_adminWidgetProvider);
             /***
             UIApi.FactoryDefaultScriptedContentFragmentProviderFiles.DeleteAllFiles(_widgetProvider);
             ***/
@@ -150,148 +184,14 @@ namespace te.extension.kharta.Plugins
             typeof (UI.KhartaFactoryDefaultWidgetProvider),
             typeof(UI.KhartaWidgetContextProvider),
             typeof(UI.WidgetExtension.SourceWidgetExtension),
-            typeof(UI.Navigation.SourceNewPostLink)
+            typeof(UI.SourceNewPostLink),
+            typeof(UI.SourceGroupNavigation),
+            typeof(UI.AdminPanel)
             
         };} }
         #endregion
         #endregion
-        #region Administration Panels
-        #region IAdministrationExplicit
-        public string GetUrl()
-        {
-            return null;// throw new NotImplementedException();
-        }
-
-        public string GetUrl(NameValueCollection parameters)
-        {
-            return null;// throw new NotImplementedException();
-        }
-        #endregion
-        #region IAdministrationPanel
-
-
-        public string CssClass
-        {
-            get
-            {
-                return "kharta-class";
-            }
-        }
-
-
-        public int? DisplayOrder
-        {
-            get
-            {
-                return 3;
-            }
-        }
-
-        public bool IsCacheable
-        {
-            get
-            {
-                return false;
-            }
-        }
-
-
-
-        public string PanelDescription
-        {
-            get
-            {
-                return "add Kharta admin panel";
-            }
-        }
-
-        public Guid PanelId
-        {
-            get
-            {
-                return Panel_id;
-            }
-        }
-
-        public string PanelName
-        {
-            get
-            {
-                return "Kharta Panel Name";
-            }
-        }
-
-        public bool VaryCacheByUser
-        {
-            get
-            {
-                return false;// throw new NotImplementedException();
-            }
-        }
-
-        public string GetViewHtml()
-        {
-            return "Kharta view html";//throw new NotImplementedException();
-        }
-
-        public bool HasAccess(int userId)
-        {
-            return true;//throw new NotImplementedException();
-        }
-
-
-        #endregion
-        #region IAdministrationPanelCategory
-        public Guid AdministrationPanelCategoryId
-        {
-            get
-            {
-                return Panel_id;
-            }
-        }
-        public string AvatarUrl
-        {
-            get
-            {
-                return "/cfs-filesystemfile/__key/system/images/kharta.svg";
-            }
-        }
-        public string CategoryName
-        {
-            get
-            {
-                return "Ontologies";
-            }
-        }
-        #endregion
-        #region IAdministrationPanelExplicitControler
-        public string GetPanelName(NameValueCollection parameters)
-        {
-            return "KCG Admin Panel";
-        }
-
-        public string GetPanelDescription(NameValueCollection parameters)
-        {
-            return "KCG Admin Panel Description";
-        }
-
-        public bool HasAccess(int userId, NameValueCollection parameters)
-        {
-            return true;// throw new NotImplementedException();
-        }
-
-        public string GetViewHtml(NameValueCollection parameters)
-        {
-            return "KCG view html"; //throw new NotImplementedException();
-        }
-
-        public void SetController(IAdministrationExplicitPanelController controller)
-        {
-            _iAdministrationExplicitPanelController = controller;
-        }
-
-        #endregion
-        #endregion
+       
 
     }
 }

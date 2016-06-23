@@ -51,7 +51,8 @@ namespace te.extension.kharta.PublicApi
 
         internal static Source Create(int groupId, string name, string description)
         {
-            throw new NotImplementedException();
+            Source source = new Source();
+            return source;
         }
 
         internal static Source Update(Guid id, string name, string description)
@@ -67,6 +68,12 @@ namespace te.extension.kharta.PublicApi
         internal static bool CanEdit(Guid sourceId)
         {
             throw new NotImplementedException();
+        }
+
+        internal static string GetCreateSourceUrl(int groupId, string v1, string v2)
+        {
+            string url = "";
+            return url;
         }
 
         internal static bool CanDelete(Guid sourceId)

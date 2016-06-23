@@ -90,6 +90,7 @@ namespace te.extension.kharta.InternalApi
                         //ex contains the message related to the entity was delete or updated external
                         // unit test deletes the record
                         //TODO: handle the condition   
+                        var exception = ex;
 
                     }
                     

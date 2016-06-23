@@ -8,11 +8,11 @@ using Telligent.Evolution.Extensibility.Version1;
  
 namespace te.extension.kharta.Plugins.UI.WidgetExtension
 {
-    public class SourceWidgetExtension : IScriptedContentFragmentExtension
+    public class SourceWidgetExtension : IPlugin, IScriptedContentFragmentExtension
     {
   
 
-        public string Name { get { return "Kharta Sources"; } }
+        public string Name { get { return "Kharta Sources (kharta_v1_sources)"; } }
         public string Description { get { return "Widget API for working with sources"; } } 
         public object Extension { get { return new WidgetApi.Sources(); } } 
         public string ExtensionName { get { return "kharta_v1_sources"; } }

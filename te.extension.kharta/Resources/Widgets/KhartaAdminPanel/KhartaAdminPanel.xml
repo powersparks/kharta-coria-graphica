@@ -1,0 +1,17 @@
+﻿<scriptedContentFragments>
+  <scriptedContentFragment 
+    name="${resource:widget_title}" 
+    version="9.1.0.768" description="${resource:widget_description}" 
+    instanceIdentifier="b089b96795074ad1ad130141f62bc937" 
+    theme="" isCacheable="false" varyCacheByUser="false" showHeaderByDefault="true" 
+    cssClass="" 
+    provider="56887da10ecb404c8b03cc45ed4ac374">
+    <contentScript><![CDATA[This is an empty Kharta Admin Panel Widget]]></contentScript>
+    <languageResources>
+      <language key="en-us">
+        <resource name="widget_title">Kharta Admin Panel Widget</resource>
+        <resource name="widget_description">widget for the Kharta Admin Panel</resource>
+      </language>
+    </languageResources>
+  </scriptedContentFragment>
+</scriptedContentFragments>

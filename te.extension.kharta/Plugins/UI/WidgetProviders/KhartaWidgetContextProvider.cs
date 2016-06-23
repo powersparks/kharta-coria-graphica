@@ -77,6 +77,7 @@ namespace te.extension.kharta.Plugins.UI
                 catch (Exception ex) {
                     if (khartaExistance) {
                         //object was found so done checking
+                       var exception = ex;
                         return khartaExistance;
                     }
                  }//value was not found keep checking...}

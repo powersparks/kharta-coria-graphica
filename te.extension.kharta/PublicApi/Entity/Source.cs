@@ -37,7 +37,7 @@ namespace te.extension.kharta.PublicApi
             get
             {
                 GroupsGetOptions groupOpt = new GroupsGetOptions();
-                groupOpt.Id = _khartaSource.GroupId.Value;
+                groupOpt.Id = _khartaSource.GroupId.HasValue ? _khartaSource.GroupId.Value:0;
                 if (groupOpt.Id > 0)
                 {
                     return Apis.Get<IGroups>().Get(groupOpt);
