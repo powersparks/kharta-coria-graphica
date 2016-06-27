@@ -10,6 +10,7 @@ using System.Reflection;
 
 namespace kharta.coria.graphica.test
 {
+    
     [TestClass]
     public class KhartaApplicationsUnitTest {
         [TestMethod]
@@ -20,6 +21,14 @@ namespace kharta.coria.graphica.test
     [TestClass]
     public class KhartaContainersUnitTest
     {
+        [TestMethod]
+        public void getContainers()
+        {
+             IList<teKharta.InternalApi.KhartaOntology> containers = teKharta.InternalApi.OntologyDataService.getContainers();
+            
+
+            Assert.IsTrue(containers.Count() > 0);
+        }
         [TestMethod]
         public void getContainerByGuidTest()
         {
@@ -214,6 +223,7 @@ namespace kharta.coria.graphica.test
             container.Url = "/testurl";
             container.ParentOntologyId = 1;
             container.SafeName = "testurl";
+            container.GroupId = null;
             
 
             return container;

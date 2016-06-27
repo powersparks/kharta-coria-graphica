@@ -34,5 +34,7 @@ namespace kharta.coria.graphica.Models
 
         [StringLength(256)]
         public string SafeName { get; set; }
+
+        public int? GroupId { get; set; }
     }
 }

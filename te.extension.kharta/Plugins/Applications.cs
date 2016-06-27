@@ -33,12 +33,12 @@ namespace te.extension.kharta.Plugins
         public static readonly Guid ApplicationsType_id = new Guid("e504f58d-c1d8-40a8-bf55-bc38c65625e9");
        // private KhartaFactoryDefaultWidgetProvider _widgetProvider;
         private AdminPanel _adminWidgetProvider;
-
+     
         #region IPlugin
         public string Name { get { return "Kharta Coria Graphica"; } }
         public string Description { get { return "A Telligent friendly tools for creating Lists, Charts & Maps from geospatial sources"; } }
         public Guid DataTypeId { get { return ApplicationsType_id; } }
-        public void Initialize() { }
+        public void Initialize() {    }
         #region IConfigurablePlugin
         public PropertyGroup[] ConfigurationOptions
         {
@@ -186,7 +186,8 @@ namespace te.extension.kharta.Plugins
             typeof(UI.WidgetExtension.SourceWidgetExtension),
             typeof(UI.SourceNewPostLink),
             typeof(UI.SourceGroupNavigation),
-            typeof(UI.AdminPanel)
+            typeof(UI.AdminPanel),
+            typeof(UI.WidgetExtension.OntologyWidgetExtension)
             
         };} }
         #endregion

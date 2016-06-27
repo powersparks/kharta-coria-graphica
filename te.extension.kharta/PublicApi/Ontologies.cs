@@ -10,6 +10,26 @@ namespace te.extension.kharta.PublicApi
 {
     public class Ontologies
     {
+        internal static InternalApi.KhartaOntology _khartaOntology = null;
+        
+        internal static IList<InternalApi.KhartaOntology> ListKhartaOntology()
+        {
+            IList<InternalApi.KhartaOntology> _ontologies = InternalApi.OntologyDataService.getContainers();
+            return _ontologies;
+        }
+        public static ApiList<Ontology> List
+        {
+            get
+            {
+                 
+                // if (_ontologies == null && _khartaOntology != null && ListKhartaOntology() != null)
+                ApiList <Ontology> _ontologies = new ApiList<Ontology>(ListKhartaOntology().Select(_khartaOntology => new Ontology(_khartaOntology)));
+
+                
+                return _ontologies;
+            }
+        }
+       
         public static Ontology GetOntologyApplication(Guid applicationId)
         {
             //KhartaSource khartaSource = new KhartaSource();

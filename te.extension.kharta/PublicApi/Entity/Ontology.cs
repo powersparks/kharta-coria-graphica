@@ -10,12 +10,13 @@ using System.Runtime.CompilerServices;
 using kcgModels = kharta.coria.graphica.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Telligent.Evolution.Extensibility;
 
 namespace te.extension.kharta.PublicApi
 {
      
     
-    public class Ontology : ApiEntity, IContainer, IApplication
+    public class Ontology : ApiEntity, IApplication, IContainer
     {
         InternalApi.KhartaOntology _khartaOntology = null;
         #region ApiEntity
@@ -25,33 +26,35 @@ namespace te.extension.kharta.PublicApi
         internal Ontology(InternalApi.KhartaOntology khartaOntology) : base() { _khartaOntology = khartaOntology; }
         #endregion
         #region IContainer
-        public string AvatarUrl { get { return _khartaOntology.AvatarUrl; } }
-        public Guid ContainerId { get { return _khartaOntology.ContainerId; } }
-        public Guid ContainerTypeId { get { return _khartaOntology.ContainerTypeId; } }
-        public bool IsEnabled { get { return _khartaOntology.IsEnabled.Value; } }
-        public string Url { get { return _khartaOntology.Url; } }
+        public string AvatarUrl { get { return _khartaOntology == null ? "" : _khartaOntology.AvatarUrl; } }
+        public Guid ContainerId { get { return _khartaOntology == null ? Guid.Empty : _khartaOntology.ContainerId; } }
+        public Guid ContainerTypeId { get { return _khartaOntology == null ? Guid.Empty : _khartaOntology.ContainerTypeId; } }
+        public bool IsEnabled { get { return _khartaOntology == null ? true : _khartaOntology.IsEnabled.Value; } }
+        public string Url { get { return _khartaOntology == null ? "": _khartaOntology.Url; } }
         public string HtmlName(string target)
         {
-            return _khartaOntology.HtmlName(target);
+            return _khartaOntology == null ? "" : _khartaOntology.HtmlName(target);
         }
 
         public string HtmlDescription(string target)
         {
-            throw new NotImplementedException();
+            return _khartaOntology == null? "": _khartaOntology.HtmlDescription(target);
         }
         #endregion
-        #region kharta.coria.graphica.Ontology
+        #region IApplication
         public int Id { get { return _khartaOntology.Id; } }
 
         [StringLength(256)]
-        public string Name { get { return _khartaOntology.Name; } }
+        public string Name { get { return _khartaOntology == null ?  "no name": _khartaOntology.Name; } }
 
         [StringLength(512)]
-        public string Description { get { return _khartaOntology.Description; } }
-        public int? ParentOntologyId { get { return _khartaOntology.ParentOntologyId.Value; } }
+        public string Description { get { return _khartaOntology == null ? "no description"  : _khartaOntology.Description; } }
+        public int? ParentOntologyId { get { return _khartaOntology == null ? 0 : _khartaOntology.ParentOntologyId.Value; } }
 
         [StringLength(256)]
-        public string SafeName { get; set; }
+        public string SafeName { get { return _khartaOntology == null ? "": _khartaOntology.SafeName; } }
+
+        public int? GroupId { get { return _khartaOntology == null ? 0 : _khartaOntology.GroupId.Value; } }
          
         public Container ParentContainer
         {
@@ -70,7 +73,7 @@ namespace te.extension.kharta.PublicApi
         {
             get
             {
-                return _khartaOntology.ContainerId;
+                return _khartaOntology == null ? Guid.Empty : _khartaOntology.ContainerId;
                 //throw new NotImplementedException();
             }
         }
@@ -79,7 +82,7 @@ namespace te.extension.kharta.PublicApi
         {
             get
             {
-                return _khartaOntology.ContainerTypeId;//throw new NotImplementedException();
+                return _khartaOntology == null ? Guid.Empty : _khartaOntology.ContainerTypeId;//throw new NotImplementedException();
             }
         }
 
@@ -87,9 +90,16 @@ namespace te.extension.kharta.PublicApi
         {
             get
             {
-                throw new NotImplementedException();
+                GroupsGetOptions groupOpt = new GroupsGetOptions();
+                groupOpt.Id = _khartaOntology != null ? (_khartaOntology.GroupId.HasValue ? _khartaOntology.GroupId.Value : 0):0;
+                if (groupOpt.Id > 0)
+                {
+                    return Apis.Get<IGroups>().Get(groupOpt);
+                }
+                return Apis.Get<IGroups>().Root;
             }
         }
         #endregion
+     
     }
 }

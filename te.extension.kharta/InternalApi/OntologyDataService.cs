@@ -8,7 +8,9 @@ using System.Runtime.CompilerServices;
 using System.Diagnostics;
 
 using System.Reflection;
- 
+using PublicApi = te.extension.kharta.PublicApi;
+using Telligent.Evolution.Extensibility.Api.Entities.Version1;
+
 [assembly: InternalsVisibleTo("kharta.coria.graphica.test")]
 namespace te.extension.kharta.InternalApi
 {
@@ -20,6 +22,10 @@ namespace te.extension.kharta.InternalApi
             Ontology ontology = FromContainer(container);
             return ontology;
         }
+
+   
+      
+
         private static Ontology FromContainer(KhartaOntology container)
         {
             Ontology ontology = new Ontology();
@@ -285,15 +291,21 @@ namespace te.extension.kharta.InternalApi
         }
 
         internal static IList<KhartaOntology> getContainers() {
+            Func<Ontology, KhartaOntology> toContainer = (Ontology fromOntology) => FromOntology(fromOntology);
             IList<KhartaOntology> containers = new List<KhartaOntology>();
-
+            IList<Ontology> _ontologies = new List<Ontology>();
             using (var dbcontext = new KhartaDataModel()) {
+                 
                 var ontologies = from o in dbcontext.Ontologies
                                  select o;
-                containers = (IList<KhartaOntology>)ontologies.ToList().Cast<Ontology>();
+                // _ontologies = new ApiList<Ontology>(ListKhartaOntology().Select(x => new Ontology(_khartaOntology)));
 
+                _ontologies = ontologies.ToList();
             }
-                return containers;
+            containers = new List<KhartaOntology>(_ontologies.Select(_ontology => toContainer(_ontology)));
+
+
+            return containers;
         }
     }
      

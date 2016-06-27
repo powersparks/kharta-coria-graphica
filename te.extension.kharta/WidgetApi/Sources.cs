@@ -10,7 +10,7 @@ using TEApi = Telligent.Evolution.Extensibility.Api.Version1.PublicApi;
 
 namespace te.extension.kharta.WidgetApi
 {
-    [Documentation(Category = "KhartaSources")]
+    [Documentation(Category = "Kharta")]
     public class Sources
     {
 

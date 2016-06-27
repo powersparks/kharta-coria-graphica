@@ -20,14 +20,27 @@ namespace te.extension.kharta.InternalApi
          
         internal string HtmlName(string target)
         {
-            // var _kcgName = new KhartaOntology();
+             
             string name =  Name;
             if (target == "web" || target == "email" || target == "raw")
             {
                 //html s/b applied, translated, etc.. unless raw
             }
             return name;
-        //    throw new NotImplementedException();
+        
         }
+        internal string HtmlDescription(string target)
+        {
+             
+            string name = Name;
+            if (target == "web" || target == "email" || target == "raw")
+            {
+                //html s/b applied, translated, etc.. unless raw
+            }
+            return name;
+             
+        }
+
+        internal List<KhartaOntology> KhartaOntologies { get; set; }
     }
 }

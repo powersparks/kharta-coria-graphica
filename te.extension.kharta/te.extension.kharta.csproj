@@ -106,7 +106,6 @@
     <Compile Include="Plugins\UI\NewPostLink\HostingNewPostLink.cs" />
     <Compile Include="Plugins\UI\NewPostLink\OntologyNewPostLink.cs" />
     <Compile Include="Plugins\UI\NewPostLink\SourceNewPostLink.cs" />
-    <Compile Include="Plugins\UI\WidgetExtension\AdminPanelWidgetExtension.cs" />
     <Compile Include="Plugins\UI\WidgetExtension\HostingWidgetExtension.cs" />
     <Compile Include="Plugins\UI\WidgetExtension\OntologyWidgetExtension.cs" />
     <Compile Include="Plugins\UI\WidgetProviders\KhartaFactoryDefaultWidgetProvider.cs" />
@@ -121,7 +120,7 @@
     <Compile Include="PublicApi\Sources.cs" />
     <Compile Include="RestApi\Entity\Source.cs" />
     <Compile Include="PublicApi\Entity\SourcesListOptions.cs" />
-    <Compile Include="WidgetApi\AdminPanel.cs" />
+    <Compile Include="WidgetApi\Ontologies.cs" />
     <Compile Include="WidgetApi\Sources.cs" />
   </ItemGroup>
   <ItemGroup>
