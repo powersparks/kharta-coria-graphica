@@ -1,17 +1,53 @@
 ﻿<scriptedContentFragments>
   <scriptedContentFragment 
     name="${resource:widget_title}" 
-    version="9.1.0.768" description="${resource:widget_description}" 
+    version="9.1.0.768" 
+    description="${resource:widget_description}" 
     instanceIdentifier="b089b96795074ad1ad130141f62bc937" 
-    theme="" isCacheable="false" varyCacheByUser="false" showHeaderByDefault="true" 
+    theme="" 
+    isCacheable="false" 
+    varyCacheByUser="false" 
+    showHeaderByDefault="true" 
     cssClass="" 
     provider="56887da10ecb404c8b03cc45ed4ac374">
-    <contentScript><![CDATA[This is an empty Kharta Admin Panel Widget]]></contentScript>
+    <contentScript>
+      <![CDATA[ #set($ontologies = false)
+ #set($ontologies = $kharta_v1_ontologies.List())
+ <h1>Ontologies</h1>
+ #if( $ontologies )
+ #foreach ( $ontology in $ontologies  )
+     ## foreach code
+     #beforeall
+     <ul class="kharta-ontology">
+     #each
+     #set($booleanResponse = $ontology.HasErrors())
+        <li class="kharta-ontology-item" style="margin-bottom: 5px;">
+    	    <h2>$ontology.Name</h2>
+    	    <p>$ontology.Description</p> 
+        </li>
+     #afterall
+     </ul>
+ #end
+ 
+ #end]]>
+    </contentScript>
+    <headerScript>
+      <![CDATA[$core_v2_widget.ApplyTokens($core_v2_widget.GetStringValue('fragmentHeader', '${resource:widget_title}'))
+	]]>
+    </headerScript>
+    <configuration>
+      <![CDATA[<propertyGroup id="options" resourceName="Options">
+	<property id="fragmentHeader" resourceName="widget_modal_title_label" dataType="string" defaultValue="${resource:widget_title}" controlType="Telligent.Evolution.Controls.ContentFragmentTokenStringControl, Telligent.Evolution.Controls" />
+ 
+</propertyGroup>]]>
+    </configuration>
     <languageResources>
       <language key="en-us">
         <resource name="widget_title">Kharta Admin Panel Widget</resource>
         <resource name="widget_description">widget for the Kharta Admin Panel</resource>
+        <resource name="widget_modal_title_label">Widget Name</resource>
       </language>
     </languageResources>
+
   </scriptedContentFragment>
 </scriptedContentFragments>
