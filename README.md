@@ -8,7 +8,7 @@ This concept design is still evolving, as such, this preview may change. As an a
 ### Telligent Plugin
 ![Cover](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/Slide1.png)
 ### Core Services
-![Core Services](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/Slide2.jpg)
+![Core Services](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/Slide2.png)
 ### Kharta Coria Graphica Concept
 ![Preliminary Concept Design](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/Slide3.png)
 ### Kharta Coria Graphica Concept
