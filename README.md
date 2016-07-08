@@ -7,21 +7,21 @@ Kharta Coria Graphic (KCG) is a Telligent Community Plugin, a Visual Studio solu
 This concept design is still evolving, as such, this preview may change. As an abstract, it seems right, although after more thought in context with 2005 Wilkinson's Grammar of Graphics: Statistics and Computing, a more concise way forward should appear. However, the overall design will be in concert with the Telligent Community paradigm, so this first version should be able to contribute to the final product easily enough.  With this in mind, here is a preliminary Concept Design:
 ## Kharta Coria Graphica Concept
 Because KCG plugs into Telligent's Community or "Social" website, a review of Telligent's content model, core services, and extensibility model are needed.  
-### Telligent Plugin
+### Telligent Plugin For Geo-Spatial Analysis
 ![Cover](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/Slide1.png)
-### Core Services
+### Telligent's Content Model, for geospatial
 ![Content Model](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/Slide2.png)
-### Kharta Coria Graphica Concept
+### Content Model w/ Telligent's Core Services
 ![Content Model With Core Services](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/Slide3.png)
-### Kharta Coria Graphica Concept
+### Telligent's Extensibility Architecture
 ![Extensibility Model](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/Slide4.png)
-### Kharta Coria Graphica Concept
+### Concept of Operation: Between Applications & Content Model
 ![KCG Applications and Content Model ](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/Slide5.png)
-### Kharta Coria Graphica Concept
+### Geospatial Applications & Content Model: Applications
 ![Preliminary Concept Design](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/Slide6.png)
-### Kharta Coria Graphica Concept
+### Kharta: Concept
 ![Preliminary Concept Design](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/Slide7.png)
-### Kharta Coria Graphica Concept
+### Coria: Concept
 ![Preliminary Concept Design](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/Slide8.png)
-### Kharta Coria Graphica Concept
+### Graphica: Concept
 ![Preliminary Concept Design](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/Slide9.png)
