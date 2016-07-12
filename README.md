@@ -25,3 +25,7 @@ Because KCG plugs into Telligent's Community or "Social" website, a review of Te
 ![Preliminary Concept Design](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/Slide8.png)
 ### Graphica: Concept
 ![Preliminary Concept Design](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/Slide9.png)
+### VS Solution and Projects
+![Preliminary Concept Design](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/Slide10.png)
+### Plugin Structure
+![Preliminary Concept Design](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/Slide11.png)
