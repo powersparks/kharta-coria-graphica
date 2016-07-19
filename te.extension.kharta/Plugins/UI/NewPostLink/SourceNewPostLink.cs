@@ -67,7 +67,7 @@ namespace te.extension.kharta.Plugins.UI
             if (string.IsNullOrEmpty(url))
                 return null;
 
-            return new IGroupNewPostLink[] { new GroupNewPollLink(_translation.GetLanguageResourceValue("link_label"), url) };
+            return new IGroupNewPostLink[] { new GroupNewSourceLink(_translation.GetLanguageResourceValue("link_label"), url) };
         }
 
         public bool HasNewPostLinks(int groupId, int userId)
@@ -78,9 +78,9 @@ namespace te.extension.kharta.Plugins.UI
 
         #endregion
 
-        public class GroupNewPollLink : IGroupNewPostLink
+        public class GroupNewSourceLink : IGroupNewPostLink
         {
-            internal GroupNewPollLink(string label, string url)
+            internal GroupNewSourceLink(string label, string url)
             {
                 Label = label;
                 Url = url;
@@ -90,7 +90,7 @@ namespace te.extension.kharta.Plugins.UI
 
             public string CssClass
             {
-                get { return "internal-link add-post poll"; }
+                get { return "internal-link add-post map"; }
             }
 
             public string Label { get; private set; }

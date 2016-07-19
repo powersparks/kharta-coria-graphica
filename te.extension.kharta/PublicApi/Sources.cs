@@ -41,7 +41,9 @@ namespace te.extension.kharta.PublicApi
 
         internal static PagedList<Source> List(int groupId, SourcesListOptions query)
         {
-            throw new NotImplementedException();
+            PagedList<Source> _sources = new PagedList<Source>();
+
+            return _sources;
         }
 
         internal static AdditionalInfo Delete(Guid id)

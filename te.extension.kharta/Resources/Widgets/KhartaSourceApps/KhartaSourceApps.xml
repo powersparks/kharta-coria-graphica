@@ -1,0 +1,50 @@
+﻿<scriptedContentFragments>
+  <scriptedContentFragment 
+    name="${resource:widget_name}" 
+    version="9.1.0.768" 
+    description="${resource:widget_description}" 
+    instanceIdentifier="2165b010beac4805ad6743b61ce41b7f" 
+    theme="" 
+    isCacheable="false" 
+    varyCacheByUser="false" 
+    showHeaderByDefault="true" 
+    cssClass="" 
+    provider="c1b6977ec23d4bb792278a1c57c83499">
+    <contentScript>
+      <![CDATA[ #set($sources = false)
+ #set($sources = $kharta_v1_sources.List())
+ <h1>Sources</h1>
+ #if( $sources )
+ #foreach ( $source in $sources  )
+     ## foreach code
+     #beforeall
+     <ul class="kharta-source">
+     #each
+         <li class="kharta-source-item" style="margin-bottom: 5px;">
+    	    <h2>$source.Name</h2>
+    	    <p>$source.Description</p> 
+        </li>
+     #afterall
+     </ul>
+ #end
+ 
+ #end]]>
+    </contentScript>
+    <headerScript><![CDATA[$core_v2_widget.ApplyTokens($core_v2_widget.GetStringValue('fragmentHeader', '${resource:widget_title}'))]]></headerScript>
+    <configuration>
+      <![CDATA[<propertyGroup id="options" resourceName="Options">
+	<property id="fragmentHeader" resourceName="widget_modal_title_label" dataType="string" defaultValue="${resource:widget_title}" controlType="Telligent.Evolution.Controls.ContentFragmentTokenStringControl, Telligent.Evolution.Controls" />
+</propertyGroup>]]>
+    </configuration>
+    <languageResources>
+      <language key="en-us">
+        <resource name="widget_name">Kharta Source Application List</resource>
+        <resource name="widget_description">lists the applications related to sources</resource>
+        <resource name="widget_modal_title_label">Widget Title</resource>
+      </language>
+    </languageResources>
+    <requiredContext>
+      <context id="47bec3c6b0814f368812e42953ef133b" />
+    </requiredContext>
+  </scriptedContentFragment>
+</scriptedContentFragments>

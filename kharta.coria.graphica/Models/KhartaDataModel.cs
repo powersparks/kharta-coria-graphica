@@ -11,7 +11,7 @@ namespace kharta.coria.graphica.Models
             : base("name=KhartaDataModel")
         {
         }
-
+        public virtual DbSet<Coria_Map> Coria_Map { get; set; }
         public virtual DbSet<Hosting> Hostings { get; set; }
         public virtual DbSet<Ontology> Ontologies { get; set; }
         public virtual DbSet<Source> Sources { get; set; }

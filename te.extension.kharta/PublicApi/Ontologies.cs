@@ -21,11 +21,8 @@ namespace te.extension.kharta.PublicApi
         {
             get
             {
-                 
-                // if (_ontologies == null && _khartaOntology != null && ListKhartaOntology() != null)
+          
                 ApiList <Ontology> _ontologies = new ApiList<Ontology>(ListKhartaOntology().Select(_khartaOntology => new Ontology(_khartaOntology)));
-
-                
                 return _ontologies;
             }
         }

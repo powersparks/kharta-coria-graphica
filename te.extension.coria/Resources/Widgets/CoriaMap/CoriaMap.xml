@@ -1,0 +1,62 @@
+﻿<scriptedContentFragments>
+  <scriptedContentFragment
+    name="${resource:widget_name}"
+    version="9.1.0.768"
+    description="${resource:widget_description}"
+    instanceIdentifier="9b8fc000a16540c1a0f142708cca00b2"
+    theme=""
+    isCacheable="false"
+    varyCacheByUser="false"
+    showHeaderByDefault="true"
+    cssClass=""
+    provider="11d248584e704d4f9bb7de3e627bc200">
+    <contentScript>
+<![CDATA[   
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.20.1/mapbox-gl.css' rel='stylesheet' />
+
+    <style>
+        
+        #map {   height: 250px; width:100%; }
+    </style>
+<div id='map'></div>
+#registerEndOfPageHtml('coria.map')
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.20.1/mapbox-gl.js'></script>
+<script>mapboxgl.accessToken = 'pk.eyJ1IjoicG93ZXJzcGFya3MiLCJhIjoiY2lxZmQzY3Y1MDNpeGZxbTEwcTJvbWdiMCJ9.QU4DwJMcOtjdI9PAmNCaWQ';</script>
+  <script type="text/javascript" src="$core_v2_encoding.HtmlAttributeEncode($core_v2_widget.GetFileUrl('CoriaMap.js'))"></script>
+#end
+
+
+
+ <h1>Coria Map</h1>
+ #registerEndOfPageHtml()
+<script>
+
+jQuery(function(j){
+  j.coria.map.register({
+  mapCanvasId: 'map'
+  
+    
+  });
+});  
+</script>
+#end
+]]>
+    </contentScript>
+    <headerScript><![CDATA[$core_v2_widget.ApplyTokens($core_v2_widget.GetStringValue('fragmentHeader', '${resource:widget_title}'))]]></headerScript>
+    <configuration>
+      <![CDATA[<propertyGroup id="options" resourceName="Options">
+	<property id="fragmentHeader" resourceName="widget_modal_title_label" dataType="string" defaultValue="${resource:widget_title}" controlType="Telligent.Evolution.Controls.ContentFragmentTokenStringControl, Telligent.Evolution.Controls" />
+</propertyGroup>]]>
+    </configuration>
+    <languageResources>
+      <language key="en-us">
+        <resource name="widget_name">Coria Map</resource>
+        <resource name="widget_description">map</resource>
+        <resource name="widget_modal_title_label">Widget Title</resource>
+      </language>
+    </languageResources>
+    <!--requiredContext>
+      <context id="336abd13791042d0b3384f8c74a5c432" />
+    </requiredContext-->
+  </scriptedContentFragment>
+</scriptedContentFragments>

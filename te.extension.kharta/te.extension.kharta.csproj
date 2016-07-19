@@ -94,7 +94,7 @@
     <Compile Include="InternalApi\TransformDataService.cs" />
     <Compile Include="InternalApi\SourceDataService.cs" />
     <Compile Include="InternalApi\Utility\EmbeddedResources.cs" />
-    <Compile Include="Plugins\Applications.cs" />
+    <Compile Include="Plugins\KhartaApplications.cs" />
     <Compile Include="Plugins\Application\KhartaHostingType.cs" />
     <Compile Include="Plugins\Application\KhartaOntologyType.cs" />
     <Compile Include="Plugins\Application\KhartaSourceType.cs" />
@@ -126,22 +126,22 @@
   <ItemGroup>
     <Folder Include="Resources\Css\" />
     <Folder Include="Resources\EcmaScript\" />
-    <Folder Include="Resources\Pages\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Sql\KhartaCreateTables.sql" />
     <EmbeddedResource Include="Resources\Sql\KhartaDropTables.sql" />
-    <EmbeddedResource Include="Resources\Widgets\KhartaApplicationList\KhartaApplicationList.xml" />
-    <EmbeddedResource Include="Resources\Widgets\KhartaApplicationList\Supplementary\kharta.css" />
-    <EmbeddedResource Include="Resources\Widgets\KhartaApplicationList\Supplementary\kharta.js" />
+    <EmbeddedResource Include="Resources\Widgets\KhartaSourceApps\KhartaSourceApps.xml" />
+    <EmbeddedResource Include="Resources\Widgets\KhartaSourceApps\Supplementary\KhartaSourceApps.css" />
+    <EmbeddedResource Include="Resources\Widgets\KhartaSourceApps\Supplementary\KhartaSourceApps.js" />
     <EmbeddedResource Include="Resources\Widgets\KhartaAdminPanel\KhartaAdminPanel.xml" />
     <EmbeddedResource Include="Resources\Widgets\KhartaAdminPanel\Supplementary\KhartaAdminPanel.css" />
     <EmbeddedResource Include="Resources\Widgets\KhartaAdminPanel\Supplementary\KhartaAdminPanel.js" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <EmbeddedResource Include="Resources\Widgets\KhartaApplicationList\Supplementary\kharta.vm" />
+    <EmbeddedResource Include="Resources\Widgets\KhartaSourceApps\Supplementary\KhartaSourceApps.vm" />
     <EmbeddedResource Include="Resources\Widgets\KhartaAdminPanel\Supplementary\KhartaAdminPanel.vm" />
+    <EmbeddedResource Include="Resources\Widgets\KhartaSource\Supplementary\KhartaSource.vm" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -151,6 +151,22 @@
       <Project>{7c05745d-b9c7-4acb-a7be-d8a0bc39d001}</Project>
       <Name>kharta.coria.graphica</Name>
     </ProjectReference>
+    <ProjectReference Include="..\te.extension.coria\te.extension.coria.csproj">
+      <Project>{cc46c641-0f17-464c-97a5-60010d2cb018}</Project>
+      <Name>te.extension.coria</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\te.extension.graphica\te.extension.graphica.csproj">
+      <Project>{0898828c-13ba-4119-b23a-0467a2ea3133}</Project>
+      <Name>te.extension.graphica</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Pages\kharta-source-appslist-Social-Group-Page.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Widgets\KhartaSource\KhartaSource.xml" />
+    <EmbeddedResource Include="Resources\Widgets\KhartaSource\Supplementary\KhartaSource.css" />
+    <EmbeddedResource Include="Resources\Widgets\KhartaSource\Supplementary\KhartaSource.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
