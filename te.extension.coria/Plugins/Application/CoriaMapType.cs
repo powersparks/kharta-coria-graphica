@@ -20,7 +20,7 @@ using Telligent.Evolution.Extensibility;
 
 namespace te.extension.coria.Plugins.Application
 {
-    public class CoriaMapType : IPlugin, IApplicationType
+    public class CoriaMapType : IPlugin, IApplicationType, IPluginGroup
     {
         IApplicationStateChanges _applicationState = null;
         public static Guid _applicationTypeId = new Guid("bfdb6103-e8e5-4cbf-8fbf-42dbac4046ef");
@@ -34,6 +34,17 @@ namespace te.extension.coria.Plugins.Application
         public string Description { get { return "Maps and metadata management tools"; } }
 
         public string Name { get { return "Coria Maps Application"; } }
+
+        public IEnumerable<Type> Plugins
+        {
+            get
+            {
+                return new Type[]{
+                  
+                    
+                };
+            }
+        }
 
         public void AttachChangeEvents(IApplicationStateChanges stateChanges) { _applicationState = stateChanges; }
 

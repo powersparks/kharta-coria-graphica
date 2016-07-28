@@ -11,48 +11,89 @@
     cssClass=""
     provider="11d248584e704d4f9bb7de3e627bc200">
     <contentScript>
-<![CDATA[   
-<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.20.1/mapbox-gl.css' rel='stylesheet' />
-
-    <style>
-        
-        #map {   height: 250px; width:100%; }
-    </style>
-<div id='map'></div>
-#registerEndOfPageHtml('coria.map')
-<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.20.1/mapbox-gl.js'></script>
-<script>mapboxgl.accessToken = 'pk.eyJ1IjoicG93ZXJzcGFya3MiLCJhIjoiY2lxZmQzY3Y1MDNpeGZxbTEwcTJvbWdiMCJ9.QU4DwJMcOtjdI9PAmNCaWQ';</script>
-  <script type="text/javascript" src="$core_v2_encoding.HtmlAttributeEncode($core_v2_widget.GetFileUrl('CoriaMap.js'))"></script>
+<![CDATA[
+#if ($core_v2_widget.IsInWidgetPreviewMode)
+ $core_v2_widget.Hide()
 #end
 
+$core_v2_page.AddLink("stylesheet", "$core_v2_encoding.HtmlAttributeEncode($core_v2_widget.GetFileUrl('CoriaMap.css'))" , "%{ type='text/css' }")
+#*** execute the Coria Map velocity script ***#
+$core_v2_widget.ExecuteFile('CoriaMap.vm')
+#registerEndOfPageHtml('coria.map')
+<script type="text/javascript" src="$core_v2_encoding.HtmlAttributeEncode($core_v2_widget.GetFileUrl('CoriaMap.js'))"></script>
+#end
 
-
- <h1>Coria Map</h1>
- #registerEndOfPageHtml()
+#registerEndOfPageHtml()
 <script>
-
 jQuery(function(j){
   j.coria.map.register({
-  mapCanvasId: 'map'
-  
-    
+      widgetId: '$core_v2_widget.WrapperElementId',
+      mapCanvasId: '$core_v2_widget.UniqueId("map-canvas")',
+      mapApi: '$mappingApi',
+      mapCenterLng: $mapCenterLng,
+      mapCenterLat: $mapCenterLat,
+      mapZoomLevel: $mapZoomLevel,
+      height: '$height',
+      width: '$width'
   });
 });  
 </script>
 #end
+
 ]]>
     </contentScript>
-    <headerScript><![CDATA[$core_v2_widget.ApplyTokens($core_v2_widget.GetStringValue('fragmentHeader', '${resource:widget_title}'))]]></headerScript>
+    <headerScript>
+      <![CDATA[
+$core_v2_widget.ApplyTokens($core_v2_widget.GetStringValue('fragmentHeader', '${resource:widget_name}'))
+$core_v2_widget.ApplyTokens($core_v2_widget.GetStringValue('fragmentDescription', '${resource:widget_description}'))    
+    ]]></headerScript>
     <configuration>
-      <![CDATA[<propertyGroup id="options" resourceName="Options">
-	<property id="fragmentHeader" resourceName="widget_modal_title_label" dataType="string" defaultValue="${resource:widget_title}" controlType="Telligent.Evolution.Controls.ContentFragmentTokenStringControl, Telligent.Evolution.Controls" />
-</propertyGroup>]]>
+      <![CDATA[
+<propertyGroup id="options" resourceName="Options">
+	<property id="fragmentHeader" resourceName="CF_Title" dataType="string" defaultValue="${resource:widget_name}" controlType="Telligent.Evolution.Controls.ContentFragmentTokenStringControl, Telligent.Evolution.Controls" />
+	<property id="fragmentDescription" resourceName="CF_Description" dataType="string" defaultValue="${resource:widget_description}" controlType="Telligent.Evolution.Controls.ContentFragmentTokenStringControl, Telligent.Evolution.Controls" />
+	
+	<property id="map_canvas_height" resourceName="map_canvas_height" dataType="unit" defaultValue="250px" />
+	<property id="map_canvas_width" resourceName="map_canvas_width" dataType="unit" defaultValue="100%" />
+	<property id="map_center_lat" resourceName="map_center_lat" dataType="double" defaultValue="21.5" >
+	    	<propertyRule type="Telligent.Evolution.Controls.PropertyRules.MinMaxValueRule, Telligent.Evolution.Controls" minValue="-90" maxValue="90" />
+	</property>
+	<property id="map_center_lng" resourceName="map_center_lng" dataType="double" defaultValue="-158">
+	<propertyRule type="Telligent.Evolution.Controls.PropertyRules.MinMaxValueRule, Telligent.Evolution.Controls" minValue="-180" maxValue="180" />
+	</property>
+    <property id="map_zoom_level" resourceName="map_zoom_level"  descriptionResourceName="map_zoom_level_description" dataType="integer" defaultValue="3">
+	<propertyRule type="Telligent.Evolution.Controls.PropertyRules.MinMaxValueRule, Telligent.Evolution.Controls" minValue="0" maxValue="100" />
+	</property>
+	<property id="map_application_type" resourceName="map_application_type" descriptionResourceName="map_application_type_description" dataType="string" defaultValue="Base">
+		<propertyValue value="Base" resourceName="map_application_base" />
+    <propertyValue value="MapBox" resourceName="map_application_mapbox" />
+		<propertyValue value="GoogleMaps" resourceName="map_application_googlemaps" />
+    <propertyValue value="ArcGis" resourceName="map_application_arcgis" />
+     <propertyValue value="ArcGis4" resourceName="map_application_arcgis4" />
+	</property>
+</propertyGroup>
+
+]]>
     </configuration>
     <languageResources>
       <language key="en-us">
         <resource name="widget_name">Coria Map</resource>
-        <resource name="widget_description">map</resource>
-        <resource name="widget_modal_title_label">Widget Title</resource>
+        <resource name="widget_description"> Widget is a simple map canvas using selected API</resource>
+        <resource name="CF_Title">Widget Title:</resource>
+        <resource name="map_canvas_width">Map Width:</resource>
+        <resource name="map_canvas_height">Map Height:</resource>
+        <resource name="map_application_type_description">Loading multiple API's are allowed. Mapbox likes to be first, and ArcGIS 3.x and 4.x are not compatiable.</resource>
+        <resource name="map_application_type">Map Application Type:</resource>
+        <resource name="map_application_base">Base Settings and Options</resource>
+        <resource name="map_application_mapbox">MapBox (https://www.mapbox.com/)</resource>
+        <resource name="map_application_googlemaps">Google Maps (https://googlemaps.com/)</resource>
+        <resource name="map_application_arcgis">ArcGis (https://www.arcgis.com/)</resource>
+        <resource name="map_application_arcgis4">ArcGis4 (https://www.arcgis.com/)</resource>
+        <resource name="CF_Description">Widget Description:</resource>
+        <resource name="map_center_lng">Longitude (Decimal Degree,  -180 to 180):</resource>
+        <resource name="map_center_lat">Latitude (Decimal Degree, -90 to 90):</resource>
+        <resource name="map_zoom_level">Zoom (0 to 100):</resource>
+        <resource name="map_zoom_level_description">Dependent on Map API or basemap resolution sets.</resource>
       </language>
     </languageResources>
     <!--requiredContext>

@@ -35,7 +35,7 @@ namespace te.extension.graphica.Plugins
 
         #region IPlugin
         public string Name { get { return "Graphica Applications"; } }
-        public string Description { get { return "A Telligent friendly tools for creating Lists, Charts & Maps from geospatial sources"; } }
+        public string Description { get { return "A Telligent friendly tools for analysis models, layer definitions, data editors, and styling tools"; } }
         public Guid DataTypeId { get { return GraphicaType_id; } }
         public void Initialize() { }
         #region IConfigurablePlugin

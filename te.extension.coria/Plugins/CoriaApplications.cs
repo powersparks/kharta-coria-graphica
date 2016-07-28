@@ -35,7 +35,7 @@ namespace te.extension.coria.Plugins
 
         #region IPlugin
         public string Name { get { return "Coria Applications"; } }
-        public string Description { get { return "A Telligent friendly tools for creating Lists, Charts & Maps from geospatial sources"; } }
+        public string Description { get { return "A Telligent friendly tools for creating Lists, Charts & Maps using standard data sources"; } }
         public Guid DataTypeId { get { return CoriaType_id; } }
         public void Initialize() { }
         #region IConfigurablePlugin
@@ -127,13 +127,10 @@ namespace te.extension.coria.Plugins
             get
             {
                 return new Type[] {
-          typeof(UI.CoriaFactoryDefaultWidgetProvider),
-          typeof(UI.CoriaWidgetContextProvider),
           typeof(te.extension.coria.Plugins.Application.CoriaMapType),
-          typeof(te.extension.coria.Plugins.Content.MapContentType)
-            //typeof(Application.KhartaOntologyType),
-           // typeof(Content.KhartaOntologyType),
-           
+          typeof (Content.MapContentType),
+          typeof (UI.CoriaFactoryDefaultWidgetProvider),
+          typeof (UI.CoriaWidgetContextProvider)
         };
             }
         }

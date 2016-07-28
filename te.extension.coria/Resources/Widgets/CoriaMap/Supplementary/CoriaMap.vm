@@ -1,1 +1,80 @@
-﻿
+﻿#*** variables default settings ***#
+ #set($mappingApiGoogleMaps = 'GoogleMaps')
+ #set($mappingApiMapBox = 'MapBox')
+ #set($mappingApiArcGis = 'ArcGis')
+ #set($mappingApiArcGis4 = 'ArcGis4')
+ #set($mappingApiBase = 'Base')
+ #set($mappingApi = $mappingApiBase)
+ #set($dwidth = '100 %')
+ #set($dheight = '250 px')
+ #set($mapZoomLevel = 0)
+
+ #set($defaultCenterLat = $core_v2_utility.ParseDouble('21.5'))
+ #set($defaultCenterLng = $core_v2_utility.ParseDouble('-158'))
+ 
+ #set($mapMinSWLat = $core_v2_utility.ParseDouble('21.45'))
+ #set($mapMinSWLng = $core_v2_utility.ParseDouble('-158.1'))
+ #set($mapMaxNELat = $core_v2_utility.ParseDouble('21.55'))
+ #set($mapMaxNELng = $core_v2_utility.ParseDouble('-157.9'))
+ #set($mapExtent = [$mapMinSWLat, $mapMinSWLng, $mapMaxNELat, $mapMaxNELng])
+    #*** get map dynamic settings ***#
+ #set($mapZoomLevel = $core_v2_widget.GetIntValue('map_zoom_level', $mapZoomLevel))
+ #set($mapCenterLat = $core_v2_widget.GetDoubleValue('map_center_lat', $defaultCenterLat))
+ #set($mapCenterLng = $core_v2_widget.GetDoubleValue('map_center_lng', $defaultCenterLng)) 
+ 
+    #*** work around reported GetDoubleValue bug ***#
+ ##if(!$mapCenterLat) #set($mapCenterLat = $core_v2_utility.ParseDouble($core_v2_widget.GetStringValue("map_center_lat", '21.5'))) #end
+ ##if(!$mapCenterLng) #set($mapCenterLng = $core_v2_utility.ParseDouble($core_v2_widget.GetStringValue("map_center_lng", '-158'))) #end
+
+ #set($mappingApi = $core_v2_widget.GetStringValue('map_application_type', 'False'))
+ #set($height = $core_v2_widget.GetUnitValue('map_canvas_height', '$defaultHeight' ))
+ #set($width = $core_v2_widget.GetUnitValue('map_canvas_width', '$defaulWidth' ))
+ 
+<style> 
+       .map-canvas img {
+        max-width:none;
+    }
+      
+.esri-display-object svg path{
+    position: absolute;
+    -webkit-box-sizing: unset ;
+    -moz-box-sizing: unset;
+    box-sizing: unset ;
+}
+    .map-canvas {   height: $height; width: $width; }
+</style>
+ <p>$mappingApi map settings and options selected: </p>
+<div id="$core_v2_widget.UniqueId('map-canvas')" class='map-canvas' ></div>
+
+#if($mappingApi == $mappingApiBase)
+
+
+#elseif($mappingApi == $mappingApiMapBox)
+
+    $core_v2_page.AddLink("stylesheet", "https://api.tiles.mapbox.com/mapbox-gl-js/v0.21.0/mapbox-gl.css" , "%{ type='text/css' }")
+    #registerEndOfPageHtml('coria.map.MapBox')
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.21.0/mapbox-gl.js'></script>
+    <script>mapboxgl.accessToken = 'pk.eyJ1IjoicG93ZXJzcGFya3MiLCJhIjoiY2lxZmQzY3Y1MDNpeGZxbTEwcTJvbWdiMCJ9.QU4DwJMcOtjdI9PAmNCaWQ';</script>
+    #end
+    
+#elseif($mappingApi == $mappingApiGoogleMaps)
+
+    #registerEndOfPageHtml('coria.map.GoogleMaps')
+    <script type="text/javascript" src="https://maps.google.com/maps/api/js?v=3.23&client=gme-disaapan&libraries=places"></script>
+    #end
+    #elseif($mappingApi == $mappingApiArcGis)
+	$core_v2_page.AddLink("stylesheet", "https://js.arcgis.com/3.17/esri/css/esri.css" , "%{ type='text/css' }")
+    #registerEndOfPageHtml('coria.map.ArcGis')
+    <script src="https://js.arcgis.com/3.17/"></script>
+    #end
+    
+#elseif($mappingApi == $mappingApiArcGis4)
+
+    $core_v2_page.AddLink("stylesheet", "https://js.arcgis.com/4.0/esri/css/main.css" , "%{ type='text/css' }")
+	#registerEndOfPageHtml('coria.map.ArcGis4')
+	<script src="https://js.arcgis.com/4.0/"></script> 
+	#end
+
+#else
+     $core_v2_widget.Hide()
+#end

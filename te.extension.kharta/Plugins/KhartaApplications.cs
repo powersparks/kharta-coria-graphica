@@ -37,8 +37,8 @@ namespace te.extension.kharta.Plugins
         
      
         #region IPlugin
-        public string Name { get { return "Kharta Coria Graphica"; } }
-        public string Description { get { return "A Telligent friendly tools for creating Lists, Charts & Maps from geospatial sources"; } }
+        public string Name { get { return "Kharta Applications"; } }
+        public string Description { get { return "A Telligent friendly tools to manage geospatial sources, hosting, and transforming data"; } }
         public Guid DataTypeId { get { return ApplicationsType_id; } }
         public void Initialize() {    }
         #region IConfigurablePlugin
@@ -206,9 +206,7 @@ namespace te.extension.kharta.Plugins
             typeof(UI.SourceNewPostLink),
             typeof(UI.SourceGroupNavigation),
             typeof(UI.AdminPanel),
-            typeof(UI.WidgetExtension.OntologyWidgetExtension),
-           typeof (te.extension.coria.Plugins.CoriaApplications),
-           typeof(te.extension.graphica.Plugins.GraphicaApplications)
+            typeof(UI.WidgetExtension.OntologyWidgetExtension) 
             
         };} }
         #endregion

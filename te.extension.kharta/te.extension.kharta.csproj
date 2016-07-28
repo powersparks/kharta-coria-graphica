@@ -100,6 +100,7 @@
     <Compile Include="Plugins\Application\KhartaSourceType.cs" />
     <Compile Include="Plugins\Container\KhartaOntologyType.cs" />
     <Compile Include="Plugins\Content\KhartaOntologyType.cs" />
+    <Compile Include="Plugins\KhartaCoriaGraphicaPluginGroup.cs" />
     <Compile Include="Plugins\REST\KhartaRestEndpoints.cs" />
     <Compile Include="Plugins\UI\AdminPanel\AdminPanel.cs" />
     <Compile Include="Plugins\UI\Navigation\SourceGroupNavigation.cs" />
