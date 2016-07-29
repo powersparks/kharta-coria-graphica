@@ -93,32 +93,32 @@
     <EmbeddedResource Include="Resources\Widgets\CoriaCanvas\CoriaCanvas.xml" />
     <EmbeddedResource Include="Resources\Widgets\CoriaCanvas\Supplementary\CoriaCanvas.css" />
     <EmbeddedResource Include="Resources\Widgets\CoriaCanvas\Supplementary\CoriaCanvas.js" />
-    <EmbeddedResource Include="Resources\Widgets\CoriaMap\CoriaMap.xml" />
-    <EmbeddedResource Include="Resources\Widgets\CoriaMap\Supplementary\CoriaMap.css" />
-    <EmbeddedResource Include="Resources\Widgets\CoriaMap\Supplementary\CoriaMap.js" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaCanvas\Supplementary\CoriaCanvas.vm" />
     <EmbeddedResource Include="Resources\Widgets\CoriaChart\CoriaChart.xml" />
     <EmbeddedResource Include="Resources\Widgets\CoriaChart\Supplementary\CoriaChart.css" />
     <EmbeddedResource Include="Resources\Widgets\CoriaChart\Supplementary\CoriaChart.js" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaChart\Supplementary\CoriaChart.vm" />
     <EmbeddedResource Include="Resources\Widgets\CoriaList\CoriaList.xml" />
     <EmbeddedResource Include="Resources\Widgets\CoriaList\Supplementary\CoriaList.css" />
     <EmbeddedResource Include="Resources\Widgets\CoriaList\Supplementary\CoriaList.js" />
-    <EmbeddedResource Include="Resources\Widgets\CoriaReport\CoriaReport.xml" />
-    <EmbeddedResource Include="Resources\Widgets\CoriaReport\Supplementary\CoriaReport.css" />
-    <EmbeddedResource Include="Resources\Widgets\CoriaReport\Supplementary\CoriaReport.js" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaList\Supplementary\CorialList.vm" />
     <EmbeddedResource Include="Resources\Widgets\CoriaMapApps\CoriaMapApps.xml" />
     <EmbeddedResource Include="Resources\Widgets\CoriaMapApps\Supplementary\CoriaMapApps.css" />
     <EmbeddedResource Include="Resources\Widgets\CoriaMapApps\Supplementary\CoriaMapApps.js" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaMapApps\Supplementary\CoriaMapApps.vm" />
     <Content Include="Resources\Widgets\ExampleKhartaName\ExampleKhartaName.xml" />
     <Content Include="Resources\Widgets\ExampleKhartaName\Supplementary\ExampleKhartaName.css" />
     <Content Include="Resources\Widgets\ExampleKhartaName\Supplementary\ExampleKhartaName.js" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaMap\CoriaMap.xml" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaMap\Supplementary\CoriaMap.css" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaMap\Supplementary\CoriaMap.js" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaMap\Supplementary\CoriaMap.vm" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaReport\CoriaReport.xml" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaReport\Supplementary\CoriaReport.css" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaReport\Supplementary\CoriaReport.js" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaReport\Supplementary\CoriaReport.vm" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Widgets\CoriaCanvas\Supplementary\CoriaCanvas.vm" />
-    <EmbeddedResource Include="Resources\Widgets\CoriaMap\Supplementary\CoriaMap.vm" />
-    <EmbeddedResource Include="Resources\Widgets\CoriaChart\Supplementary\CoriaChart.vm" />
-    <EmbeddedResource Include="Resources\Widgets\CoriaList\Supplementary\CorialList.vm" />
-    <EmbeddedResource Include="Resources\Widgets\CoriaReport\Supplementary\CoriaReport.vm" />
-    <EmbeddedResource Include="Resources\Widgets\CoriaMapApps\Supplementary\CoriaMapApps.vm" />
     <None Include="Resources\Widgets\ExampleKhartaName\Supplementary\ExampleKhartaName.vm" />
   </ItemGroup>
   <ItemGroup>
