@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 using Telligent.Evolution.Extensibility.Content.Version1;
 using Telligent.Evolution.Extensibility.Api.Entities.Version1;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+ 
 using TEApi = Telligent.Evolution.Extensibility.Api.Version1.PublicApi;
- using Telligent.Evolution.Extensibility.Api.Entities.Version1;
+ 
  
 namespace te.extension.coria.PublicApi
 {
