@@ -68,7 +68,7 @@ $core_v2_widget.ApplyTokens($core_v2_widget.GetStringValue('fragmentDescription'
 		<propertyValue value="Base" resourceName="map_application_base" />
     <propertyValue value="MapBox" resourceName="map_application_mapbox" />
 		<propertyValue value="GoogleMaps" resourceName="map_application_googlemaps" />
-    <propertyValue value="ArcGis" resourceName="map_application_arcgis" />
+    <!--propertyValue value="ArcGis" resourceName="map_application_arcgis" /-->
      <propertyValue value="ArcGis4" resourceName="map_application_arcgis4" />
 	</property>
 </propertyGroup>
@@ -88,7 +88,7 @@ $core_v2_widget.ApplyTokens($core_v2_widget.GetStringValue('fragmentDescription'
         <resource name="map_application_mapbox">MapBox (https://www.mapbox.com/)</resource>
         <resource name="map_application_googlemaps">Google Maps (https://googlemaps.com/)</resource>
         <resource name="map_application_arcgis">ArcGis (https://www.arcgis.com/)</resource>
-        <resource name="map_application_arcgis4">ArcGis4 (https://www.arcgis.com/)</resource>
+        <resource name="map_application_arcgis4">ArcGis (https://www.arcgis.com/)</resource>
         <resource name="CF_Description">Widget Description:</resource>
         <resource name="map_center_lng">Longitude (Decimal Degree,  -180 to 180):</resource>
         <resource name="map_center_lat">Latitude (Decimal Degree, -90 to 90):</resource>
