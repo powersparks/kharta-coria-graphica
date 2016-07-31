@@ -17,9 +17,17 @@ namespace te.extension.coria.PublicApi
         private static readonly Guid _contentTypeId = new Guid("8acb93a7-f580-4c23-95c8-98ad8cf94d45");
         public static Guid ContentTypeId { get { return _contentTypeId; } /**internal set { } **/}
 
+        public static bool GoogleMapsApiDefaultUseKeyOrClientId{ get; set; }
+        public static string GoogleMapsApiClientId { get; set; }
+        public static string GoogleMapsApiKey { get; set; }
+        public static string GoogleMapsVersion { get; set; }
+        public static string MapBoxApiAccessToken { get; set; }
+        public static string MapBoxApiSecretAccessToken { get; set; }
+        public static string MapBoxVersion { get; set; }
+        public static string ArcGisVerions { get; set; }
         //private static readonly MapEvents _events = new MapEvents();
 
-       
+
         //create or add Map
 
         //get Map by id

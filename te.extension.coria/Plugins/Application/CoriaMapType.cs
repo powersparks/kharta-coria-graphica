@@ -40,8 +40,11 @@ namespace te.extension.coria.Plugins.Application
             get
             {
                 return new Type[]{
-                  
-                    
+                    typeof(UI.WidgetExtension.MapWidgetExtension),
+                    typeof(Content.MapContentType)
+
+
+
                 };
             }
         }

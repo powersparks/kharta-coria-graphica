@@ -82,12 +82,14 @@
     <Compile Include="Plugins\Application\CoriaMapType.cs" />
     <Compile Include="Plugins\Content\MapContentType.cs" />
     <Compile Include="Plugins\CoriaApplications.cs" />
+    <Compile Include="Plugins\UI\WidgetExtension\MapWidgetExtension.cs" />
     <Compile Include="Plugins\UI\WidgetProviders\CoriaFactoryDefaultWidgetProvider.cs" />
     <Compile Include="Plugins\UI\WidgetProviders\CoriaWidgetContextProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PublicApi\Entity\Map.cs" />
     <Compile Include="PublicApi\Maps.cs" />
     <Compile Include="PublicApi\MapsListOptions.cs" />
+    <Compile Include="WidgetApi\Maps.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Widgets\CoriaCanvas\CoriaCanvas.xml" />
@@ -128,7 +130,6 @@
     <Folder Include="Resources\Pages\" />
     <Folder Include="Resources\Sql\" />
     <Folder Include="RestApi\Entity\" />
-    <Folder Include="WidgetApi\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\kharta.coria.graphica\kharta.coria.graphica.csproj">

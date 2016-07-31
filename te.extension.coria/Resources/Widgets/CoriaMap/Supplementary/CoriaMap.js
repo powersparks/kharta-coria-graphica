@@ -5,9 +5,11 @@
     if (typeof $.coria === 'undefined') { $.coria = {}; }
     if (typeof $.coria.map === 'undefined') { $.coria.map = {}; }
 
+     
     var api = {
 
         register: function (context) {
+            $.coria.map.WidgetIds(context);
             var mapOptions = {
                 mapCanvasId: context.mapCanvasId,
                 lat: context.mapCenterLat,
@@ -16,6 +18,7 @@
                 height: context.height,
                 width: context.width
             };
+
             $('#' + context.mapCanvasId).css('width', context.width);
             $('#' + context.mapCanvasId).css('height', context.height);
             switch (context.mapApi) {
@@ -100,9 +103,29 @@
                 });
             });
 
-        }
+        },
+        WidgetIds: new _widgetIds()
     };
 
     $.coria.map = api;
+
+    function _widgetIds() {
+        var _id = null;
+        var _ids = []
+        var WidgetIds = function (context) {
+            if(!arguments.length){
+                return {
+                    lastId: _id,
+                    ids: _ids
+                };
+            }
+            _id = context.widgetId;
+            _ids.push(context.widgetId);
+            
+        };
+        WidgetIds.lastId = function (value) { if (!arguments.length) return _id; _id = value; return WidgetIds; };
+        WidgetIds.ids = function (value) { if (!arguments.length) return _ids; _ids.push(value); return WidgetIds; };
+        return WidgetIds;
+    }
 
 })(jQuery);

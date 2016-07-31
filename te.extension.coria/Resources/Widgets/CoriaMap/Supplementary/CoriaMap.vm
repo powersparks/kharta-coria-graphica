@@ -22,9 +22,6 @@
  #set($mapCenterLat = $core_v2_widget.GetDoubleValue('map_center_lat', $defaultCenterLat))
  #set($mapCenterLng = $core_v2_widget.GetDoubleValue('map_center_lng', $defaultCenterLng)) 
  
-    #*** work around reported GetDoubleValue bug ***#
- ##if(!$mapCenterLat) #set($mapCenterLat = $core_v2_utility.ParseDouble($core_v2_widget.GetStringValue("map_center_lat", '21.5'))) #end
- ##if(!$mapCenterLng) #set($mapCenterLng = $core_v2_utility.ParseDouble($core_v2_widget.GetStringValue("map_center_lng", '-158'))) #end
 
  #set($mappingApi = $core_v2_widget.GetStringValue('map_application_type', 'False'))
  #set($height = $core_v2_widget.GetUnitValue('map_canvas_height', '$defaultHeight' ))
@@ -50,17 +47,29 @@
 
 
 #elseif($mappingApi == $mappingApiMapBox)
-
-    $core_v2_page.AddLink("stylesheet", "https://api.tiles.mapbox.com/mapbox-gl-js/v0.21.0/mapbox-gl.css" , "%{ type='text/css' }")
+   
+   #set($apiVersion = $coria_v1_maps.MapBoxVersion)
+    $core_v2_page.AddLink("stylesheet", "https://api.tiles.mapbox.com/mapbox-gl-js/$apiVersion/mapbox-gl.css" , "%{ type='text/css' }")
     #registerEndOfPageHtml('coria.map.MapBox')
-    <script src='https://api.mapbox.com/mapbox-gl-js/v0.21.0/mapbox-gl.js'></script>
-    <script>mapboxgl.accessToken = 'pk.eyJ1IjoicG93ZXJzcGFya3MiLCJhIjoiY2lxZmQzY3Y1MDNpeGZxbTEwcTJvbWdiMCJ9.QU4DwJMcOtjdI9PAmNCaWQ';</script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/$apiVersion/mapbox-gl.js'></script>
+    <script>
+        if(typeof mapboxgl === 'undefined'){mapboxgl = {};}
+        mapboxgl.accessToken = '$coria_v1_maps.MapBoxApiAccessToken' ; 
+		 
+        </script>
     #end
     
 #elseif($mappingApi == $mappingApiGoogleMaps)
-
+   #set($apiVersion = $coria_v1_maps.GoogleMapsVersion)
     #registerEndOfPageHtml('coria.map.GoogleMaps')
-    <script type="text/javascript" src="https://maps.google.com/maps/api/js?v=3.23&client=gme-disaapan&libraries=places"></script>
+    #if($coria_v1_maps.GoogleMapsApiDefaultUseClient)
+      #set($defaultName = "client")
+      #set($publicKey = $coria_v1_maps.GoogleMapsApiClientId)
+    #else
+      #set($defaultName = "key")
+      #set($publicKey = $coria_v1_maps.GoogleMapsApiKey)
+    #end
+    <script type="text/javascript" src="https://maps.google.com/maps/api/js?v=$apiVersion&$defaultName=$publicKey&libraries=places"></script>
     #end
     #elseif($mappingApi == $mappingApiArcGis)
 	$core_v2_page.AddLink("stylesheet", "https://js.arcgis.com/3.17/esri/css/esri.css" , "%{ type='text/css' }")
@@ -69,10 +78,14 @@
     #end
     
 #elseif($mappingApi == $mappingApiArcGis4)
-
-    $core_v2_page.AddLink("stylesheet", "https://js.arcgis.com/4.0/esri/css/main.css" , "%{ type='text/css' }")
+#set($apiVersion = $coria_v1_maps.ArcGisVersion)
+    #if($apiVersion == '3.17')
+    	$core_v2_page.AddLink("stylesheet", "https://js.arcgis.com/3.17/esri/css/esri.css" , "%{ type='text/css' }")
+    #else
+        $core_v2_page.AddLink("stylesheet", "https://js.arcgis.com/$apiVersion/esri/css/main.css" , "%{ type='text/css' }")
+	#end
 	#registerEndOfPageHtml('coria.map.ArcGis4')
-	<script src="https://js.arcgis.com/4.0/"></script> 
+	<script src="https://js.arcgis.com/$apiVersion/"></script> 
 	#end
 
 #else
