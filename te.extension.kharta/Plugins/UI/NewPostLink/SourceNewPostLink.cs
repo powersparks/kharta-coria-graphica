@@ -18,7 +18,7 @@ namespace te.extension.kharta.Plugins.UI
 
         public string Name
         {
-            get { return "Group's New Kharta Source"; }
+            get { return "Add Source"; }
         }
 
         public string Description
@@ -39,7 +39,7 @@ namespace te.extension.kharta.Plugins.UI
             get
             {
                 var translation = new Translation("en-US");
-                translation.Set("link_label", "Add a Source");
+                translation.Set("link_label", "Add Source");
 
                 return new Translation[] { translation };
             }
@@ -78,6 +78,7 @@ namespace te.extension.kharta.Plugins.UI
 
         #endregion
 
+        #region Group New Map Link
         public class GroupNewSourceLink : IGroupNewPostLink
         {
             internal GroupNewSourceLink(string label, string url)
@@ -104,5 +105,6 @@ namespace te.extension.kharta.Plugins.UI
 
             #endregion
         }
+        #endregion
     }
 }

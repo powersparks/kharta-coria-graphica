@@ -17,7 +17,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace te.extension.kharta.PublicApi
 {
     public class Source : ApiEntity, IApplication
-    {
+    { 
         InternalApi.KhartaSource _khartaSource = null;
         #region ApiEntity
         public Source() : base() { }

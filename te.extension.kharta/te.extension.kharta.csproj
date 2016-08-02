@@ -94,6 +94,7 @@
     <Compile Include="InternalApi\TransformDataService.cs" />
     <Compile Include="InternalApi\SourceDataService.cs" />
     <Compile Include="InternalApi\Utility\EmbeddedResources.cs" />
+    <Compile Include="Plugins\Content\SourceContentType.cs" />
     <Compile Include="Plugins\KhartaApplications.cs" />
     <Compile Include="Plugins\Application\KhartaHostingType.cs" />
     <Compile Include="Plugins\Application\KhartaOntologyType.cs" />

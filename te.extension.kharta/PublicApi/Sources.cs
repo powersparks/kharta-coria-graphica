@@ -10,7 +10,10 @@ namespace te.extension.kharta.PublicApi
 {
     public class Sources
     {
-        public static Guid ContentTypeId { get; internal set; }
+        private static readonly Guid _contentTypeId = new Guid("9c335c7d-ce69-44fe-ac7a-f86a55689c7b");
+        public static Guid ContentTypeId { get { return _contentTypeId; } /**internal set { } **/}
+
+       
 
         //create or add Source
 
