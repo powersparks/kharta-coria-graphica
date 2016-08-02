@@ -11,4 +11,6 @@ TBC
  TBC
 ### Coria: Concept
 ![Preliminary Concept Design](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/Slide8.png)
+
+ ![KCG Applications and Content Model ](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/codemapC.png )
  
