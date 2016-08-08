@@ -17,6 +17,9 @@ Because KCG plugs into Telligent's Community or "Social" website, a review of Te
 ![Extensibility Model](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/Slide4.png)
 ### Concept of Operation: Between Applications & Content Model
 ![KCG Applications and Content Model ](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/Slide5.png)
+#### Code Map
+This is the current code map based the physical implementation:
+![KCG Applications and Content Model ](https://github.com/powersparks/kharta-coria-graphica/blob/master/codeMapKCG.png)
 ### Geospatial Applications & Content Model: Applications
 ![Preliminary Concept Design](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/Slide6.png)
 ### Kharta: Concept
