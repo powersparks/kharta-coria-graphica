@@ -1,0 +1,78 @@
+﻿<scriptedContentFragments>
+  <scriptedContentFragment 
+    name="${resource:MapBooks_BrowseMapBooks_Name}" 
+    version="9.1.0.768" 
+    description="${resource:MapBooks_BrowseMapBooks_Description}" 
+    instanceIdentifier="887d27c0deb0440db4c87452df690410" 
+    theme="" 
+    isCacheable="true" 
+    varyCacheByUser="true" 
+    showHeaderByDefault="false" 
+    cssClass="browse-maps">
+    <contentScript>
+      <![CDATA[
+$core_v2_ui.PagedContent('CoriaMapBooks.vm')
+		]]>
+    </contentScript>
+    <headerScript>
+      <![CDATA[
+#if($core_v2_widget.GetBoolValue('includeGroupName',false))
+	$core_v2_language.FormatString($core_v2_widget.ApplyTokens($core_v2_widget.GetStringValue('fragmentHeader', '${resource:MapBooks_BrowseMapBooks_Name}')), $core_v2_group.Current.Name)
+#else
+	$core_v2_widget.ApplyTokens($core_v2_widget.GetStringValue('fragmentHeader', '${resource:MapBooks_BrowseMapBooks_Name}'))
+#end
+		]]>
+    </headerScript>
+    <configuration>
+      <![CDATA[
+<propertyGroup id="options" resourceName="Options">
+	<property id="fragmentHeader" resourceName="CF_Title" dataType="string" defaultValue="${resource:MapBooks_BrowseMapBooks_Name}" controlType="Telligent.Evolution.Controls.ContentFragmentTokenStringControl, Telligent.Evolution.Controls" />
+	<property id="showTitleColumn" resourceName="UIFragment_Core_BrowseApplication_ShowTitle_Map" dataType="bool" defaultValue="true" />
+	<property id="showGroupColumn" resourceName="UIFragment_Core_BrowseApplication_ShowGroup_Map" dataType="bool" defaultValue="false" />
+	<property id="showPostsColumn" resourceName="UIFragment_Core_BrowseApplication_ShowPosts" dataType="bool" defaultValue="true" />
+	<property id="showLastPostColumn" resourceName="UIFragment_Core_BrowseApplication_ShowLatest" dataType="bool" defaultValue="true" />
+	<property id="group" resourceName="UIFragment_Core_BrowseApplication_Group" dataType="Custom" defaultValue="Group=-1" controlType="Telligent.Evolution.Controls.GroupSelectionList, Telligent.Evolution.Controls" includeCurrentGroup="true" />
+	<property id="groupAndSubGroups" resourceName="UIFragment_Core_BrowseApplication_GroupAndSubGroups" dataType="bool" defaultValue="false" />
+	<property id="itemsBeforeScroll" resourceName="UIFragment_Core_BrowseApplication_ItemsToShow" dataType="int" defaultValue="">
+		<propertyRule type="Telligent.Evolution.Controls.PropertyRules.MinMaxValueRule, Telligent.Evolution.Controls" minValue="1" maxValue="100" />
+	</property>
+	<property id="defaultSortOrder" resourceName="UIFragment_Core_BrowseApplication_DefaultSortOrder" dataType="string" defaultValue="ApplicationName">
+		<propertyValue value="ApplicationName" resourceName="UIFragment_Core_BrowseApplication_ApplicationName" />
+		<propertyValue value="Posts" resourceName="UIFragment_Core_BrowseApplication_Posts" />
+		<propertyValue value="LastPost" resourceName="UIFragment_Core_BrowseApplication_LastPost" />
+	</property>
+	<property id="includeGroupName" resourceName="UIFragment_Core_BrowseApplication_IncludeGroupName" dataType="bool" defaultValue="false" />
+</propertyGroup>
+		]]>
+    </configuration>
+    <languageResources>
+      <language key="en-us">
+        <resource name="MapBooks_BrowseMapBooks_Name">Map - Browse Maps</resource>
+        <resource name="MapBooks_BrowseMapBooks_Description">Displays a browse control to view all maps on the site.</resource>
+        <resource name="Options">Options</resource>
+        <resource name="CF_Title">Widget Title</resource>
+        <resource name="UIFragment_Core_BrowseApplication_ShowTitle_Map">Show Map Name</resource>
+        <resource name="UIFragment_Core_BrowseApplication_ShowGroup_Map">Show Map Group Name</resource>
+        <resource name="UIFragment_Core_BrowseApplication_ShowPosts">Show Post Count</resource>
+        <resource name="UIFragment_Core_BrowseApplication_ShowLatest">Show Latest Post Date</resource>
+        <resource name="UIFragment_Core_BrowseApplication_GroupAndSubGroups">Show data from Group and all Subgroups</resource>
+        <resource name="UIFragment_Core_BrowseApplication_ItemsToShow">Number of results to display</resource>
+        <resource name="UIFragment_Core_BrowseApplication_DefaultSortOrder">Default Sort Order</resource>
+        <resource name="UIFragment_Core_BrowseApplication_ApplicationName">By name</resource>
+        <resource name="UIFragment_Core_BrowseApplication_Posts">By post count</resource>
+        <resource name="UIFragment_Core_BrowseApplication_LastPost">By last updated date</resource>
+        <resource name="UIFragment_Core_BrowseApplication_IncludeGroupName">Include current group's name in Title (Title must be a formatted string with a {0} placeholder)</resource>
+        <resource name="UIFragment_Core_BrowseApplication_NoResults">No results could be found.</resource>
+        <resource name="UIFragment_Core_BrowseApplication_Group">Filter to Group</resource>
+        <resource name="MapBooks_BrowseMapBooks_Title_BrowseMapsIn">Browse Maps in {0}</resource>
+        <resource name="post_singular">{0} post</resource>
+        <resource name="post_plural">{0} posts</resource>
+        <resource name="Sort_Ascending">Ascending</resource>
+        <resource name="Sort_Descending">Descending</resource>
+        <resource name="LastUpdated">Updated {0}</resource>
+      </language>
+    </languageResources>
+    <files>
+    </files>
+  </scriptedContentFragment>
+</scriptedContentFragments>

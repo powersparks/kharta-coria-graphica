@@ -48,6 +48,7 @@ namespace te.extension.kharta.InternalApi
             }
             return _khSource;
         }
+
         internal static KhartaSource GetSourceApplication(Guid id)
         {
 
@@ -67,6 +68,20 @@ namespace te.extension.kharta.InternalApi
             }
             return _khSource;
         }
+
+        internal static IList<Source> GetGroupSourceApplications(int groupId) {
+            IList<Source> sources = new List<Source>();
+            using (KhartaDataModel dbcontext = new KhartaDataModel())
+            {
+                sources = (from s in dbcontext.Sources
+                            where s.GroupId.Equals(groupId)
+                            select s).ToList();
+            }
+                //IList<Source> sources = new List<Source>();
+            return sources;
+             
+        }
+
         internal static KhartaSource AddUpdateSourceApplication(KhartaSource khartaSource)
         {
             if (khartaSource.Id == 0)

@@ -101,6 +101,7 @@ namespace te.extension.kharta.Plugins.Application
 
         public IList<IApplication> Search(int userId, Guid containerTypeId, Guid containerId, string searchText)
         {
+            
             IList<IApplication> sources = new List<IApplication>();
             return sources;
         }

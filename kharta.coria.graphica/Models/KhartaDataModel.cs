@@ -11,12 +11,12 @@ namespace kharta.coria.graphica.Models
             : base("name=KhartaDataModel")
         {
         }
-        public virtual DbSet<Coria_Map> Coria_Map { get; set; }
+        public virtual DbSet<Map> Maps { get; set; }
         public virtual DbSet<Hosting> Hostings { get; set; }
         public virtual DbSet<Ontology> Ontologies { get; set; }
         public virtual DbSet<Source> Sources { get; set; }
         public virtual DbSet<Transform> Transforms { get; set; }
-
+        public virtual DbSet<MapBook> MapBooks { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
         }

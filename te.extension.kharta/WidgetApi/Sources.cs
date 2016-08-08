@@ -30,7 +30,7 @@ namespace te.extension.kharta.WidgetApi
                 {
                     Guid id;
                     if (Guid.TryParse(sourceId.ToString(), out id))
-                        source = PublicApi.Sources.Get(id);
+                        source = PublicApi.Sources.GetSourceApplication(id);
                 }
 
                 return source;
@@ -93,7 +93,7 @@ namespace te.extension.kharta.WidgetApi
             Guid id
             )
         {
-            return PublicApi.Sources.Get(id);
+            return PublicApi.Sources.GetSourceApplication(id);
         }
 
         [Documentation("Delete a source.")]

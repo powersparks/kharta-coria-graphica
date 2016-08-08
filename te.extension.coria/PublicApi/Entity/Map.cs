@@ -19,14 +19,14 @@ namespace te.extension.coria.PublicApi
 {
     public class Map : ApiEntity
     {
-        private InternalApi.Map _map = null;
+        private InternalApi.CoriaMap _map = null;
 
       
         #region ApiEntity
         public Map() : base() { }
         public Map(AdditionalInfo additionalInfo) : base(additionalInfo) { }
         public Map(IList<Warning> warnings, IList<Error> errors) : base(warnings, errors) { }
-        internal Map(InternalApi.Map map) : base() { _map = map; }
+        internal Map(InternalApi.CoriaMap map) : base() { _map = map; }
         #endregion
 
     }

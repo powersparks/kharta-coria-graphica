@@ -1,0 +1,97 @@
+﻿<scriptedContentFragments>
+  <scriptedContentFragment 
+    name="${resource:Maps_MapTitle_Name}" 
+    version="9.1.0.768" 
+    description="${resource:Maps_MapTitle_Description}" 
+    instanceIdentifier="61e756993e2d4080b03dd9f0b85d7654" 
+    theme="" 
+    isCacheable="true" 
+    varyCacheByUser="false" 
+    showHeaderByDefault="false" 
+    cssClass="map-title">
+    <contentScript>
+      <![CDATA[
+#set($page = $coria_v1_mapUrls.Current)
+#if($page == 'MapPost')
+	  #set($postTitle = false)
+    #set($postTitle = $coria_v1_mapPost.Current.MetaTitle)
+    #if(!$postTitle || $postTitle == '')
+        #set($postTitle = $coria_v1_mapPost.Current.Title)
+    #end
+	#set($title = $postTitle)
+#elseif ($page == 'UserMaps')
+	#set($title = $core_v2_language.FormatString($core_v2_language.GetResource('CF_MapTitle_UsersMapPosts'), $core_v2_user.Current.DisplayName))
+#elseif ($page == 'AddMap')
+	#set($title = $core_v2_language.GetResource('CF_CreateMap'))
+#elseif ($page == 'Day')
+	#set($title = $core_v2_language.FormatDate($core_v2_utility.ParseDate($core_v2_page.GetQueryStringValue('y'), $core_v2_page.GetQueryStringValue('m'), $core_v2_page.GetQueryStringValue('d'))))
+#elseif ($page == 'Month')
+	#set($title = $core_v2_utility.ParseDate( $core_v2_page.GetQueryStringValue("y"), $core_v2_page.GetQueryStringValue("m"), $core_v2_page.GetQueryStringValue('d')).ToString('MMMM, yyyy'))
+#elseif ($page == 'Mappers')
+	#set($title = $core_v2_language.GetResource('Map_Breadcrumbs_Mappers'))
+#elseif ($page == 'Contact')
+	#set($title = $core_v2_language.GetResource('Contact'))
+#elseif ($page == 'About')
+	#set($title = $coria_v1_map.Current.AboutTitle)
+#elseif ($page == 'LinkList')
+	#set($title = $core_v2_language.GetResource('Map_Link_Links'))
+#elseif ($page == 'Tags')
+	#set($title = $core_v2_language.GetResource('TagBrowser_Title'))
+#elseif ($page == 'Search')
+	#set($title = $core_v2_language.GetResource('Search'))
+#elseif ($page == 'CustomPage')
+	#set($title = $core_v2_customPage.Current.Title)
+#end
+#if ($page == 'Map')
+	$core_v2_page.SetTitle('', true, true)
+	#if ($core_v2_widget.GetBoolValue('visible', false))
+		<h1 class="title">$coria_v1_map.Current.Name</h1>
+	#end
+#elseif ($title)
+	$core_v2_page.SetTitle($title, true, true)
+	#if ($core_v2_widget.GetBoolValue('visible', false))
+		<h1 class="title">$title</h1>
+	#end
+#else
+	$core_v2_page.SetTitle($core_v2_language.GetResource('Core_ApplicationNavigation_Maps'), true, true)
+	#if ($core_v2_widget.GetBoolValue('visible', false))
+		<h1 class="title">$core_v2_language.GetResource('Core_ApplicationNavigation_Maps')</h1>
+	#end
+#end
+		]]>
+    </contentScript>
+    <headerScript>
+      <![CDATA[
+$core_v2_widget.ApplyTokens($core_v2_widget.GetStringValue('fragmentHeader', '${resource:Maps_MapTitle_Name}'))
+			]]>
+    </headerScript>
+    <configuration>
+      <![CDATA[
+<propertyGroup id="options" resourceName="Options">
+	<property id="fragmentHeader" resourceName="CF_Title" dataType="string" defaultValue="${resource:Maps_MapTitle_Name}" controlType="Telligent.Evolution.Controls.ContentFragmentTokenStringControl, Telligent.Evolution.Controls" />
+	<property id="visible" resourceName="Title_Visible" dataType="bool" defaultValue="True" />
+</propertyGroup>
+			]]>
+    </configuration>
+    <languageResources>
+      <language key="en-us">
+        <resource name="Maps_MapTitle_Name">Map - Title</resource>
+        <resource name="Maps_MapTitle_Description">Displays the title for map pages.</resource>
+        <resource name="Options">Options</resource>
+        <resource name="CF_Title">Widget Title</resource>
+        <resource name="CF_MapTitle_UsersMapPosts">{0}'s Map Posts</resource>
+        <resource name="CF_CreateMap">Create Map</resource>
+        <resource name="Map_Breadcrumbs_Mappers">Mappers</resource>
+        <resource name="Contact">Contact</resource>
+        <resource name="Map_Link_Links">Links</resource>
+        <resource name="TagBrowser_Title">Browse by Tags</resource>
+        <resource name="Search">Search</resource>
+        <resource name="Core_ApplicationNavigation_Maps">Maps</resource>
+        <resource name="Title_Visible">Show the title in the page</resource>
+      </language>
+    </languageResources>
+    <!--requiredContext>
+      <context id="a4e1c4b7f9ce44eeb558d06fcc50c2cc" />
+    </requiredContext-->
+  </scriptedContentFragment>
+</scriptedContentFragments>

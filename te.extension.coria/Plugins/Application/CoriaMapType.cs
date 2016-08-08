@@ -24,7 +24,8 @@ namespace te.extension.coria.Plugins.Application
     {
         IApplicationStateChanges _applicationState = null;
         public static Guid _applicationTypeId = new Guid("bfdb6103-e8e5-4cbf-8fbf-42dbac4046ef");
-        public static Guid _applicationId = new Guid("7b3cd226-ef49-4aca-94eb-72f1e49f3688");
+        //application id get's set with each new application
+        // public static Guid _applicationId = new Guid("7b3cd226-ef49-4aca-94eb-72f1e49f3688");
         public Guid ApplicationTypeId { get { return _applicationTypeId; } }
 
         public string ApplicationTypeName { get { return "Map Book"; } }
@@ -53,6 +54,7 @@ namespace te.extension.coria.Plugins.Application
 
         public IApplication Get(Guid applicationId)
         {
+            PublicApi.MapBooks.Get(applicationId);
             return null;
         }//return PublicApi.Maps.GetMapApplication(applicationId); }
 
@@ -67,7 +69,7 @@ namespace te.extension.coria.Plugins.Application
 
         public bool CanDelete(int userId, Guid applicationId)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public bool CanSetEnabled(int userId, Guid applicationId)
@@ -77,15 +79,61 @@ namespace te.extension.coria.Plugins.Application
 
         public PropertyGroup[] GetCreateConfiguration(int userId, Guid containerTypeId, Guid containerId)
         {
-            PropertyGroup sourceType = new PropertyGroup("ArcGisServer", "ArcGis Server", 3);
-            sourceType.Properties.Add(new Property("mapServer", "Map Server", PropertyType.String, 1, "Dynamic") { DescriptionText = "Dynamic cached map" });
+            PropertyGroup mapBook = new PropertyGroup("MapBook", "Option", 1);
+            mapBook.Properties.Add(new Property("mapBookName", "Name", PropertyType.String, mapBook.Properties.Count, "Maps") { DescriptionText = "Title of the Map Book" });
+            mapBook.Properties.Add(new Property("mapBookDesc", "Description", PropertyType.String, mapBook.Properties.Count, "a list of maps") { DescriptionText = "Description about the Map Book" });
+            mapBook.Properties.Add(new Property("mapBookAvatarUrl", "Avatar URL", PropertyType.String, mapBook.Properties.Count, "/cfs-filesystemfile/__key/system/images/grid.svg") { DescriptionText = "Map Book Avatar's Url to svg or image" });
+            mapBook.Properties.Add(new Property("mapBookIsEnabled", "Is Enabled", PropertyType.Bool, mapBook.Properties.Count, "true") { DescriptionText = "Map Book is enabled after creating" });
+            mapBook.Properties.Add(new Property("mapBookUrl", "URL name of mapbook", PropertyType.String, mapBook.Properties.Count, "mapbook") { DescriptionText = "URL name of the mapbook" });
 
-            return new PropertyGroup[] { sourceType };
+            Property apiProperty = new Property("defaultApi", "Default Mapping Api", PropertyType.String, 1, "googleMaps") { DescriptionText = "New maps will use this api by default."};
+            apiProperty.SelectableValues.Add(new PropertyValue("none", System.Web.HttpUtility.HtmlEncode("raw information for debugging"), apiProperty.SelectableValues.Count));
+            apiProperty.SelectableValues.Add( new PropertyValue("mapbox", System.Web.HttpUtility.HtmlEncode("Map Box Api"), apiProperty.SelectableValues.Count));
+            apiProperty.SelectableValues.Add(new PropertyValue("googleMaps", System.Web.HttpUtility.HtmlEncode("Google Maps Api"), apiProperty.SelectableValues.Count));
+            apiProperty.SelectableValues.Add(new PropertyValue("arcGis", System.Web.HttpUtility.HtmlEncode("ArcGIS Api"), apiProperty.SelectableValues.Count));
+            mapBook.Properties.Add(apiProperty);
+             
+            return new PropertyGroup[] { mapBook };
         }
+
+        //1) can userId create application? anyone for now
+        //2) what containerTypes are supported? just group containers for now
+        //3) containerId is the group Guid, or any other application that has a nodeId
+        //4) configurationDatabase is the properties set in the panel used to create the application
 
         public IApplication Create(int userId, Guid containerTypeId, Guid containerId, ConfigurationDataBase createConfigurationData)
         {
-            throw new NotImplementedException();
+            
+            foreach (Guid _containerTypeId in ContainerTypes)
+            {
+                //container types for groups is 
+                if (Apis.Get<IGroups>().ContainerTypeId == _containerTypeId)
+                {
+                    int groupId = Apis.Get<IGroups>().Get(containerId).Id.Value;
+                    InternalApi.CoriaMapBook coriaMapBook = new InternalApi.CoriaMapBook();
+                    coriaMapBook.ApplicationId = Guid.NewGuid();
+                    coriaMapBook.ApplicationTypeId = CoriaMapType._applicationTypeId;
+                    coriaMapBook.AvatarUrl = createConfigurationData.GetStringValue("mapBookAvatarUrl", "/cfs-filesystemfile/__key/system/images/grid.svg");
+                    coriaMapBook.Name = createConfigurationData.GetStringValue("mapBookName", "Map Book");
+                    coriaMapBook.GroupId = groupId;
+                    coriaMapBook.IsEnabled = createConfigurationData.GetBoolValue("mapBookIsEnabled", true);
+                    coriaMapBook.Id = 0;
+                    coriaMapBook.OntologyId = 0;
+                    coriaMapBook.Description = createConfigurationData.GetStringValue("mapBookDesc", "a list of maps");
+                    coriaMapBook.Url = createConfigurationData.GetStringValue("mapBookUrl", "mapbook");
+                    //coriaMapBook.SafeName = createConfigurationData.GetStringValue("mapBookUrl", coriaMapBook.ApplicationId.ToString());
+
+                    coriaMapBook = InternalApi.CoriaDataService.CreateUpdateMapBook(coriaMapBook);
+
+                    return PublicApi.MapBooks.Get(coriaMapBook.Id);
+                }
+                if (Apis.Get<IUsers>().ContainerTypeId == _containerTypeId)
+                {
+                    //TODO: implement user's map applications
+                    return null;
+                }
+            }
+            return null;
         }
 
         public void SetEnabled(int userId, Guid applicationId, bool enabled)
@@ -105,8 +153,26 @@ namespace te.extension.coria.Plugins.Application
 
         public IList<IApplication> List(int userId, Guid containerTypeId, Guid containerId)
         {
-            IList<IApplication> maps = new List<IApplication>();
-            return maps;
+            IList<IApplication> mapbooks = new List<IApplication>();
+           // IList<PublicApi.Entity.MapBook> mapbooks = new List<PublicApi.Entity.MapBook>();
+            foreach (Guid _containerTypeId in ContainerTypes)
+            {
+                //container types for groups is 
+                if (Apis.Get<IGroups>().ContainerTypeId == _containerTypeId)
+                {
+                    int groupId = Apis.Get<IGroups>().Get(containerId).Id.Value;
+                     
+                     mapbooks = PublicApi.MapBooks.GetMapBookApplicationsByGroup(groupId);
+                }
+                if (Apis.Get<IUsers>().ContainerTypeId == _containerTypeId)
+                {
+                    //TODO: implement user's map applications
+                    return mapbooks;
+                }
+            }
+
+
+            return mapbooks;//.Cast<IApplication>().ToList(); ;
         }
 
         public IList<IApplication> Search(int userId, Guid containerTypeId, Guid containerId, string searchText)

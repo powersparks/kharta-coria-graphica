@@ -1,0 +1,144 @@
+﻿<scriptedContentFragments>
+  <scriptedContentFragment 
+    name="${resource:MapBooks_MapList_Name}" 
+    version="9.1.0.768" 
+    description="${resource:MapBooks_MapList_Description}" 
+    instanceIdentifier="4602fe83b2154c54b5ab83b466340f54" 
+    theme="" isCacheable="true" 
+    varyCacheByUser="true" 
+    showHeaderByDefault="true" 
+    cssClass="map-list">
+    <contentScript>
+      <![CDATA[
+#if ($coria_v1_mapBook.Current)
+	#if (!$core_v2_user.IsRegistered($core_v2_user.Accessing.Id))
+		#set ($sub = $core_v2_page.GetQueryStringValue('sub'))
+		#if ($sub)
+			#set ($msg = false)
+			#if ($sub.ToLower() == "true")
+				#set ($msg = $core_v2_language.GetResource("MapBook_Subscription_SuccessMessage"))
+			#elseif ($sub.ToLower() == "false")
+				#set ($msg = $core_v2_language.GetResource("MapBook_Unsubscription_SuccessMessage"))
+			#end
+			#if ($msg)
+				#registerEndOfPageHtml()
+					<script type="text/javascript">
+						jQuery(function(j){
+							j.telligent.evolution.notifications.show('$msg', {type: 'success', duration: 10000});
+						});
+					</script>
+				#end
+			#end
+		#end
+	#end
+#end
+$core_v2_ui.PagedContent('CoriaMapList.vm')
+		]]>
+    </contentScript>
+    <headerScript>
+      <![CDATA[
+#set($mapNameResource = $core_v2_language.GetResource('MapBooks_MapList_Name'))
+#set($header = $core_v2_widget.ApplyTokens($core_v2_widget.GetStringValue('fragmentHeader', '${resource:MapBooks_MapList_Name}')))
+#set($currentMapBook = $coria_v1_mapBook.Current)
+#set($DQ = '"')
+#if($currentMapBook && $header == $mapNameResource)
+	#set($header = "<a class=${DQ}internal-link view-application mapBook${DQ} href=${DQ}${core_v2_encoding.HtmlAttributeEncode($currentMapBook.Url)}${DQ}><span></span>${core_v2_encoding.HtmlEncode($currentMapBook.Name)}</a>")
+#end
+#set($userFilterType = $core_v2_widget.GetStringValue("userQueryType", "all"))
+#if($userFilterType == "accessingUser")
+	#set($user = $core_v2_user.Accessing)
+#elseif($userFilterType == "currentUser")
+	#set($user = $core_v2_user.Current)
+#end
+#if($user && $core_v2_user.IsRegistered($user.Id))
+	#set($header = "${header} <a class=${DQ}internal-link rss${DQ} href=${DQ}${core_v2_encoding.HtmlAttributeEncode($core_v2_blogUrls.UserRss($user.Id))}${DQ}><span></span>${core_v2_encoding.HtmlEncode($core_v2_language.GetResource('Rss'))}</a>")
+#end
+$header
+		]]>
+    </headerScript>
+    <configuration>
+      <![CDATA[
+<propertyGroup id="options" resourceName="Options">
+	<property id="fragmentHeader" resourceName="CF_Title" dataType="string" defaultValue="${resource:MapBooks_MapList_Name}" controlType="Telligent.Evolution.Controls.ContentFragmentTokenStringControl, Telligent.Evolution.Controls" />
+	<property id="viewDetail" resourceName="CF_MapList_ViewDetail" dataType="string" defaultValue="list">
+		<propertyValue value="list" resourceName="CF_MapList_ListView" />
+		<propertyValue value="detail" resourceName="CF_MapList_DetailView" />
+	</property>
+	<property id="postSortBy" resourceName="CF_MapList_PostSortBy" dataType="string" defaultValue="MostRecent">
+		<propertyValue value="MostRecent" resourceName="CF_MapList_PostSortBy_MostRecent" />
+		<propertyValue value="MostViewed" resourceName="CF_MapList_PostSortBy_MostViewed" />
+		<propertyValue value="MostComments" resourceName="CF_MapList_PostSortBy_MostComments" />
+	</property>
+	<property id="userQueryType" resourceName="CF_MapList_UserQueryType" dataType="string" defaultValue="all">
+		<propertyValue value="all" resourceName="CF_MapList_UserQueryType_All" />
+		<propertyValue value="accessingUser" resourceName="CF_MapList_UserQueryType_Accessing" />
+		<propertyValue value="currentUser" resourceName="CF_MapList_UserQueryType_Current" />
+	</property>
+	<property id="selectedMapOrGroup" resourceName="CF_Map_SelectGroupAndMap" dataType="custom" controlType="Telligent.Evolution.Maps.Controls.MapSelectionControl, Telligent.Evolution.Maps" width="95%" />
+	<property id="tagsToFilter" resourceName="CF_MapList_TagsToFilter" dataType="string" />
+	<property id="excerptSize" resourceName="CF_MapList_ExcerptSize" dataType="int" defaultValue="420" descriptionResourceName="CF_MapList_ExcerptSize_Description">
+		<propertyRule type="Telligent.Evolution.Controls.PropertyRules.MinMaxValueRule, Telligent.Evolution.Controls" minValue="1" maxValue="10000" />
+	</property>
+	<property id="pageSize" resourceName="CF_MapList_PageSize" dataType="int" defaultValue="25">
+		<propertyRule type="Telligent.Evolution.Controls.PropertyRules.MinMaxValueRule, Telligent.Evolution.Controls" minValue="1" maxValue="100" />
+	</property>
+	<property id="displayPostImage" resourceName="CF_MapList_DisplayPostImage" dataType="bool" defaultValue="true" />
+</propertyGroup>
+		]]>
+    </configuration>
+    <languageResources>
+      <language key="en-us">
+        <resource name="MapBooks_MapList_Name">Map - Post List</resource>
+        <resource name="MapBooks_MapList_Description">Displays a list of blog posts.</resource>
+        <resource name="Options">Options</resource>
+        <resource name="CF_Title">Widget Title</resource>
+        <resource name="CF_MapList_ViewDetail">View Detail</resource>
+        <resource name="CF_MapList_ListView">List View</resource>
+        <resource name="CF_MapList_DetailView">Detail View</resource>
+        <resource name="CF_MapList_PostSortBy">Sort Posts By</resource>
+        <resource name="CF_MapList_PostSortBy_MostRecent">Most Recent</resource>
+        <resource name="CF_MapList_PostSortBy_MostViewed">Most Viewed</resource>
+        <resource name="CF_MapList_PostSortBy_MostComments">Most Comments</resource>
+        <resource name="CF_MapList_UserQueryType">User Query Type</resource>
+        <resource name="CF_MapList_UserQueryType_All">All</resource>
+        <resource name="CF_MapList_UserQueryType_Accessing">The logged in user</resource>
+        <resource name="CF_MapList_UserQueryType_Current">The current user</resource>
+        <resource name="CF_Map_SelectGroupAndMap">Select group/blog to pull content from</resource>
+        <resource name="CF_MapList_TagsToFilter">Tag to filter posts by</resource>
+        <resource name="CF_MapList_ExcerptSize">Excerpt Size</resource>
+        <resource name="CF_MapList_PageSize">Number of posts to display</resource>
+        <resource name="CF_MapList_ExcerptSize_Description">Enter the maximum number of characters to display for post excerpts.</resource>
+        <resource name="Rss">RSS</resource>
+        <resource name="by">by</resource>
+        <resource name="Comments">Comments</resource>
+        <resource name="MapBook_NoPosts_Created">There are no blog posts to show. This could be because there are no posts in this blog or due to a filter.</resource>
+        <resource name="MostRecent">By date</resource>
+        <resource name="MostViews">By view count</resource>
+        <resource name="MostComments">By comment count</resource>
+        <resource name="MapBooks_MapList_Title_Activity">Activity</resource>
+        <resource name="UserMaps_Header_Leader"></resource>
+        <resource name="UserMaps_Header_Trailer">'s Posts</resource>
+        <resource name="more">More</resource>
+        <resource name="cancel">Cancel</resource>
+        <resource name="tags">Tags</resource>
+        <resource name="Sort_Ascending">Ascending</resource>
+        <resource name="Sort_Descending">Descending</resource>
+        <resource name="MapBook_Subscribed">Turn Map notifications off</resource>
+        <resource name="MapBook_Unsubscribed">Turn Map notifications on</resource>
+        <resource name="MapBook_Link_AboutAuthor">About</resource>
+        <resource name="MapBook_Link_Contact">Contact author</resource>
+        <resource name="Subscribe_ByEmail">Subscribe by email</resource>
+        <resource name="MapBook_Subscription_YourSubscribed">Thanks for subscribing, you will receive a confirmation email shortly.</resource>
+        <resource name="MapBook_Subscription_AlreadySubscribed">You're already subscribed, please check your email for a confirmation email.</resource>
+        <resource name="MapBook_Subscription_AlreadyConfirmed">You will receive email notifications when this blog is updated.</resource>
+        <resource name="MapBook_Subscription_SuccessMessage">You have successfully subscribed to receive email updates for this blog.</resource>
+        <resource name="MapBook_Unsubscription_SuccessMessage">You have successfully unsubscribed from updates for this blog.</resource>
+        <resource name="EmailAddress">Email Address</resource>
+        <resource name="MapBook_Subscription_Subscribe">Subscribe</resource>
+        <resource name="CF_MapList_DisplayPostImage">Show Post Thumbnail</resource>
+      </language>
+    </languageResources>
+    <files>
+    </files>
+  </scriptedContentFragment>
+</scriptedContentFragments>

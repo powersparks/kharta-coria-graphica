@@ -33,11 +33,11 @@ namespace te.extension.coria.PublicApi
         //get Map by id
 
         //get Map by Guid
-        public static Map GetMapApplication(Guid applicationId)
+        public static Map GetMap(Guid mapId)
         {
             //CoriaMap coriaMap = new CoriaMap();
             try {
-                InternalApi.Map map = InternalApi.CoriaDataService.GetMapApplication(applicationId);
+                InternalApi.CoriaMap map = InternalApi.CoriaDataService.GetCoriaMap(mapId);
                 if (map == null)
                     return null;
 

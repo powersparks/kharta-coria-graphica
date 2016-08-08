@@ -30,14 +30,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.Entity" />
-    <Reference Include="System.Data.Entity.Design" />
-    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
@@ -77,7 +80,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InternalApi\CoriaDataService.cs" />
-    <Compile Include="InternalApi\Entity\Map.cs" />
+    <Compile Include="InternalApi\Entity\CoriaMap.cs" />
+    <Compile Include="InternalApi\Entity\CoriaMapBook.cs" />
     <Compile Include="InternalApi\Utility\EmbeddedResources.cs" />
     <Compile Include="Plugins\Application\CoriaMapType.cs" />
     <Compile Include="Plugins\Content\MapContentType.cs" />
@@ -87,6 +91,8 @@
     <Compile Include="Plugins\UI\WidgetProviders\CoriaWidgetContextProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PublicApi\Entity\Map.cs" />
+    <Compile Include="PublicApi\Entity\MapBook.cs" />
+    <Compile Include="PublicApi\MapBooks.cs" />
     <Compile Include="PublicApi\Maps.cs" />
     <Compile Include="PublicApi\MapsListOptions.cs" />
     <Compile Include="WidgetApi\Maps.cs" />
@@ -104,10 +110,17 @@
     <EmbeddedResource Include="Resources\Widgets\CoriaList\Supplementary\CoriaList.css" />
     <EmbeddedResource Include="Resources\Widgets\CoriaList\Supplementary\CoriaList.js" />
     <EmbeddedResource Include="Resources\Widgets\CoriaList\Supplementary\CorialList.vm" />
-    <EmbeddedResource Include="Resources\Widgets\CoriaMapApps\CoriaMapApps.xml" />
-    <EmbeddedResource Include="Resources\Widgets\CoriaMapApps\Supplementary\CoriaMapApps.css" />
-    <EmbeddedResource Include="Resources\Widgets\CoriaMapApps\Supplementary\CoriaMapApps.js" />
-    <EmbeddedResource Include="Resources\Widgets\CoriaMapApps\Supplementary\CoriaMapApps.vm" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaMapBooks\CoriaMapBooks.xml" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaMapBooks\Supplementary\CoriaMapBooks.css" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaMapBooks\Supplementary\CoriaMapBooks.js" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaMapBooks\Supplementary\CoriaMapBooks.vm" />
+    <EmbeddedResource Include="Resources\Pages\coria-mapbook-list-Social-Group-Page.xml" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaMapTitle\CoriaMapTitle.xml" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaMapTitle\Supplementary\CoriaMapTitle.css" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaMapTitle\Supplementary\CoriaMapTitle.js" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaMapList\Supplementary\CoriaMapList.css" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaMapList\Supplementary\CoriaMapList.js" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaMapList\CoriaMapList.xml" />
     <Content Include="Resources\Widgets\ExampleKhartaName\ExampleKhartaName.xml" />
     <Content Include="Resources\Widgets\ExampleKhartaName\Supplementary\ExampleKhartaName.css" />
     <Content Include="Resources\Widgets\ExampleKhartaName\Supplementary\ExampleKhartaName.js" />
@@ -121,13 +134,14 @@
     <EmbeddedResource Include="Resources\Widgets\CoriaReport\Supplementary\CoriaReport.vm" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Widgets\CoriaMapTitle\Supplementary\CoriaMapTitle.vm" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaMapList\Supplementary\CoriaMapList.vm" />
     <None Include="Resources\Widgets\ExampleKhartaName\Supplementary\ExampleKhartaName.vm" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\REST\" />
     <Folder Include="Resources\Css\" />
     <Folder Include="Resources\EcmaScript\" />
-    <Folder Include="Resources\Pages\" />
     <Folder Include="Resources\Sql\" />
     <Folder Include="RestApi\Entity\" />
   </ItemGroup>

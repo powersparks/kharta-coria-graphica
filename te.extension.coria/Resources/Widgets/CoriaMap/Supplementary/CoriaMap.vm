@@ -48,26 +48,26 @@
 
 #elseif($mappingApi == $mappingApiMapBox)
    
-   #set($apiVersion = $coria_v1_maps.MapBoxVersion)
+   #set($apiVersion = $coria_v1_map.MapBoxVersion)
     $core_v2_page.AddLink("stylesheet", "https://api.tiles.mapbox.com/mapbox-gl-js/$apiVersion/mapbox-gl.css" , "%{ type='text/css' }")
     #registerEndOfPageHtml('coria.map.MapBox')
     <script src='https://api.mapbox.com/mapbox-gl-js/$apiVersion/mapbox-gl.js'></script>
     <script>
         if(typeof mapboxgl === 'undefined'){mapboxgl = {};}
-        mapboxgl.accessToken = '$coria_v1_maps.MapBoxApiAccessToken' ; 
+        mapboxgl.accessToken = '$coria_v1_map.MapBoxApiAccessToken' ; 
 		 
         </script>
     #end
     
 #elseif($mappingApi == $mappingApiGoogleMaps)
-   #set($apiVersion = $coria_v1_maps.GoogleMapsVersion)
+   #set($apiVersion = $coria_v1_map.GoogleMapsVersion)
     #registerEndOfPageHtml('coria.map.GoogleMaps')
-    #if($coria_v1_maps.GoogleMapsApiDefaultUseClient)
+    #if($coria_v1_map.GoogleMapsApiDefaultUseClient)
       #set($defaultName = "client")
-      #set($publicKey = $coria_v1_maps.GoogleMapsApiClientId)
+      #set($publicKey = $coria_v1_map.GoogleMapsApiClientId)
     #else
       #set($defaultName = "key")
-      #set($publicKey = $coria_v1_maps.GoogleMapsApiKey)
+      #set($publicKey = $coria_v1_map.GoogleMapsApiKey)
     #end
     <script type="text/javascript" src="https://maps.google.com/maps/api/js?v=$apiVersion&$defaultName=$publicKey&libraries=places"></script>
     #end
@@ -78,7 +78,7 @@
     #end
     
 #elseif($mappingApi == $mappingApiArcGis4)
-#set($apiVersion = $coria_v1_maps.ArcGisVersion)
+#set($apiVersion = $coria_v1_map.ArcGisVersion)
     #if($apiVersion == '3.17')
     	$core_v2_page.AddLink("stylesheet", "https://js.arcgis.com/3.17/esri/css/esri.css" , "%{ type='text/css' }")
     #else

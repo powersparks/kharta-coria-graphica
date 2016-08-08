@@ -1,0 +1,141 @@
+﻿#set ($showTitle = $core_v2_widget.GetBoolValue('showTitleColumn', true))
+#set ($showGroup = $core_v2_widget.GetBoolValue('showGroupColumn', false))
+#set ($showPosts = $core_v2_widget.GetBoolValue('showPostsColumn', true))
+#set ($showLastPost = $core_v2_widget.GetBoolValue('showLastPostColumn', true))
+#set ($showSubGroups = $core_v2_widget.GetBoolValue('groupAndSubGroups', false))
+
+#set ($pageIndex = $core_v2_ui.GetCurrentPageIndex())
+#set ($pageSize = $core_v2_widget.GetIntValue('itemsBeforeScroll', 5))
+
+#set ($sortOrder = 'Descending')
+#set ($sortBy = $core_v2_widget.GetStringValue('defaultSortOrder', 'Name'))
+#set ($sortBy = $core_v2_page.GetQueryStringValue('sortBy'))
+#if ($sortBy == 'ApplicationName')
+    #set ($sortBy = 'Name')
+    #set ($sortOrder = 'Ascending')
+#elseif ($sortBy == 'Posts')
+    #set ($sortBy = 'Thread')
+#end
+
+#set ($sortOrder = $core_v2_page.GetQueryStringValue('sortOrder'))
+
+#set($query = "%{IncludeSubGroups = $showSubGroups, PageIndex = $pageIndex, PageSize = $pageSize, SortBy = $sortBy, SortOrder = $sortOrder}")
+#set($group = false)
+#set($group = $core_v2_utility.ParseInt($core_v2_page.ParseQueryString($core_v2_widget.GetCustomValue('group', '')).Value('Group')))
+#if ($group > 0)
+	$query.Add('GroupId', $group)
+#else
+	$query.Add('GroupId', $core_v2_group.Current.Id.ToString())
+#end
+
+
+#set ($mapBooks = $coria_v1_mapBook.List($query))
+
+#if ($mapBooks.TotalCount > $pageSize)
+	<div class="sort" id="$core_v2_encoding.HtmlAttributeEncode($core_v2_widget.UniqueId('sort'))">
+	    <span class="by">
+	        <select class="ui-select" data-querykey="sortBy">
+	            <option value="Name" #if($sortBy == 'Name') selected #end>$core_v2_language.GetResource('UIFragment_Core_BrowseApplication_ApplicationName')</option>
+	            <option value="Thread" #if($sortBy == 'Thread') selected #end>$core_v2_language.GetResource('UIFragment_Core_BrowseApplication_Posts')</option>
+	            <option value="LastPost" #if($sortBy == 'LastPost') selected #end>$core_v2_language.GetResource('UIFragment_Core_BrowseApplication_LastPost')</option>
+	        </select>
+	    </span>
+	    <span class="order">
+	        <select class="ui-select" data-querykey="sortOrder">
+	            <option value="Descending" #if ($sortOrder.ToLower() == 'descending') selected #end>$core_v2_language.GetResource('Sort_Descending')</option>
+	            <option value="Ascending" #if ($sortOrder.ToLower() == 'ascending') selected #end>$core_v2_language.GetResource('Sort_Ascending')</option>
+	        </select>
+	    </span>
+	</div>
+
+	#registerEndOfPageHtml()
+	    <script type="text/javascript">
+	    jQuery(function(j){
+	        var sort = j('#$core_v2_encoding.JavascriptEncode($core_v2_widget.UniqueId('sort'))');
+	        sort.on('change', 'select', function(e) {
+	            var select = j(this), hashAdjustment = {};
+	            hashAdjustment[select.data('querykey')] = select.val();
+	            j.telligent.evolution.url.hashData(hashAdjustment, {
+	                prefix: '$core_v2_encoding.JavascriptEncode($core_v2_ui.PageIndexQueryStringKey)'
+	            });
+	        });
+	    });
+	    </script>
+	#end
+#end
+
+#foreach($mapBook in $mapBooks)
+#beforeall
+    <ul class="content-list content simple margin-bottom">
+#each
+        <li class="content-item">
+            <div class="content abbreviated">
+		#set($uniqueAuthors = "%{}")
+		#set($authorCount = 0)
+		#foreach($map in $coria_v1_map.List("%{MapBookId=$mapBook.Id,PageIndex=0,PageSize=20,SortBy='MostRecent',SortOrder='Descending'}"))
+			#beforeall
+				<div class="thumbnails">
+			#each
+				#if ($authorCount < 5 && !$uniqueAuthors.Contains($map.Author.Id))
+					<span class="thumbnail ui-tip" title="$map.Author.DisplayName">
+						#if ($map.Author.ProfileUrl)
+							<a class="internal-link view-user-profile" href="$core_v2_encoding.HtmlAttributeEncode($map.Author.ProfileUrl)">
+								$core_v2_ui.GetResizedImageHtml($map.Author.AvatarUrl, 44, 44, "%{border='0px', alt=$map.Author.DisplayName, ResizeMethod = 'ZoomAndCrop' }")
+							</a>
+						#else
+							$core_v2_ui.GetResizedImageHtml($map.Author.AvatarUrl, 44, 44, "%{border='0px', alt=$map.Author.DisplayName, ResizeMethod = 'ZoomAndCrop' }")
+						#end
+					</span>
+					$uniqueAuthors.Add($map.Author.Id, true)
+					#set($authorCount = $authorCount + 1)
+				#end
+			#afterall
+				</div>
+		#end
+                <h3 class="name">
+                	#if($showGroup)
+                		<a class="internal-link view-application" href="$core_v2_encoding.HtmlAttributeEncode($mapBook.Group.Url)">$mapBook.Group.Name: </a>
+                	#end
+                	#if($showTitle)
+                		<a class="internal-link view-application" href="$core_v2_encoding.HtmlAttributeEncode($mapBook.Url)">$mapBook.Name</a>
+                	#end
+                </h3>
+		#if($mapBook.Description)
+                	<div class="content">$mapBook.Description</div>
+                #end
+                <div class="attributes">
+                    <ul class="attribute-list">
+						#if($showPosts || $showLastPost)
+							#set($pages = $coria_v1_map.List("%{MapBookId=$mapBook.Id,PageIndex=0,PageSize=1}"))
+						#end
+						#if($showPosts)
+                        	<li class="attribute-item">
+                        		<span class="attribute-value">
+	                        		#if ($pages.TotalCount == 1)
+	                        			$core_v2_language.FormatString($core_v2_language.GetResource('post_singular'), $pages.TotalCount.ToString("#,#0"))
+	                        		#else
+	                        			$core_v2_language.FormatString($core_v2_language.GetResource('post_plural'), $pages.TotalCount.ToString("#,#0"))
+	                        		#end
+                        		</span>
+                        	</li>
+						#end
+                        #if ($showLastPost)
+                            <li class="attribute-item">
+                                <span class="attribute-value">
+                                    #if($pages.TotalCount > 0)
+                                        $core_v2_language.FormatString($core_v2_language.GetResource('LastUpdated'), $core_v2_language.FormatAgoDate($mapBook.LatestPostDate))
+                                    #end
+					           </span>
+				            </li>
+			             #end
+                    </ul>
+                </div>
+            </div>
+        </li>
+#afterall
+    </ul>
+#nodata
+    <div class="message norecords">$core_v2_language.GetResource('UIFragment_Core_BrowseApplication_NoResults')</div>
+#end
+
+$core_v2_ui.Pager($mapBooks.PageIndex, $mapBooks.PageSize, $mapBooks.TotalCount, "%{ PagedContentFile = 'CoriaMapBooks.vm', LoadingIndicator = 'true', LoadOnAnyHashChange = 'true' }")

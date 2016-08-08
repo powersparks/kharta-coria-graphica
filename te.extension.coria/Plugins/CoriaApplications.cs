@@ -25,6 +25,7 @@ using UIApi = Telligent.Evolution.Extensibility.UI.Version1;
 
 namespace te.extension.coria.Plugins
 {
+    
     public class CoriaApplications : IPlugin, IInstallablePlugin, IPluginGroup, IConfigurablePlugin //IPlugin, IConfigurablePlugin, IRequiredConfigurationPlugin, IInstallablePlugin, IPluginGroup, IApplicationNavigable, INavigable, ITranslatablePlugin, IPermissionRegistrar, ICategorizedPlugin
     {
         private static readonly Version _emptyVersion = new Version(0, 0, 0, 0);
@@ -87,7 +88,9 @@ namespace te.extension.coria.Plugins
             UIApi.FactoryDefaultScriptedContentFragmentProviderFiles.DeleteAllFiles(_widgetProvider);
 
             var definitionFilesSources = new string[] {
-                "CoriaMap/CoriaMap.xml"
+                "CoriaMap/CoriaMap.xml",
+                "CoriaMapBooks/CoriaMapBooks.xml",
+                "CoriaMapTitle/CoriaMapTitle.xml"
             };
 
             foreach (var definitionFile in definitionFilesSources)
@@ -104,6 +107,17 @@ namespace te.extension.coria.Plugins
                 "CoriaMap/Supplementary/CoriaMap.css",
                 "CoriaMap/Supplementary/CoriaMap.vm",
             };
+            supplementaryFiles[new Guid("887d27c0-deb0-440d-b4c8-7452df690410")] = new string[] {
+                "CoriaMapBooks/Supplementary/CoriaMapBooks.js",
+                "CoriaMapBooks/Supplementary/CoriaMapBooks.css",
+                "CoriaMapBooks/Supplementary/CoriaMapBooks.vm",
+            };
+            supplementaryFiles[new Guid("61e75699-3e2d-4080-b03d-d9f0b85d7654")] = new string[] {
+                "CoriaMapTitle/Supplementary/CoriaMapTitle.js",
+                "CoriaMapTitle/Supplementary/CoriaMapTitle.css",
+                "CoriaMapTitle/Supplementary/CoriaMapTitle.vm",
+            };
+            //4602fe83-b215-4c54-b5ab-83b466340f54
             foreach (var instanceId in supplementaryFiles.Keys)
             {
                 foreach (var relativePath in supplementaryFiles[instanceId])
@@ -118,8 +132,28 @@ namespace te.extension.coria.Plugins
 
             #endregion
             #endregion
+            #region Install Pages
+            //string pageName = "";
+            //int id = 1;
+            //bool isCustom = false;
+            //Guid themeTypeId = new Guid();
+            //Guid themeContextId = new Guid("47bec3c6-b081-4f36-8812-e42953ef133b");
+            // ContentFragmentPage page = new ContentFragmentPage(pageName,id,isCustom,themeTypeID, themeContextID);
+            //var tabs = page.GetContentFragmentTabs();
+            //ContentFragmentTab item = new ContentFragmentTab(page, 1);
 
-          
+            XmlDocument xml;
+            foreach (var theme in UIApi.Themes.List(UIApi.ThemeTypes.Group))
+            {
+                xml = new XmlDocument();
+                xml.LoadXml(InternalApi.Utility.EmbeddedResources.GetString("te.extension.coria.Resources.Pages.coria-mapbook-list-Social-Group-Page.xml"));
+                UIApi.ThemePages.AddUpdateFactoryDefault(theme, xml.SelectSingleNode("theme/contentFragmentPages/contentFragmentPage"));
+
+                UIApi.ThemePages.DeleteDefault(theme, "map-booklist", true);
+            }
+            #endregion
+
+
 
         }
         public void Uninstall()
@@ -132,7 +166,13 @@ namespace te.extension.coria.Plugins
             #endregion
 
             #region Remove Page files
-             
+            foreach (var theme in UIApi.Themes.List(UIApi.ThemeTypes.Group))
+            {
+                UIApi.ThemePages.DeleteFactoryDefault(theme, "map-booklist", true);
+                UIApi.ThemePages.DeleteDefault(theme, "map-booklist", true);
+                UIApi.ThemePages.Delete(theme, "map-booklist", true);
+
+            }
             #endregion
         }
         #endregion

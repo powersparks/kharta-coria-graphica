@@ -54,9 +54,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core.cs" />
-    <Compile Include="Models\Coria_Map.cs" />
+    <Compile Include="Models\Map.cs" />
     <Compile Include="Models\Hosting.cs" />
     <Compile Include="Models\KhartaDataModel.cs" />
+    <Compile Include="Models\MapBook.cs" />
     <Compile Include="Models\Ontology.cs" />
     <Compile Include="Models\Source.cs" />
     <Compile Include="Models\Transform.cs" />

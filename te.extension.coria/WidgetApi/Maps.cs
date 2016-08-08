@@ -14,7 +14,7 @@ namespace te.extension.coria.WidgetApi
     public class Maps
     {
 
-        [Documentation("The content type identifier for sources.")]
+        [Documentation("The content type identifier for maps.")]
         public Guid ContentTypeId { get { return PublicApi.Maps.ContentTypeId; } }
         [Documentation("Google Maps Api Default Use: True, use 'client'. False, use 'key'.")]
         public bool GoogleMapsApiDefaultUseClient { get { return PublicApi.Maps.GoogleMapsApiDefaultUseKeyOrClientId; } }
@@ -31,27 +31,27 @@ namespace te.extension.coria.WidgetApi
         [Documentation("ArcGIS API Version, ex. 4.0")]
         public string ArcGisVersion { get { return PublicApi.Maps.ArcGisVerions; } }
        
-        [Documentation("The current contextual source.")]
+        [Documentation("The current contextual map.")]
         public PublicApi.Map Current
         {
             get
             {
-                PublicApi.Map source = null;
+                PublicApi.Map map = null;
 
-                var sourceId = TEApi.Url.CurrentContext.GetTokenValue("MapId");
+                var mapId = TEApi.Url.CurrentContext.GetTokenValue("MapId");
 
-                if (sourceId != null)
+                if (mapId != null)
                 {
                     Guid id;
-                    if (Guid.TryParse(sourceId.ToString(), out id))
-                        source = PublicApi.Maps.Get(id);
+                    if (Guid.TryParse(mapId.ToString(), out id))
+                        map = PublicApi.Maps.Get(id);
                 }
 
-                return source;
+                return map;
             }
         }
 
-        [Documentation("List sources within a group.")]
+        [Documentation("List maps within a group.")]
         public PagedList<PublicApi.Map> List(
             [Documentation("The group identifier.")]
             int groupId
@@ -60,7 +60,7 @@ namespace te.extension.coria.WidgetApi
             return List(groupId, null);
         }
 
-        [Documentation("List sources within a group.")]
+        [Documentation("List maps within a group.")]
         public PagedList<PublicApi.Map> List(
             [Documentation("The group identifier.")]
             int groupId,
@@ -68,7 +68,7 @@ namespace te.extension.coria.WidgetApi
             Documentation(Name="IncludeSubGroups", Type = typeof(bool), Default = false),
             Documentation(Name="AuthorUserId", Type = typeof(int), Description = "UserId of Author"),
             Documentation(Name="PageIndex", Type = typeof(int), Default = 0, Description = "The page index."),
-            Documentation(Name="PageSize", Type=typeof(int), Default=20, Description="The number of sources to return in a single page."),
+            Documentation(Name="PageSize", Type=typeof(int), Default=20, Description="The number of maps to return in a single page."),
             Documentation(Name="SortBy", Type=typeof(string), Default="Date", Description="The sorting mechanism. ToppMapsScore does not support IncludeSubGroups or AuthorUserId options.", Options=new string[] { "Date", "TopMapsScore" }),
             Documentation(Name="SortOrder", Type = typeof(string), Options = new string[] { "ascending", "descending" }, Default="descending")
             ]
@@ -101,43 +101,43 @@ namespace te.extension.coria.WidgetApi
             return PublicApi.Maps.List(groupId, query);
         }
 
-        [Documentation("Get a source.")]
+        [Documentation("Get a map.")]
         public PublicApi.Map Get(
-            [Documentation("The source's identifier.")]
+            [Documentation("The map's identifier.")]
             Guid id
             )
         {
             return PublicApi.Maps.Get(id);
         }
 
-        [Documentation("Delete a source.")]
+        [Documentation("Delete a map.")]
         public AdditionalInfo Delete(
-            [Documentation("The source's identifier.")]
+            [Documentation("The map's identifier.")]
             Guid id
             )
         {
             return PublicApi.Maps.Delete(id);
         }
 
-        [Documentation("Create a new source.")]
+        [Documentation("Create a new map.")]
         public PublicApi.Map Create(
-            [Documentation("The identifier of the group in which to create the source.")]
+            [Documentation("The identifier of the group in which to create the map.")]
             int groupId,
-            [Documentation("The name of the new source.")]
+            [Documentation("The name of the new map.")]
             string name
             )
         {
             return Create(groupId, name, null);
         }
 
-        [Documentation("Create a new source.")]
+        [Documentation("Create a new map.")]
         public PublicApi.Map Create(
-            [Documentation("The identifier of the group in which to create the source.")]
+            [Documentation("The identifier of the group in which to create the map.")]
             int groupId,
-            [Documentation("The name of the new source.")]
+            [Documentation("The name of the new map.")]
             string name,
             [
-                Documentation(Name="Description", Type=typeof(string), Description="The description of the source.")
+                Documentation(Name="Description", Type=typeof(string), Description="The description of the map.")
                   ]
             IDictionary options)
         {
@@ -153,13 +153,13 @@ namespace te.extension.coria.WidgetApi
             return PublicApi.Maps.Create(groupId, name, description);
         }
 
-        [Documentation("Update an existing source.")]
+        [Documentation("Update an existing map.")]
         public PublicApi.Map Update(
-            [Documentation("The identifier of the source to update.")]
+            [Documentation("The identifier of the map to update.")]
             Guid id,
             [
-                Documentation(Name="Description", Type=typeof(string), Description="The description of the source."),
-                Documentation(Name = "Name", Type = typeof(string), Description = "The name of the source.")]
+                Documentation(Name="Description", Type=typeof(string), Description="The description of the map."),
+                Documentation(Name = "Name", Type = typeof(string), Description = "The name of the map.")]
             IDictionary options
             )
         {
@@ -178,7 +178,7 @@ namespace te.extension.coria.WidgetApi
             return PublicApi.Maps.Update(id, name, description);
         }
 
-        [Documentation("Identifies if the accessing user can create a source in the given group.")]
+        [Documentation("Identifies if the accessing user can create a map in the given group.")]
         public bool CanCreate(int groupId)
         {
             return PublicApi.Maps.CanCreate(groupId);
@@ -186,32 +186,32 @@ namespace te.extension.coria.WidgetApi
 
 
 
-        [Documentation("Identifies if the accessing user can edit the given source.")]
-        public bool CanEdit(Guid sourceId)
+        [Documentation("Identifies if the accessing user can edit the given map.")]
+        public bool CanEdit(Guid mapId)
         {
-            return PublicApi.Maps.CanEdit(sourceId);
+            return PublicApi.Maps.CanEdit(mapId);
         }
 
-        [Documentation("Identifies if the accessing user can delete the given source.")]
-        public bool CanDelete(Guid sourceId)
+        [Documentation("Identifies if the accessing user can delete the given map.")]
+        public bool CanDelete(Guid mapId)
         {
-            return PublicApi.Maps.CanDelete(sourceId);
+            return PublicApi.Maps.CanDelete(mapId);
         }
 
-        [Documentation("Renders the source user interface.")]
+        [Documentation("Renders the map user interface.")]
         public string UI(
-            Guid sourceId
+            Guid mapId
             )
         {
-            return UI(sourceId, null);
+            return UI(mapId, null);
         }
 
-        [Documentation("Renders the source user interface.")]
+        [Documentation("Renders the map user interface.")]
         public string UI(
-            Guid sourceId,
+            Guid mapId,
             [
                 Documentation(Name="ReadOnly", Type=typeof(bool), Description="When true, the UI does not support interactions/voting.", Default=false),
-                Documentation(Name="ShowNameAndDescription", Type=typeof(bool), Description="When true, the UI includes the name and description of the source.", Default=true)
+                Documentation(Name="ShowNameAndDescription", Type=typeof(bool), Description="When true, the UI includes the name and description of the map.", Default=true)
             ]
             IDictionary options
             )
@@ -228,7 +228,7 @@ namespace te.extension.coria.WidgetApi
                     showNameAndDescription = Convert.ToBoolean(options["ShowNameAndDescription"]);
             }
 
-            return PublicApi.Maps.UI(sourceId, readOnly, showNameAndDescription);
+            return PublicApi.Maps.UI(mapId, readOnly, showNameAndDescription);
         }
     }
 }

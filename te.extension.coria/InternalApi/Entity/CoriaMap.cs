@@ -11,7 +11,7 @@ using Telligent.Evolution.Extensibility.Content.Version1;
 
 namespace te.extension.coria.InternalApi 
 {
-    internal class Map : kcgModels.Coria_Map
+    internal class CoriaMap : kcgModels.Map
     {
     }
 }

@@ -6,7 +6,7 @@ namespace kharta.coria.graphica.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Coria_Map
+    public partial class Map
     {
         [Key]
         [Column(Order = 0)]
