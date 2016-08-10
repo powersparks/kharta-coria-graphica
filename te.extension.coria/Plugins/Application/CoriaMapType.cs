@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.Web; 
+
 using Telligent.DynamicConfiguration.Components;
 using Telligent.Evolution.Components;
 using Telligent.Evolution.Extensibility.Api.Entities.Version1;
@@ -17,10 +19,11 @@ using Telligent.Evolution.Urls.Routing;
 using Permission = Telligent.Evolution.Extensibility.Security.Version1.Permission;
 using InteralApi = te.extension.coria.InternalApi;
 using Telligent.Evolution.Extensibility;
+using UIApi = Telligent.Evolution.Extensibility.UI.Version1;
 
 namespace te.extension.coria.Plugins.Application
 {
-    public class CoriaMapType : IPlugin, IApplicationType, IPluginGroup, IManageableApplicationType, IQueryableApplicationType
+    public class CoriaMapType : IPlugin, IApplicationType, IPluginGroup, IApplicationNavigable, IManageableApplicationType, IQueryableApplicationType
     {
         IApplicationStateChanges _applicationState = null;
         public static Guid _applicationTypeId = new Guid("bfdb6103-e8e5-4cbf-8fbf-42dbac4046ef");
@@ -42,6 +45,7 @@ namespace te.extension.coria.Plugins.Application
             {
                 return new Type[]{
                     typeof(UI.WidgetExtension.MapWidgetExtension),
+                    typeof(UI.WidgetExtension.MapBookWidgetExtension),
                     typeof(Content.MapContentType)
 
 
@@ -54,8 +58,8 @@ namespace te.extension.coria.Plugins.Application
 
         public IApplication Get(Guid applicationId)
         {
-            PublicApi.MapBooks.Get(applicationId);
-            return null;
+            return PublicApi.MapBooks.Get(applicationId);
+             
         }//return PublicApi.Maps.GetMapApplication(applicationId); }
 
         public void Initialize() {   }
@@ -143,7 +147,10 @@ namespace te.extension.coria.Plugins.Application
 
         public void Delete(int userId, Guid applicationId)
         {
-            throw new NotImplementedException();
+            //TODO: canDelete(userId)
+            InternalApi.CoriaMapBook mapbook = new InteralApi.CoriaMapBook();
+            mapbook.ApplicationId = applicationId;
+            InternalApi.CoriaDataService.DeleteCoriaMapBookApplication(mapbook);
         }
 
         public bool CanEdit(int userID, Guid applicationId)
@@ -179,6 +186,54 @@ namespace te.extension.coria.Plugins.Application
         {
             IList<IApplication> maps = new List<IApplication>();
             return maps;
+        }
+
+
+        #endregion
+        #region IApplicationNavigable
+        Guid IApplicationNavigable.ApplicationTypeId
+        {
+            get { return TEApi.Groups.ApplicationTypeId; }
+        }
+        public void RegisterUrls(IUrlController controller)
+        {
+            //var mapBookAction = new Action<HttpContextBase, PageContext>(MapBookAction);
+            controller.AddPage("MapBookList", "maps/{mapbook}", new Telligent.Evolution.Urls.Routing.NotSiteRootRouteConstraint(), null, "mapbooklist", new PageDefinitionOptions()
+            {
+                //ForceLowercaseUrl= true,
+                //HasApplicationContext = true,
+                //ParseContext = new Action<PageContext>(this.ParseMapBookContext) 
+                //Validate = new Action<PageContext, IUrlAccessController>(Validate)
+            });
+
+
+        }
+
+        private void MapBookAction(HttpContextBase arg1, PageContext arg2)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void ParseMapBookContext(PageContext pageContext)
+        {
+            string maps = pageContext.GetTokenValue("maps") as string;
+            if (!string.IsNullOrEmpty(maps))
+            {
+                ContextItem contextItem = new ContextItem()
+                {
+                    //ApplicationId = forum.ApplicationId,
+                    //ApplicationTypeId = TEApi.Forums.ApplicationTypeId,
+                    //ContainerId = forum.Container.ContainerId,
+                    //ContainerTypeId = forum.Container.ContainerTypeId,
+                    //ContentId = forum.ContentId,
+                    //ContentTypeId = TEApi.Forums.ContentTypeId,
+                    //Id = forum.Id.ToString(),
+                    TypeName = this.ApplicationTypeName
+
+                    };
+               pageContext.ContextItems.Put(contextItem);
+                 
+            }
         }
         #endregion
     }

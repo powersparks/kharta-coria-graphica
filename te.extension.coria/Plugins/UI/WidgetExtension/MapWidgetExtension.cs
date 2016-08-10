@@ -20,7 +20,7 @@ namespace te.extension.coria.Plugins.UI.WidgetExtension
     {
         public string Name { get { return "Coria Map Widget Extension(coria_v1_mapBook)"; } }
         public string Description { get { return "Widget API Extension for working with coria map books"; } }
-        public object Extension { get { return new WidgetApi.Maps(); } }
+        public object Extension { get { return new WidgetApi.MapBooks(); } }
         public string ExtensionName { get { return "coria_v1_mapBook"; } }
         public void Initialize() { }
     }

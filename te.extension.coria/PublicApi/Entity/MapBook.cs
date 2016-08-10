@@ -16,7 +16,7 @@ using kcgModels = kharta.coria.graphica.Models;
 using System.ComponentModel.DataAnnotations;
 using te.extension.coria.InternalApi;
 
-namespace te.extension.coria.PublicApi.Entity
+namespace te.extension.coria.PublicApi
 {
     public class MapBook: ApiEntity, IApplication
     {
@@ -32,6 +32,7 @@ namespace te.extension.coria.PublicApi.Entity
         #endregion
         
         #region IApplication
+        public string Name { get { return _mapbook.Name; } }
         public Guid ApplicationId { get { return _mapbook.ApplicationId; } }
 
         public Guid ApplicationTypeId { get { return _mapbook.ApplicationTypeId.Value; } }
@@ -51,6 +52,14 @@ namespace te.extension.coria.PublicApi.Entity
                 return Apis.Get<IGroups>().Root;
             }
         }
+
+        internal static MapBook Get(int groupId, string mapBookName)
+        {
+            MapBook mapbook = new MapBook();
+            mapbook = CoriaDataService.GetMapBookApplicationsByGroup(groupId, mapBookName);
+            return mapbook;
+        }
+
         public bool IsEnabled { get { return _mapbook.IsEnabled != null ? _mapbook.IsEnabled.Value : false; } }
 
         public string Url { get { return _mapbook.Url; } }

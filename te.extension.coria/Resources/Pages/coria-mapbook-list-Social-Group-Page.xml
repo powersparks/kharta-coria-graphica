@@ -2,8 +2,8 @@
 
   <contentFragmentPages>
     <contentFragmentPage 
-      pageName="map-booklist" 
-      isCustom="true" 
+      pageName="mapbooklist" 
+      isCustom="false" 
       layout="Content" 
       themeType="c6108064-af65-11dd-b074-de1a56d89593" 
       title="Maps Home">

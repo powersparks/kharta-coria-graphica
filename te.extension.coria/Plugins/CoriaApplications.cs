@@ -149,7 +149,7 @@ namespace te.extension.coria.Plugins
                 xml.LoadXml(InternalApi.Utility.EmbeddedResources.GetString("te.extension.coria.Resources.Pages.coria-mapbook-list-Social-Group-Page.xml"));
                 UIApi.ThemePages.AddUpdateFactoryDefault(theme, xml.SelectSingleNode("theme/contentFragmentPages/contentFragmentPage"));
 
-                UIApi.ThemePages.DeleteDefault(theme, "map-booklist", true);
+                UIApi.ThemePages.DeleteDefault(theme, "mapbooklist", true);
             }
             #endregion
 
@@ -168,9 +168,10 @@ namespace te.extension.coria.Plugins
             #region Remove Page files
             foreach (var theme in UIApi.Themes.List(UIApi.ThemeTypes.Group))
             {
-                UIApi.ThemePages.DeleteFactoryDefault(theme, "map-booklist", true);
-                UIApi.ThemePages.DeleteDefault(theme, "map-booklist", true);
-                UIApi.ThemePages.Delete(theme, "map-booklist", true);
+            
+                UIApi.ThemePages.DeleteFactoryDefault(theme, "mapbooklist", true);
+                UIApi.ThemePages.DeleteDefault(theme, "mapbooklist", true);
+                UIApi.ThemePages.Delete(theme, "mapbooklist", true);
 
             }
             #endregion

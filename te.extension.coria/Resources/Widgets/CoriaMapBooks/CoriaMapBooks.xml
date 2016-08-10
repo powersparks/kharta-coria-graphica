@@ -16,7 +16,7 @@ $core_v2_ui.PagedContent('CoriaMapBooks.vm')
     </contentScript>
     <headerScript>
       <![CDATA[
-#if($core_v2_widget.GetBoolValue('includeGroupName',false))
+#if($core_v2_widget.GetBoolValue('includeGroupName',true))
 	$core_v2_language.FormatString($core_v2_widget.ApplyTokens($core_v2_widget.GetStringValue('fragmentHeader', '${resource:MapBooks_BrowseMapBooks_Name}')), $core_v2_group.Current.Name)
 #else
 	$core_v2_widget.ApplyTokens($core_v2_widget.GetStringValue('fragmentHeader', '${resource:MapBooks_BrowseMapBooks_Name}'))
