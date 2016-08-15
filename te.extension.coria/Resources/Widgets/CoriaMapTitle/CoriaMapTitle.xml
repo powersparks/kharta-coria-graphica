@@ -42,9 +42,9 @@
 #elseif ($page == 'CustomPage')
 	#set($title = $core_v2_customPage.Current.Title)
 #end
-#if ($page == 'Map')
-	$core_v2_page.SetTitle('', true, true)
-	#if ($core_v2_widget.GetBoolValue('visible', false))
+#if ($page == 'MapBook')
+	$core_v2_page.SetTitle('Map Book:', true, true)
+	#if ($core_v2_widget.GetBoolValue('visible', true))
 		<h1 class="title">$coria_v1_map.Current.Name</h1>
 	#end
 #elseif ($title)
@@ -54,7 +54,7 @@
 	#end
 #else
 	$core_v2_page.SetTitle($core_v2_language.GetResource('Core_ApplicationNavigation_Maps'), true, true)
-	#if ($core_v2_widget.GetBoolValue('visible', false))
+	#if ($core_v2_widget.GetBoolValue('visible', true))
 		<h1 class="title">$core_v2_language.GetResource('Core_ApplicationNavigation_Maps')</h1>
 	#end
 #end
@@ -69,7 +69,7 @@ $core_v2_widget.ApplyTokens($core_v2_widget.GetStringValue('fragmentHeader', '${
       <![CDATA[
 <propertyGroup id="options" resourceName="Options">
 	<property id="fragmentHeader" resourceName="CF_Title" dataType="string" defaultValue="${resource:Maps_MapTitle_Name}" controlType="Telligent.Evolution.Controls.ContentFragmentTokenStringControl, Telligent.Evolution.Controls" />
-	<property id="visible" resourceName="Title_Visible" dataType="bool" defaultValue="True" />
+	<property id="visible" resourceName="Title_Visible" dataType="bool" defaultValue="true" />
 </propertyGroup>
 			]]>
     </configuration>

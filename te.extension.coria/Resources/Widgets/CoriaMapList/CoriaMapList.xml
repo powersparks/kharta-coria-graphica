@@ -3,11 +3,12 @@
     name="${resource:MapBooks_MapList_Name}" 
     version="9.1.0.768" 
     description="${resource:MapBooks_MapList_Description}" 
-    instanceIdentifier="4602fe83b2154c54b5ab83b466340f54" 
+    instanceIdentifier="2612925ea9c54e8ab2102ef685fa1eef" 
     theme="" isCacheable="true" 
     varyCacheByUser="true" 
     showHeaderByDefault="true" 
-    cssClass="map-list">
+    cssClass="map-list"
+    provider="11d248584e704d4f9bb7de3e627bc200">
     <contentScript>
       <![CDATA[
 #if ($coria_v1_mapBook.Current)

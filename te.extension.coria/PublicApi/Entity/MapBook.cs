@@ -15,7 +15,7 @@ using System.Runtime.CompilerServices;
 using kcgModels = kharta.coria.graphica.Models;
 using System.ComponentModel.DataAnnotations;
 using te.extension.coria.InternalApi;
-
+using TEApi = Telligent.Evolution.Extensibility.Api.Version1.PublicApi;
 namespace te.extension.coria.PublicApi
 {
     public class MapBook: ApiEntity, IApplication
@@ -62,7 +62,10 @@ namespace te.extension.coria.PublicApi
 
         public bool IsEnabled { get { return _mapbook.IsEnabled != null ? _mapbook.IsEnabled.Value : false; } }
 
-        public string Url { get { return _mapbook.Url; } }
+        public string Url { get {
+                //string groupUrl = TEApi.Groups.Get(new GroupsGetOptions { Id = _mapbook.GroupId }).Url;
+                //groupUrl + "maps/" +
+                return _mapbook.Url; } }
 
         public string HtmlDescription(string target) { return _mapbook.HtmlDescription(target); }
 

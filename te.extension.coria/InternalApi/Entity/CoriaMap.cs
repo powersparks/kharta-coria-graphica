@@ -13,5 +13,28 @@ namespace te.extension.coria.InternalApi
 {
     internal class CoriaMap : kcgModels.Map
     {
+        internal string Name { get { return Title; } }
+        internal string HtmlDescription(string target)
+        {
+            // var _kcgName = new KhartaOntology();
+            string description = Description;
+            if (target == "web" || target == "email" || target == "raw")
+            {
+                //html s/b applied, translated, etc.. unless raw
+            }
+            return description;
+            //    throw new NotImplementedException();
+        }
+        internal string HtmlName(string target)
+        {
+            // var _kcgName = new KhartaOntology();
+            string name = Name;
+            if (target == "web" || target == "email" || target == "raw")
+            {
+                //html s/b applied, translated, etc.. unless raw
+            }
+            return name;
+            //    throw new NotImplementedException();
+        }
     }
 }

@@ -86,6 +86,7 @@
     <Compile Include="Plugins\Application\CoriaMapType.cs" />
     <Compile Include="Plugins\Content\MapContentType.cs" />
     <Compile Include="Plugins\CoriaApplications.cs" />
+    <Compile Include="Plugins\UI\CoriaManagementPanels\CoriaMapBookPanel.cs" />
     <Compile Include="Plugins\UI\WidgetExtension\MapWidgetExtension.cs" />
     <Compile Include="Plugins\UI\WidgetProviders\CoriaFactoryDefaultWidgetProvider.cs" />
     <Compile Include="Plugins\UI\WidgetProviders\CoriaWidgetContextProvider.cs" />
@@ -102,6 +103,9 @@
     <Compile Include="WidgetApi\Maps.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Widgets\CoriaAdminPanel\Supplementary\CoriaAdminPanel.js" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaAdminPanel\Supplementary\CoriaAdminPanel.css" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaAdminPanel\CoriaAdminPanel.xml" />
     <EmbeddedResource Include="Resources\Widgets\CoriaCanvas\CoriaCanvas.xml" />
     <EmbeddedResource Include="Resources\Widgets\CoriaCanvas\Supplementary\CoriaCanvas.css" />
     <EmbeddedResource Include="Resources\Widgets\CoriaCanvas\Supplementary\CoriaCanvas.js" />
@@ -114,7 +118,9 @@
     <EmbeddedResource Include="Resources\Widgets\CoriaList\Supplementary\CoriaList.css" />
     <EmbeddedResource Include="Resources\Widgets\CoriaList\Supplementary\CoriaList.js" />
     <EmbeddedResource Include="Resources\Widgets\CoriaList\Supplementary\CorialList.vm" />
-    <EmbeddedResource Include="Resources\Widgets\CoriaMapBooks\CoriaMapBooks.xml" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaMapBooks\CoriaMapBooks.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Widgets\CoriaMapBooks\Supplementary\CoriaMapBooks.css" />
     <EmbeddedResource Include="Resources\Widgets\CoriaMapBooks\Supplementary\CoriaMapBooks.js" />
     <EmbeddedResource Include="Resources\Widgets\CoriaMapBooks\Supplementary\CoriaMapBooks.vm" />
@@ -141,6 +147,7 @@
     <EmbeddedResource Include="Resources\Widgets\CoriaMapTitle\Supplementary\CoriaMapTitle.vm" />
     <EmbeddedResource Include="Resources\Widgets\CoriaMapList\Supplementary\CoriaMapList.vm" />
     <None Include="Resources\Widgets\ExampleKhartaName\Supplementary\ExampleKhartaName.vm" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaAdminPanel\Supplementary\CoriaAdminPanel.vm" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\REST\" />

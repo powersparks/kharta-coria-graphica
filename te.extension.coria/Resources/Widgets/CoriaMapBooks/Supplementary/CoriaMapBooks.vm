@@ -25,7 +25,7 @@
 #if ($group > 0)
 	$query.Add('GroupId', $group)
 #else
-#set($group = $core_v2_group.Current.Id.ToString())
+#set($group = $core_v2_utility.ParseInt($core_v2_group.Current.Id.ToString()))
 	$query.Add('GroupId', $core_v2_group.Current.Id.ToString())
 #end
 

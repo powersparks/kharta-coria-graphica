@@ -17,17 +17,36 @@ using te.extension.coria.InternalApi;
 
 namespace te.extension.coria.PublicApi
 {
-    public class Map : ApiEntity
+    public class Map : ApiEntity, IContent
     {
         private InternalApi.CoriaMap _map = null;
-
-      
         #region ApiEntity
         public Map() : base() { }
         public Map(AdditionalInfo additionalInfo) : base(additionalInfo) { }
         public Map(IList<Warning> warnings, IList<Error> errors) : base(warnings, errors) { }
         internal Map(InternalApi.CoriaMap map) : base() { _map = map; }
         #endregion
+        #region IContent
+        public IApplication Application { get { return PublicApi.MapBooks.Get(_map.MapTypeId); } }
+        public string Name { get { return _map.Title; } }
+        public string Description { get { return _map.Description; } }
+        public string AvatarUrl { get { return _map.ThumbnailUrl; } }
 
+        public Guid ContentId { get { return _map.MapId; } }
+
+        public Guid ContentTypeId { get { return _map.MapTypeId; } }
+
+        public int? CreatedByUserId { get { return _map.CreateByUserId.Value; } }
+
+        public DateTime CreatedDate { get { return _map.CreateUtcDate.Value; } }
+
+        public bool IsEnabled { get { return true; } }
+
+        public string Url { get { return _map.MapId.ToString("N") ; } }
+
+        public string HtmlDescription(string target) { return _map.Description; }
+
+        public string HtmlName(string target)  { return _map.Title; }
+        #endregion
     }
 }

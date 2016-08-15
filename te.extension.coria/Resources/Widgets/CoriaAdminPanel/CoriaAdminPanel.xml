@@ -1,0 +1,70 @@
+﻿<scriptedContentFragments>
+  <scriptedContentFragment 
+    name="${resource:widget_title}" 
+    version="9.1.0.768" 
+    description="${resource:widget_description}" 
+    instanceIdentifier="99f22a55f1f445848a76dd0a64452d6b" 
+    theme="" 
+    isCacheable="false" 
+    varyCacheByUser="false" 
+    showHeaderByDefault="false" 
+    cssClass="browse-maps" 
+    provider="11d248584e704d4f9bb7de3e627bc200">
+    <contentScript>
+      <![CDATA[  
+ <h1>Coria Managament Panel</h1>
+  ]]>
+    </contentScript>
+    <headerScript>
+      <![CDATA[$core_v2_widget.ApplyTokens($core_v2_widget.GetStringValue('fragmentHeader', '${resource:widget_title}'))
+	]]>
+    </headerScript>
+    <configuration>
+      <![CDATA[<propertyGroup id="options" resourceName="Options">
+	<property id="fragmentHeader" resourceName="widget_modal_title_label" dataType="string" defaultValue="${resource:widget_title}" controlType="Telligent.Evolution.Controls.ContentFragmentTokenStringControl, Telligent.Evolution.Controls" />
+ 	
+	<property id="map_canvas_height" resourceName="map_canvas_height" dataType="unit" defaultValue="250px" />
+	<property id="map_canvas_width" resourceName="map_canvas_width" dataType="unit" defaultValue="100%" />
+	<property id="map_center_lat" resourceName="map_center_lat" dataType="double" defaultValue="21.5" >
+	    	<propertyRule type="Telligent.Evolution.Controls.PropertyRules.MinMaxValueRule, Telligent.Evolution.Controls" minValue="-90" maxValue="90" />
+	</property>
+	<property id="map_center_lng" resourceName="map_center_lng" dataType="double" defaultValue="-158">
+	<propertyRule type="Telligent.Evolution.Controls.PropertyRules.MinMaxValueRule, Telligent.Evolution.Controls" minValue="-180" maxValue="180" />
+	</property>
+    <property id="map_zoom_level" resourceName="map_zoom_level"  descriptionResourceName="map_zoom_level_description" dataType="integer" defaultValue="3">
+	<propertyRule type="Telligent.Evolution.Controls.PropertyRules.MinMaxValueRule, Telligent.Evolution.Controls" minValue="0" maxValue="100" />
+	</property>
+	<property id="map_application_type" resourceName="map_application_type" descriptionResourceName="map_application_type_description" dataType="string" defaultValue="Base">
+		<propertyValue value="Base" resourceName="map_application_base" />
+    <propertyValue value="MapBox" resourceName="map_application_mapbox" />
+		<propertyValue value="GoogleMaps" resourceName="map_application_googlemaps" />
+    <!--propertyValue value="ArcGis" resourceName="map_application_arcgis" /-->
+     <propertyValue value="ArcGis4" resourceName="map_application_arcgis4" />
+	</property>
+</propertyGroup>]]>
+    </configuration>
+    <languageResources>
+      <language key="en-us">
+        <resource name="widget_title">Coria MapBook Management Panel Widget</resource>
+        <resource name="widget_description">widget for the Coria MapBook Application Panel</resource>
+        <resource name="widget_modal_title_label">Widget Name</resource>
+        <resource name="map_canvas_width">Map Width:</resource>
+        <resource name="map_canvas_height">Map Height:</resource>
+        <resource name="map_application_type_description">Loading multiple API's are allowed. Mapbox likes to be first, and ArcGIS 3.x and 4.x are not compatiable.</resource>
+        <resource name="map_application_type">Map Application Type:</resource>
+        <resource name="map_application_base">Base Settings and Options</resource>
+        <resource name="map_application_mapbox">MapBox (https://www.mapbox.com/)</resource>
+        <resource name="map_application_googlemaps">Google Maps (https://googlemaps.com/)</resource>
+        <resource name="map_application_arcgis">ArcGis (https://www.arcgis.com/)</resource>
+        <resource name="map_application_arcgis4">ArcGis (https://www.arcgis.com/)</resource>
+        <resource name="CF_Description">Widget Description:</resource>
+        <resource name="map_center_lng">Longitude (Decimal Degree,  -180 to 180):</resource>
+        <resource name="map_center_lat">Latitude (Decimal Degree, -90 to 90):</resource>
+        <resource name="map_zoom_level">Zoom (0 to 100):</resource>
+        <resource name="map_zoom_level_description">Dependent on Map API or basemap resolution sets.</resource>
+
+      </language>
+    </languageResources>
+
+  </scriptedContentFragment>
+</scriptedContentFragments>

@@ -1,31 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 using te.extension.coria.Plugins.UI;
 using Telligent.DynamicConfiguration.Components;
-using Telligent.Evolution.Components;
-using Telligent.Evolution.Extensibility;
-using Telligent.Evolution.Extensibility.Administration.Version1;
-using Telligent.Evolution.Extensibility.Api.Entities.Version1;
-using Telligent.Evolution.Extensibility.Api.Version1;
-using Telligent.Evolution.Extensibility.Content.Version1;
-using Telligent.Evolution.Extensibility.Security.Version1;
-using Telligent.Evolution.Extensibility.UI.Version1;
-using Telligent.Evolution.Extensibility.Urls.Version1;
 using Telligent.Evolution.Extensibility.Version1;
-using Telligent.Evolution.Urls.Routing;
-using Permission = Telligent.Evolution.Extensibility.Security.Version1.Permission;
-using TEApi = Telligent.Evolution.Extensibility.Api.Version1.PublicApi;
 using UIApi = Telligent.Evolution.Extensibility.UI.Version1;
 
 namespace te.extension.coria.Plugins
 {
-    
+
     public class CoriaApplications : IPlugin, IInstallablePlugin, IPluginGroup, IConfigurablePlugin //IPlugin, IConfigurablePlugin, IRequiredConfigurationPlugin, IInstallablePlugin, IPluginGroup, IApplicationNavigable, INavigable, ITranslatablePlugin, IPermissionRegistrar, ICategorizedPlugin
     {
         private static readonly Version _emptyVersion = new Version(0, 0, 0, 0);
@@ -44,19 +28,35 @@ namespace te.extension.coria.Plugins
         {
             get
             {
-                PropertyGroup googleMapsApi = new PropertyGroup("GoogleMapsApi", "Google Maps API", 1);//tab 1 ui
-                googleMapsApi.Properties.Add(new Property("publicKey", "Public Key", PropertyType.String, 1, "") { DescriptionText = "Google Maps API key is added to the url" });
-                googleMapsApi.Properties.Add(new Property("publicClientId", "Public Client Id", PropertyType.String, 1, "") { DescriptionText = "Google Maps business or premium plans offer a client id which is added to the url" });
-                googleMapsApi.Properties.Add(new Property("defaultUseKeyOrClientId", "Client Id used by default", PropertyType.Bool, 1, "True") { DescriptionText = "The client Id will be used first if checked. If unchecked, the key will be used first." });
-                googleMapsApi.Properties.Add(new Property("gmVersion", "Google Maps Api Version", PropertyType.String, 1, "3") { DescriptionText = "Api version examples: 3, 3.23, 3.exp" });
-                PropertyGroup mapBoxApi = new PropertyGroup("MapBoxApi", "MapBox API", 2);//tab 2 ui
-                mapBoxApi.Properties.Add(new Property("publicaccess_token", "Public access_token", PropertyType.String, 1, "") { DescriptionText = "MapBox access_token = pk_{your token}" });
-                mapBoxApi.Properties.Add(new Property("secretKey", "Secret Key", PropertyType.String, 1, "") { DescriptionText = "MapBox secret key sk_{your token}.  currently not implemented" });
-                mapBoxApi.Properties.Add(new Property("mapBoxVersion", "MapBox API Version", PropertyType.String, 1, "v0.21.0") { DescriptionText = "MapBox API Version, example:v0.21.0" });
-                PropertyGroup arcGisApi = new PropertyGroup("ArcGisApi", "ArcGis API", 3);
-                arcGisApi.Properties.Add(new Property("arcGisVersion", "ArcGis Version", PropertyType.String, 1, "4.0") { DescriptionText = "ArcGIS API Version, example: 4.0 "});
-                     
-                return new PropertyGroup[] { googleMapsApi, mapBoxApi, arcGisApi };
+                PropertyGroup MapApis = new PropertyGroup("MapApis", "Map APIs", 10);//tab 1 ui
+                MapApis.Properties.Add(new Property("publicKey", "Public Key", PropertyType.String, 101, "") { DescriptionText = "Google Maps API key is added to the url" });
+                MapApis.Properties.Add(new Property("publicClientId", "Public Client Id", PropertyType.String, 102, "") { DescriptionText = "Google Maps business or premium plans offer a client id which is added to the url" });
+                MapApis.Properties.Add(new Property("defaultUseKeyOrClientId", "Client Id used by default", PropertyType.Bool, 103, "True") { DescriptionText = "The client Id will be used first if checked. If unchecked, the key will be used first." });
+                MapApis.Properties.Add(new Property("gmVersion", "Google Maps Api Version", PropertyType.String, 104, "3") { DescriptionText = "Api version examples: 3, 3.23, 3.exp" });
+
+                //PropertyGroup mapBoxApi = new PropertyGroup("MapBoxApi", "MapBox API", 11);//tab 2 ui
+                MapApis.Properties.Add(new Property("publicaccess_token", "Public access_token", PropertyType.String, 111, "") { DescriptionText = "MapBox access_token = pk_{your token}" });
+                MapApis.Properties.Add(new Property("secretKey", "Secret Key", PropertyType.String, 112, "") { DescriptionText = "MapBox secret key sk_{your token}.  currently not implemented" });
+                MapApis.Properties.Add(new Property("mapBoxVersion", "MapBox API Version", PropertyType.String, 113, "v0.21.0") { DescriptionText = "MapBox API Version, example:v0.21.0" });
+
+                //PropertyGroup arcGisApi = new PropertyGroup("ArcGisApi", "ArcGis API", 12);
+                MapApis.Properties.Add(new Property("arcGisVersion", "ArcGis Version", PropertyType.String, 121, "4.0") { DescriptionText = "ArcGIS API Version, example: 4.0 " });
+
+                //PropertyGroup googleMapsApi = new PropertyGroup("GoogleMapsApi", "Google Maps API", 10);//tab 1 ui
+                //googleMapsApi.Properties.Add(new Property("publicKey", "Public Key", PropertyType.String, 101, "") { DescriptionText = "Google Maps API key is added to the url" });
+                //googleMapsApi.Properties.Add(new Property("publicClientId", "Public Client Id", PropertyType.String, 102, "") { DescriptionText = "Google Maps business or premium plans offer a client id which is added to the url" });
+                //googleMapsApi.Properties.Add(new Property("defaultUseKeyOrClientId", "Client Id used by default", PropertyType.Bool, googleMapsApi.Properties.Count(), "True") { DescriptionText = "The client Id will be used first if checked. If unchecked, the key will be used first." });
+                //googleMapsApi.Properties.Add(new Property("gmVersion", "Google Maps Api Version", PropertyType.String, 103, "3") { DescriptionText = "Api version examples: 3, 3.23, 3.exp" });
+
+                //PropertyGroup mapBoxApi = new PropertyGroup("MapBoxApi", "MapBox API", 11);//tab 2 ui
+                //mapBoxApi.Properties.Add(new Property("publicaccess_token", "Public access_token", PropertyType.String, 111, "") { DescriptionText = "MapBox access_token = pk_{your token}" });
+                //mapBoxApi.Properties.Add(new Property("secretKey", "Secret Key", PropertyType.String, 112, "") { DescriptionText = "MapBox secret key sk_{your token}.  currently not implemented" });
+                //mapBoxApi.Properties.Add(new Property("mapBoxVersion", "MapBox API Version", PropertyType.String, 113, "v0.21.0") { DescriptionText = "MapBox API Version, example:v0.21.0" });
+
+                //PropertyGroup arcGisApi = new PropertyGroup("ArcGisApi", "ArcGis API", 12);
+                //arcGisApi.Properties.Add(new Property("arcGisVersion", "ArcGis Version", PropertyType.String, 121, "4.0") { DescriptionText = "ArcGIS API Version, example: 4.0 "});
+
+                return new PropertyGroup[] { MapApis };//googleMapsApi, mapBoxApi, arcGisApi };
             }
         }
         public void Update(IPluginConfiguration configuration)
@@ -90,7 +90,9 @@ namespace te.extension.coria.Plugins
             var definitionFilesSources = new string[] {
                 "CoriaMap/CoriaMap.xml",
                 "CoriaMapBooks/CoriaMapBooks.xml",
-                "CoriaMapTitle/CoriaMapTitle.xml"
+                "CoriaMapTitle/CoriaMapTitle.xml",
+                "CoriaMapList/CoriaMapList.xml",
+                "CoriaAdminPanel/CoriaAdminPanel.xml"
             };
 
             foreach (var definitionFile in definitionFilesSources)
@@ -117,7 +119,17 @@ namespace te.extension.coria.Plugins
                 "CoriaMapTitle/Supplementary/CoriaMapTitle.css",
                 "CoriaMapTitle/Supplementary/CoriaMapTitle.vm",
             };
-            //4602fe83-b215-4c54-b5ab-83b466340f54
+            supplementaryFiles[new Guid("2612925e-a9c5-4e8a-b210-2ef685fa1eef")] = new string[] {
+                "CoriaMapList/Supplementary/CoriaMapList.js",
+                "CoriaMapList/Supplementary/CoriaMapList.css",
+                "CoriaMapList/Supplementary/CoriaMapList.vm",
+            };
+            supplementaryFiles[new Guid("99f22a55-f1f4-4584-8a76-dd0a64452d6b")] = new string[] {
+                "CoriaAdminPanel/Supplementary/CoriaAdminPanel.js",
+                "CoriaAdminPanel/Supplementary/CoriaAdminPanel.css",
+                "CoriaAdminPanel/Supplementary/CoriaAdminPanel.vm",
+            };
+            //99f22a55-f1f4-4584-8a76-dd0a64452d6b
             foreach (var instanceId in supplementaryFiles.Keys)
             {
                 foreach (var relativePath in supplementaryFiles[instanceId])
@@ -185,10 +197,15 @@ namespace te.extension.coria.Plugins
                 return new Type[] {
           typeof(te.extension.coria.Plugins.Application.CoriaMapType),
           typeof (UI.CoriaFactoryDefaultWidgetProvider),
-          typeof (UI.CoriaWidgetContextProvider)
+          typeof (UI.CoriaWidgetContextProvider),
+          typeof(UI.WidgetExtension.MapWidgetExtension),
+          typeof(UI.WidgetExtension.MapBookWidgetExtension),
+          typeof(UI.CoriaManagementPanels.CoriaMapBookPanel),
+          typeof(Content.MapContentType),
         };
             }
         }
+       
         #endregion
         #endregion
 

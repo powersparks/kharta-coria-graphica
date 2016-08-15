@@ -8,7 +8,8 @@
     isCacheable="true" 
     varyCacheByUser="true" 
     showHeaderByDefault="false" 
-    cssClass="browse-maps">
+    cssClass="browse-maps"
+     provider="11d248584e704d4f9bb7de3e627bc200">
     <contentScript>
       <![CDATA[
 $core_v2_ui.PagedContent('CoriaMapBooks.vm')
@@ -34,7 +35,7 @@ $core_v2_ui.PagedContent('CoriaMapBooks.vm')
 	<property id="group" resourceName="UIFragment_Core_BrowseApplication_Group" dataType="Custom" defaultValue="Group=-1" controlType="Telligent.Evolution.Controls.GroupSelectionList, Telligent.Evolution.Controls" includeCurrentGroup="true" />
 	<property id="groupAndSubGroups" resourceName="UIFragment_Core_BrowseApplication_GroupAndSubGroups" dataType="bool" defaultValue="false" />
 	<property id="itemsBeforeScroll" resourceName="UIFragment_Core_BrowseApplication_ItemsToShow" dataType="int" defaultValue="">
-		<propertyRule type="Telligent.Evolution.Controls.PropertyRules.MinMaxValueRule, Telligent.Evolution.Controls" minValue="1" maxValue="100" />
+		<propertyRule type="Telligent.Evolution.Controls.PropertyRules.MinMaxValueRule, Telligent.Evolution.Controls" minValue="1" maxValue="3" />
 	</property>
 	<property id="defaultSortOrder" resourceName="UIFragment_Core_BrowseApplication_DefaultSortOrder" dataType="string" defaultValue="ApplicationName">
 		<propertyValue value="ApplicationName" resourceName="UIFragment_Core_BrowseApplication_ApplicationName" />
@@ -47,7 +48,7 @@ $core_v2_ui.PagedContent('CoriaMapBooks.vm')
     </configuration>
     <languageResources>
       <language key="en-us">
-        <resource name="MapBooks_BrowseMapBooks_Name">Map - Browse Maps</resource>
+        <resource name="MapBooks_BrowseMapBooks_Name">Map Books - Browse Maps</resource>
         <resource name="MapBooks_BrowseMapBooks_Description">Displays a browse control to view all maps on the site.</resource>
         <resource name="Options">Options</resource>
         <resource name="CF_Title">Widget Title</resource>
