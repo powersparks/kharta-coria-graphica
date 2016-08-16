@@ -92,7 +92,7 @@ namespace te.extension.coria.Plugins
                 "CoriaMapBooks/CoriaMapBooks.xml",
                 "CoriaMapTitle/CoriaMapTitle.xml",
                 "CoriaMapList/CoriaMapList.xml",
-                "CoriaAdminPanel/CoriaAdminPanel.xml"
+                "CoriaMapBookManPanel/CoriaMapBookManPanel.xml"
             };
 
             foreach (var definitionFile in definitionFilesSources)
@@ -125,9 +125,9 @@ namespace te.extension.coria.Plugins
                 "CoriaMapList/Supplementary/CoriaMapList.vm",
             };
             supplementaryFiles[new Guid("99f22a55-f1f4-4584-8a76-dd0a64452d6b")] = new string[] {
-                "CoriaAdminPanel/Supplementary/CoriaAdminPanel.js",
-                "CoriaAdminPanel/Supplementary/CoriaAdminPanel.css",
-                "CoriaAdminPanel/Supplementary/CoriaAdminPanel.vm",
+                "CoriaMapBookManPanel/Supplementary/CoriaMapBookManPanel.js",
+                "CoriaMapBookManPanel/Supplementary/CoriaMapBookManPanel.css",
+                "CoriaMapBookManPanel/Supplementary/CoriaMapBookManPanel.vm",
             };
             //99f22a55-f1f4-4584-8a76-dd0a64452d6b
             foreach (var instanceId in supplementaryFiles.Keys)

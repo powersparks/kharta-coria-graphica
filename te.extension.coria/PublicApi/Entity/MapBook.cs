@@ -33,6 +33,8 @@ namespace te.extension.coria.PublicApi
         
         #region IApplication
         public string Name { get { return _mapbook.Name; } }
+        public Guid Id { get { return _mapbook.ApplicationId; } }
+        public int ObjectId { get { return _mapbook.Id; } }
         public Guid ApplicationId { get { return _mapbook.ApplicationId; } }
 
         public Guid ApplicationTypeId { get { return _mapbook.ApplicationTypeId.Value; } }
@@ -56,7 +58,7 @@ namespace te.extension.coria.PublicApi
         internal static MapBook Get(int groupId, string mapBookName)
         {
             MapBook mapbook = new MapBook();
-            mapbook = CoriaDataService.GetMapBookApplicationsByGroup(groupId, mapBookName);
+            mapbook = CoriaDataService.GetMapBookByGroupId_Name(groupId, mapBookName);
             return mapbook;
         }
 

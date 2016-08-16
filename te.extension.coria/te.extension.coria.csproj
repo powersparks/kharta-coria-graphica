@@ -103,9 +103,9 @@
     <Compile Include="WidgetApi\Maps.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Widgets\CoriaAdminPanel\Supplementary\CoriaAdminPanel.js" />
-    <EmbeddedResource Include="Resources\Widgets\CoriaAdminPanel\Supplementary\CoriaAdminPanel.css" />
-    <EmbeddedResource Include="Resources\Widgets\CoriaAdminPanel\CoriaAdminPanel.xml" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaMapBookManPanel\Supplementary\CoriaMapBookManPanel.js" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaMapBookManPanel\Supplementary\CoriaMapBookManPanel.css" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaMapBookManPanel\CoriaMapBookManPanel.xml" />
     <EmbeddedResource Include="Resources\Widgets\CoriaCanvas\CoriaCanvas.xml" />
     <EmbeddedResource Include="Resources\Widgets\CoriaCanvas\Supplementary\CoriaCanvas.css" />
     <EmbeddedResource Include="Resources\Widgets\CoriaCanvas\Supplementary\CoriaCanvas.js" />
@@ -147,7 +147,7 @@
     <EmbeddedResource Include="Resources\Widgets\CoriaMapTitle\Supplementary\CoriaMapTitle.vm" />
     <EmbeddedResource Include="Resources\Widgets\CoriaMapList\Supplementary\CoriaMapList.vm" />
     <None Include="Resources\Widgets\ExampleKhartaName\Supplementary\ExampleKhartaName.vm" />
-    <EmbeddedResource Include="Resources\Widgets\CoriaAdminPanel\Supplementary\CoriaAdminPanel.vm" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaMapBookManPanel\Supplementary\CoriaMapBookManPanel.vm" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\REST\" />

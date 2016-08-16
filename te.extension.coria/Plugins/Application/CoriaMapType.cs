@@ -7,18 +7,18 @@ using Telligent.Evolution.Extensibility.Api.Version1;
 using Telligent.Evolution.Extensibility.Content.Version1;
 using Telligent.Evolution.Extensibility.Urls.Version1;
 using Telligent.Evolution.Extensibility.Version1;
-
-
 using TEApi = Telligent.Evolution.Extensibility.Api.Version1.PublicApi;
+ 
 
 namespace te.extension.coria.Plugins.Application
 {
-    public class CoriaMapType : IPlugin, IApplicationType   , IManageableApplicationType, IQueryableApplicationType, IApplicationNavigable
+    public class CoriaMapType : IPlugin, IApplicationType, IManageableApplicationType, IQueryableApplicationType, IApplicationNavigable
     {
         IApplicationStateChanges _applicationState = null;
         public static Guid _applicationTypeId = new Guid("bfdb6103-e8e5-4cbf-8fbf-42dbac4046ef");
         //application id get's set with each new application
         // public static Guid _applicationId = new Guid("7b3cd226-ef49-4aca-94eb-72f1e49f3688");
+        
         public Guid ApplicationTypeId { get { return _applicationTypeId; } }
 
         public string ApplicationTypeName { get { return "Map Book"; } }
@@ -204,21 +204,35 @@ namespace te.extension.coria.Plugins.Application
 
         private void ParseMapBookContext(PageContext pageContext)
         {
-            string maps = pageContext.GetTokenValue("mapbook") as string;
-            //if (!string.IsNullOrEmpty(maps))
-            //{
-                ContextItem contextItem = new ContextItem()
-                {
-                    //ApplicationId = forum.ApplicationId,
-                    //ApplicationTypeId = TEApi.Forums.ApplicationTypeId,
-                    //ContainerId = forum.Container.ContainerId,
-                    //ContainerTypeId = forum.Container.ContainerTypeId,
-                    //ContentId = forum.ContentId,
-                    //ContentTypeId = TEApi.Forums.ContentTypeId,
-                    //Id = forum.Id.ToString(),
-                    TypeName = this.ApplicationTypeName
 
-                };
+            var ApplicationId = pageContext.GetTokenValue("ApplicationId");
+            var ApplicationTypeId = pageContext.GetTokenValue("ApplicationTypeId");
+            var allContext = pageContext.ContextItems.GetAllContextItems();
+            var cnt = allContext.Count;
+            int groupId = 0;
+            var typename = allContext[0].TypeName;
+            Guid appId = allContext[0].ApplicationId.Value;
+            if (!int.TryParse(allContext[0].Id, out groupId)) {
+                 //if groupid is not 
+                 // find by  mapbook name only... 
+                 // TODO: optimize database with safeName and GroupId indexing
+            }
+            string mapbookName = pageContext.GetTokenValue("mapbook") as string;
+            var group = TEApi.Groups.Get(new GroupsGetOptions { Id = groupId });
+            PublicApi.MapBook mapbook = InternalApi.CoriaDataService.GetMapBookByGroupId_Name(groupId, mapbookName);
+            
+            ContextItem contextItem = new ContextItem()
+                {
+    
+                    ApplicationId = mapbook.ApplicationId,
+                    ApplicationTypeId = mapbook.ApplicationTypeId,
+                   
+                    ContainerId = group.ContainerId, 
+                ContainerTypeId = Apis.Get<IGroups>().ContainerTypeId,  
+                ContentId = mapbook.ApplicationId,
+                ContentTypeId = mapbook.ApplicationTypeId,
+          
+            };
                 pageContext.ContextItems.Put(contextItem);
 
             //}

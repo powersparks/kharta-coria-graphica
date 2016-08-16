@@ -64,7 +64,7 @@ namespace te.extension.coria.InternalApi
             return mapbookApps;// mapbookApps.Cast<IApplication>().ToList();
         }
 
-        internal static PublicApi.MapBook GetMapBookApplicationsByGroup(int groupId, string mapBookName)
+        internal static PublicApi.MapBook GetMapBookByGroupId_Name(int groupId, string mapBookName)
         {
               PublicApi.MapBook mapbook = new PublicApi.MapBook(GetCoriaMapBookByGroupId_MapBookName(groupId, mapBookName));
             return mapbook;
