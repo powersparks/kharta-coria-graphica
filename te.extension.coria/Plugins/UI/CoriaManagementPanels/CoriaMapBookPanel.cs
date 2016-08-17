@@ -5,7 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using UIApi = Telligent.Evolution.Extensibility.UI.Version1;
 using Telligent.Evolution.Extensibility.Administration.Version1;
-using TEApi = Telligent.Evolution.Extensibility.Api.Version1.PublicApi;
+using TEApiV1P = Telligent.Evolution.Extensibility.Api.Version1.PublicApi;
+using TEApi = Telligent.Evolution.Extensibility.Api;
 using Telligent.Evolution.Extensibility.Version1;
 using Telligent.Evolution.Extensibility.Api.Version1;
 using System.Collections.Specialized;
@@ -22,8 +23,7 @@ namespace te.extension.coria.Plugins.UI.CoriaManagementPanels
     {
         Guid _CoriaMapBookManPanel_WidgetId = new Guid("99f22a55-f1f4-4584-8a76-dd0a64452d6b");
         Guid _panelId = new Guid("a06a4d37-82d6-42a4-b20c-140ffd882677");
-        Guid _applicationPanel = new Guid("c4315566-7dcc-46b3-9ab7-7715d05498ad");
-        
+        Guid _applicationPanel = new Guid("c4315566-7dcc-46b3-9ab7-7715d05498ad"); 
         UIApi.IScriptedContentFragmentController _iScriptedContentFragmentController;
         #region IPlugin
         public string Name { get { return "MapBook Management Panel"; } }
@@ -31,9 +31,9 @@ namespace te.extension.coria.Plugins.UI.CoriaManagementPanels
         public void Initialize() {}
         #endregion
         #region IApplicationPanel
-        public Guid[] ApplicationTypes {    get {  return new Guid[] { Application.CoriaMapType._applicationTypeId }; } }
+        public Guid[] ApplicationTypes {    get { return new Guid[] { Application.CoriaMapType._applicationTypeId }; } }
         public string CssClass { get { return _iScriptedContentFragmentController.GetMetadata(_CoriaMapBookManPanel_WidgetId).CssClass; } }
-        public int? DisplayOrder { get { return 100; } }
+        public int? DisplayOrder { get { return 3; } }
         public bool IsCacheable { get { return _iScriptedContentFragmentController.GetMetadata(_CoriaMapBookManPanel_WidgetId).IsCacheable; ; } }
         public Guid PanelId { get { return _panelId; } }
         public bool VaryCacheByUser { get { return true; } }
@@ -43,9 +43,7 @@ namespace te.extension.coria.Plugins.UI.CoriaManagementPanels
         public bool HasAccess(int userId, Guid applicationType, Guid applicationId) { return true; }
         #endregion
         public Guid ScriptedContentFragmentFactoryDefaultIdentifier { get { return _CoriaMapBookManPanel_WidgetId; } }
-
         public Guid[] ContainerTypes {  get { return new Guid[] { Apis.Get<IGroups>().ContainerTypeId }; } }
-
         public void Register(UIApi.IScriptedContentFragmentController controller) {
             var options = new UIApi.ScriptedContentFragmentOptions(_CoriaMapBookManPanel_WidgetId)
             {
@@ -68,3 +66,19 @@ namespace te.extension.coria.Plugins.UI.CoriaManagementPanels
     }
 }
 
+////Get "All" Telligent ApplicationTypes 
+//IEnumerable< TEApi.Entities.Version1.ApplicationType> all_teApplicationTypesIEnum = Telligent.Evolution.Extensibility.Api.Version1.PublicApi.ApplicationTypes.List();
+////Get Web Page "Context" ApplicationTypes
+//IEnumerable<IWebContextualApplicationType> page_webContextApplicationTypesIEnum = Telligent.Evolution.Extensibility.Version1.PluginManager.Get<IWebContextualApplicationType>();
+////Get "Matching" ApplicationTypes, between "All" and "Context"
+//IEnumerable<TEApi.Entities.Version1.ApplicationType> matching_teApplicationTypeListIEnum = all_teApplicationTypesList.Where(c => page_webContextApplicationTypesIEnum.Any(a => a.ApplicationTypeId == c.Id.GetValueOrDefault(Guid.Empty)));
+////Select "Guids" of  "Matching" ApplicationTypes
+//IEnumerable<Guid> guidIEnum = matching_teApplicationTypeListIEnum.Select(c => c.Id.Value);
+////Convert IEnum to Array
+//Guid[] guidArray = guidIEnum.ToArray();
+////Alternative: Convert to an IList
+////IList<Guid> guidIList = guidIEnum.ToList();
+////Add custom Application Type Guid
+////guidIList.Add(Application.CoriaMapType._applicationTypeId);
+////Convert to array
+////Guid[] guidArray = guidIList.ToArray(); 

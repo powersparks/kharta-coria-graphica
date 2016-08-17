@@ -15,46 +15,21 @@ namespace te.extension.coria.Plugins.Application
     public class CoriaMapType : IPlugin, IApplicationType, IManageableApplicationType, IQueryableApplicationType, IApplicationNavigable
     {
         IApplicationStateChanges _applicationState = null;
-        public static Guid _applicationTypeId = new Guid("bfdb6103-e8e5-4cbf-8fbf-42dbac4046ef");
-        //application id get's set with each new application
-        // public static Guid _applicationId = new Guid("7b3cd226-ef49-4aca-94eb-72f1e49f3688");
-        
+        public static Guid _applicationTypeId = new Guid("bfdb6103-e8e5-4cbf-8fbf-42dbac4046ef");      
         public Guid ApplicationTypeId { get { return _applicationTypeId; } }
-
         public string ApplicationTypeName { get { return "Map Book"; } }
-
         public Guid[] ContainerTypes { get { return new Guid[] { Apis.Get<IGroups>().ContainerTypeId }; } }
-
         public string Description { get { return "Maps and metadata management tools"; } }
-
         public string Name { get { return "Coria Maps Application"; } }
-        
         public void AttachChangeEvents(IApplicationStateChanges stateChanges) { _applicationState = stateChanges; }
+        public IApplication Get(Guid applicationId) { return PublicApi.MapBooks.Get(applicationId); }
+        public void Initialize() { } 
+        #region  IManageableApplicationType 
+        public bool CanCreate(int userId, Guid containerTypeId, Guid containerId) {  return true;  }
 
-        public IApplication Get(Guid applicationId)
-        {
-            return PublicApi.MapBooks.Get(applicationId);
+        public bool CanDelete(int userId, Guid applicationId) {  return true; }
 
-        }//return PublicApi.Maps.GetMapApplication(applicationId); }
-
-        public void Initialize() { }
-
-        #region  IManageableApplicationType
-
-        public bool CanCreate(int userId, Guid containerTypeId, Guid containerId)
-        {
-            return true;
-        }
-
-        public bool CanDelete(int userId, Guid applicationId)
-        {
-            return true;
-        }
-
-        public bool CanSetEnabled(int userId, Guid applicationId)
-        {
-            return true;
-        }
+        public bool CanSetEnabled(int userId, Guid applicationId) {  return true; }
 
         public PropertyGroup[] GetCreateConfiguration(int userId, Guid containerTypeId, Guid containerId)
         {
@@ -177,14 +152,9 @@ namespace te.extension.coria.Plugins.Application
 
         #endregion
         #region IApplicationNavigable
-        Guid IApplicationNavigable.ApplicationTypeId
-        {
-            get { return TEApi.Groups.ApplicationTypeId; }
-        }
-
+        Guid IApplicationNavigable.ApplicationTypeId{ get { return TEApi.Groups.ApplicationTypeId; } }
         public void RegisterUrls(IUrlController controller)
-        {
-
+        { 
             //var mapBookAction = new Action<HttpContextBase, PageContext>(MapBookAction);
             controller.AddPage("MapBookList", "{mapbook}", new Telligent.Evolution.Urls.Routing.NotSiteRootRouteConstraint(), null, "mapbooklist", new PageDefinitionOptions()
             {
@@ -192,9 +162,7 @@ namespace te.extension.coria.Plugins.Application
                 HasApplicationContext = true,
                 ParseContext = new Action<PageContext>(this.ParseMapBookContext)
                 //Validate = new Action<PageContext, IUrlAccessController>(Validate)
-            });
-
-
+            }); 
         }
 
         private void MapBookAction(HttpContextBase arg1, PageContext arg2)
@@ -222,23 +190,17 @@ namespace te.extension.coria.Plugins.Application
             PublicApi.MapBook mapbook = InternalApi.CoriaDataService.GetMapBookByGroupId_Name(groupId, mapbookName);
             
             ContextItem contextItem = new ContextItem()
-                {
-    
-                    ApplicationId = mapbook.ApplicationId,
-                    ApplicationTypeId = mapbook.ApplicationTypeId,
-                   
-                    ContainerId = group.ContainerId, 
+            {
+                ApplicationId = mapbook.ApplicationId,
+                ApplicationTypeId = mapbook.ApplicationTypeId,
+                ContainerId = group.ContainerId, 
                 ContainerTypeId = Apis.Get<IGroups>().ContainerTypeId,  
                 ContentId = mapbook.ApplicationId,
                 ContentTypeId = mapbook.ApplicationTypeId,
-          
             };
                 pageContext.ContextItems.Put(contextItem);
-
-            //}
         }
         #endregion
-
     }
     /**********
      public class CoriaMapManagePanel : IPlugin, IManageableApplicationType, IQueryableApplicationType
