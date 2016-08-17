@@ -17,9 +17,7 @@ using Telligent.Evolution.Extensibility.Api.Entities.Version1;
 namespace te.extension.coria.InternalApi
 {
     internal class CoriaDataService
-    {
-
-      
+    { 
         internal static  CoriaMapBook CreateUpdateMapBook(CoriaMapBook coriaMapBook )
         {
             if (coriaMapBook.Id == 0)
@@ -42,7 +40,7 @@ namespace te.extension.coria.InternalApi
                     catch (DbUpdateConcurrencyException ex)
                     {
                         //TODO: handle exception and log it
-                        var exception = ex;
+                       
                          
                     }
 

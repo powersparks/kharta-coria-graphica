@@ -15,6 +15,7 @@ namespace te.extension.coria.WidgetApi
     [Documentation(Category = "Coria")]
     public class MapBooks
     {
+        
         [Documentation("The current contextual mapBook.")]
         public PublicApi.MapBook Current
         {
@@ -32,7 +33,9 @@ namespace te.extension.coria.WidgetApi
                     if  (mapBookName != null && mapBookName.Length > 0)
                     {
                         mapBook = PublicApi.MapBook.Get(groupId, mapBookName) as PublicApi.MapBook;
-
+                        if (mapBook.HasWarningsOrErrors()) {
+                            mapBook = PublicApi.MapBook.Get(mapBookName) as PublicApi.MapBook;
+                        }
                     }
                 }
                 else { }
@@ -42,7 +45,7 @@ namespace te.extension.coria.WidgetApi
                     if (Guid.TryParse(mapBookId.ToString(), out id))
                         mapBook = PublicApi.MapBooks.Get(id) as PublicApi.MapBook;
                 }
-
+                
                 return mapBook;
             }
         }

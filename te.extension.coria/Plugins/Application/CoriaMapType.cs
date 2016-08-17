@@ -12,7 +12,7 @@ using TEApi = Telligent.Evolution.Extensibility.Api.Version1.PublicApi;
 
 namespace te.extension.coria.Plugins.Application
 {
-    public class CoriaMapType : IPlugin, IApplicationType, IManageableApplicationType, IQueryableApplicationType, IApplicationNavigable
+    public class CoriaMapType : IPlugin, IApplicationType, IManageableApplicationType, IQueryableApplicationType, IApplicationNavigable, ICategorizedPlugin
     {
         IApplicationStateChanges _applicationState = null;
         public static Guid _applicationTypeId = new Guid("bfdb6103-e8e5-4cbf-8fbf-42dbac4046ef");      
@@ -23,7 +23,10 @@ namespace te.extension.coria.Plugins.Application
         public string Name { get { return "Coria Maps Application"; } }
         public void AttachChangeEvents(IApplicationStateChanges stateChanges) { _applicationState = stateChanges; }
         public IApplication Get(Guid applicationId) { return PublicApi.MapBooks.Get(applicationId); }
-        public void Initialize() { } 
+        public void Initialize()
+        { 
+           
+        }
         #region  IManageableApplicationType 
         public bool CanCreate(int userId, Guid containerTypeId, Guid containerId) {  return true;  }
 
@@ -38,7 +41,8 @@ namespace te.extension.coria.Plugins.Application
             mapBook.Properties.Add(new Property("mapBookDesc", "Description", PropertyType.String, mapBook.Properties.Count, "a list of maps") { DescriptionText = "Description about the Map Book" });
             mapBook.Properties.Add(new Property("mapBookAvatarUrl", "Avatar URL", PropertyType.String, mapBook.Properties.Count, "/cfs-filesystemfile/__key/system/images/grid.svg") { DescriptionText = "Map Book Avatar's Url to svg or image" });
             mapBook.Properties.Add(new Property("mapBookIsEnabled", "Is Enabled", PropertyType.Bool, mapBook.Properties.Count, "true") { DescriptionText = "Map Book is enabled after creating" });
-            mapBook.Properties.Add(new Property("mapBookUrl", "URL name of mapbook", PropertyType.String, mapBook.Properties.Count, "mapbook") { DescriptionText = "URL name of the mapbook" });
+            mapBook.Properties.Add(new Property("mapBookUrl", "URL name of mapbooks list", PropertyType.String, mapBook.Properties.Count, "mapbooks") { DescriptionText = "URL name of mapbook list" });
+            mapBook.Properties.Add(new Property("safeNameUrl", "URL name of mapbook", PropertyType.String, mapBook.Properties.Count, "mapbook") { DescriptionText = "key name" });
 
             Property apiProperty = new Property("defaultApi", "Default Mapping Api", PropertyType.String, mapBook.Properties.Count, "googleMaps") { DescriptionText = "New maps will use this api by default." };
             apiProperty.SelectableValues.Add(new PropertyValue("none", System.Web.HttpUtility.HtmlEncode("raw information for debugging"), apiProperty.SelectableValues.Count));
@@ -80,8 +84,8 @@ namespace te.extension.coria.Plugins.Application
                         coriaMapBook.Id = 0;
                         coriaMapBook.OntologyId = 0;
                         coriaMapBook.Description = createConfigurationData.GetStringValue("mapBookDesc", "a list of maps");
-                        coriaMapBook.Url = createConfigurationData.GetStringValue("mapBookUrl", "mapbook");
-                        //coriaMapBook.SafeName = createConfigurationData.GetStringValue("mapBookUrl", coriaMapBook.ApplicationId.ToString());
+                        coriaMapBook.Url = createConfigurationData.GetStringValue("mapBookUrl", "mapbooks");
+                        coriaMapBook.SafeName = createConfigurationData.GetStringValue("safeNameUrl", coriaMapBook.ApplicationId.ToString());
                         //coriaMapBook.SafeName = createConfigurationData.GetStringValue("mapBookUrl", "mapbook");
 
                         coriaMapBook = InternalApi.CoriaDataService.CreateUpdateMapBook(coriaMapBook);
@@ -153,6 +157,15 @@ namespace te.extension.coria.Plugins.Application
         #endregion
         #region IApplicationNavigable
         Guid IApplicationNavigable.ApplicationTypeId{ get { return TEApi.Groups.ApplicationTypeId; } }
+
+        public string[] Categories
+        {
+            get
+            {
+                return new string[] { "Coria" };
+            }
+        }
+
         public void RegisterUrls(IUrlController controller)
         { 
             //var mapBookAction = new Action<HttpContextBase, PageContext>(MapBookAction);
@@ -172,33 +185,41 @@ namespace te.extension.coria.Plugins.Application
 
         private void ParseMapBookContext(PageContext pageContext)
         {
-
-            var ApplicationId = pageContext.GetTokenValue("ApplicationId");
-            var ApplicationTypeId = pageContext.GetTokenValue("ApplicationTypeId");
-            var allContext = pageContext.ContextItems.GetAllContextItems();
-            var cnt = allContext.Count;
-            int groupId = 0;
-            var typename = allContext[0].TypeName;
-            Guid appId = allContext[0].ApplicationId.Value;
-            if (!int.TryParse(allContext[0].Id, out groupId)) {
-                 //if groupid is not 
-                 // find by  mapbook name only... 
-                 // TODO: optimize database with safeName and GroupId indexing
-            }
-            string mapbookName = pageContext.GetTokenValue("mapbook") as string;
-            var group = TEApi.Groups.Get(new GroupsGetOptions { Id = groupId });
-            PublicApi.MapBook mapbook = InternalApi.CoriaDataService.GetMapBookByGroupId_Name(groupId, mapbookName);
-            
-            ContextItem contextItem = new ContextItem()
+            try
             {
-                ApplicationId = mapbook.ApplicationId,
-                ApplicationTypeId = mapbook.ApplicationTypeId,
-                ContainerId = group.ContainerId, 
-                ContainerTypeId = Apis.Get<IGroups>().ContainerTypeId,  
-                ContentId = mapbook.ApplicationId,
-                ContentTypeId = mapbook.ApplicationTypeId,
-            };
+                var ApplicationId = pageContext.GetTokenValue("ApplicationId");
+                var ApplicationTypeId = pageContext.GetTokenValue("ApplicationTypeId");
+                var allContext = pageContext.ContextItems.GetAllContextItems();
+                var cnt = allContext.Count;
+                int groupId = 0;
+                var typename = allContext[0].TypeName;
+                Guid appId = allContext[0].ApplicationId.Value;
+                if (!int.TryParse(allContext[0].Id, out groupId))
+                {
+                    //if groupid is not 
+                    // find by  mapbook name only... 
+                    // TODO: optimize database with safeName and GroupId indexing
+                }
+                string mapbookName = pageContext.GetTokenValue("mapbook") as string;
+                var group = TEApi.Groups.Get(new GroupsGetOptions { Id = groupId });
+                PublicApi.MapBook mapbook = InternalApi.CoriaDataService.GetMapBookByGroupId_Name(groupId, mapbookName);
+
+                ContextItem contextItem = new ContextItem()
+                {
+                    ApplicationId = mapbook.ApplicationId,
+                    ApplicationTypeId = mapbook.ApplicationTypeId,
+                    ContainerId = mapbook.Container.ContainerId,
+                    ContainerTypeId = mapbook.Container.ContainerTypeId,    //Apis.Get<IGroups>().ContainerTypeId,  
+                    ContentId = mapbook.ApplicationId,
+                    ContentTypeId = mapbook.ApplicationTypeId,
+                };
                 pageContext.ContextItems.Put(contextItem);
+            }
+            catch(Exception ex)
+            {
+                throw new InternalApi.Utility.CoriaException(Categories[0], "ParseMapBookContex method error. ", ex);
+            }
+ 
         }
         #endregion
     }

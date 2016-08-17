@@ -54,6 +54,25 @@ namespace te.extension.coria.PublicApi
                 return Apis.Get<IGroups>().Root;
             }
         }
+        public Group Group
+        {
+            get {
+                GroupsGetOptions groupOpt = new GroupsGetOptions();
+                groupOpt.Id = _mapbook.GroupId;
+                if (groupOpt.Id > 0)
+                {
+                    Group group = Apis.Get<IGroups>().Get(groupOpt);
+                    return group;
+                }
+                Group groupRoot = Apis.Get<IGroups>().Root;
+                return groupRoot;
+            }
+        }
+
+        internal static MapBook Get(string mapBookName)
+        {
+            throw new NotImplementedException();
+        }
 
         internal static MapBook Get(int groupId, string mapBookName)
         {

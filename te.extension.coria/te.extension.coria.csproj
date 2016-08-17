@@ -83,6 +83,7 @@
     <Compile Include="InternalApi\Entity\CoriaMap.cs" />
     <Compile Include="InternalApi\Entity\CoriaMapBook.cs" />
     <Compile Include="InternalApi\Utility\EmbeddedResources.cs" />
+    <Compile Include="InternalApi\Utility\CoriaException.cs" />
     <Compile Include="Plugins\Application\CoriaMapType.cs" />
     <Compile Include="Plugins\Content\MapContentType.cs" />
     <Compile Include="Plugins\CoriaApplications.cs" />
