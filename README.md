@@ -8,27 +8,27 @@ This concept design is still evolving, as such, this preview may change. As an a
 ## Kharta Coria Graphica Concept
 Because KCG plugs into Telligent's Community or "Social" website, a review of Telligent's content model, core services, and extensibility model are needed.  
 ### Telligent Plugin For Geo-Spatial Analysis
-![Cover](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/Slide1.png)
+![Cover](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/img/Slide1.png)
 ### Telligent's Content Model, for geospatial
-![Content Model](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/Slide2.png)
+![Content Model](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/img/Slide2.png)
 ### Content Model w/ Telligent's Core Services
-![Content Model With Core Services](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/Slide3.png)
+![Content Model With Core Services](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/img/Slide3.png)
 ### Telligent's Extensibility Architecture
-![Extensibility Model](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/Slide4.png)
+![Extensibility Model](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/img/Slide4.png)
 ### Concept of Operation: Between Applications & Content Model
-![KCG Applications and Content Model ](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/Slide5.png)
+![KCG Applications and Content Model ](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/img/Slide5.png)
 #### Code Map
 This is the current code map based the physical implementation:
-![KCG Applications and Content Model ](https://github.com/powersparks/kharta-coria-graphica/blob/master/codeMapKCG.png)
+![KCG Applications and Content Model ](https://github.com/powersparks/kharta-coria-graphica/blob/master/img/codeMapKCG.png)
 ### Geospatial Applications & Content Model: Applications
-![Preliminary Concept Design](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/Slide6.png)
+![Preliminary Concept Design](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/img/Slide6.png)
 ### Kharta: Concept
-![Preliminary Concept Design](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/Slide7.png)
+![Preliminary Concept Design](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/img/Slide7.png)
 ### Coria: Concept
-![Preliminary Concept Design](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/Slide8.png)
+![Preliminary Concept Design](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/img/Slide8.png)
 ### Graphica: Concept
-![Preliminary Concept Design](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/Slide9.png)
+![Preliminary Concept Design](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/img/Slide9.png)
 ### VS Solution and Projects
-![Preliminary Concept Design](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/Slide10.png)
+![Preliminary Concept Design](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/img/Slide10.png)
 ### Plugin Structure
-![Preliminary Concept Design](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/Slide11.png)
+![Preliminary Concept Design](https://raw.githubusercontent.com/powersparks/kharta-coria-graphica/master/img/Slide11.png)
