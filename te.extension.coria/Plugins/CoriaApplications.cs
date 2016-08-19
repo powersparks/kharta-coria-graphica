@@ -22,7 +22,7 @@ namespace te.extension.coria.Plugins
         public string Name { get { return "Coria Applications"; } }
         public string Description { get { return "A Telligent friendly tools for creating Lists, Charts & Maps using standard data sources"; } }
         public Guid DataTypeId { get { return CoriaType_id; } }
-        public void Initialize() { }
+        public void Initialize() { _widgetProvider = Telligent.Evolution.Extensibility.Version1.PluginManager.Get<CoriaFactoryDefaultWidgetProvider>().FirstOrDefault(); }
         #region IConfigurablePlugin
         public PropertyGroup[] ConfigurationOptions
         {
@@ -84,7 +84,7 @@ namespace te.extension.coria.Plugins
             #region Install Widgets
           
             #region Coria Map Widgets
-            _widgetProvider = Telligent.Evolution.Extensibility.Version1.PluginManager.Get<CoriaFactoryDefaultWidgetProvider>().FirstOrDefault();
+           
             UIApi.FactoryDefaultScriptedContentFragmentProviderFiles.DeleteAllFiles(_widgetProvider);
 
             var definitionFilesSources = new string[] {
@@ -172,7 +172,7 @@ namespace te.extension.coria.Plugins
         {
             #region Remove Widget Files
            
-            _widgetProvider = Telligent.Evolution.Extensibility.Version1.PluginManager.Get<CoriaFactoryDefaultWidgetProvider>().FirstOrDefault();
+            //_widgetProvider = Telligent.Evolution.Extensibility.Version1.PluginManager.Get<CoriaFactoryDefaultWidgetProvider>().FirstOrDefault();
             UIApi.FactoryDefaultScriptedContentFragmentProviderFiles.DeleteAllFiles(_widgetProvider);
             /******/
             #endregion

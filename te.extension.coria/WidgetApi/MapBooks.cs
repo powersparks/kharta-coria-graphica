@@ -23,7 +23,10 @@ namespace te.extension.coria.WidgetApi
             {
                 PublicApi.MapBook mapBook = null;
                 Guid groupGuid = Apis.Get<Api1.IGroups>().ContainerTypeId;
-                string mapBookName = TEApi.Url.CurrentContext.GetTokenValue("mapBook").ToString();
+                var mapBookNameToken = TEApi.Url.CurrentContext.GetTokenValue("mapBook");
+                var mapBooksNameToken = TEApi.Url.CurrentContext.GetTokenValue("mapBooks");
+                string mapBookName = mapBooksNameToken != null ? mapBooksNameToken.ToString() : "";
+
                 //CurrentContext.ContextItems.Find(c=> c.ContainerTypeId == {GroupContainerType})  
                 IContextItem contextItem = TEApi.Url.CurrentContext.ContextItems.GetItemByContainerType(groupGuid);
                 int groupId = 0;

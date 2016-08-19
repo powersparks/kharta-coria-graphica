@@ -21,7 +21,7 @@ namespace te.extension.coria.PublicApi
     public class MapBook: ApiEntity, IApplication
     {
         private InternalApi.CoriaMapBook _mapbook = null;
-
+        
 
         #region ApiEntity
         public MapBook() : base() { }
@@ -77,7 +77,7 @@ namespace te.extension.coria.PublicApi
         internal static MapBook Get(int groupId, string mapBookName)
         {
             MapBook mapbook = new MapBook();
-            mapbook = CoriaDataService.GetMapBookByGroupId_Name(groupId, mapBookName);
+            mapbook = CoriaDataService.GetMapBookByGroupId_Name(groupId, mapBookName, null);
             return mapbook;
         }
 
@@ -86,7 +86,8 @@ namespace te.extension.coria.PublicApi
         public string Url { get {
                 //string groupUrl = TEApi.Groups.Get(new GroupsGetOptions { Id = _mapbook.GroupId }).Url;
                 //groupUrl + "maps/" +
-                return _mapbook.Url; } }
+                string safeUrl = this.Group.Url + "/" + _mapbook.Url + "/" + _mapbook.SafeName;
+                return safeUrl; } }
 
         public string HtmlDescription(string target) { return _mapbook.HtmlDescription(target); }
 

@@ -66,12 +66,15 @@ namespace te.extension.coria.Plugins.UI.CoriaManagementPanels
     }
 }
 
-////Get "All" Telligent ApplicationTypes 
+////This lambda expression is cool, but maybe hard to read to figure out how to modify it
+/// PublicApi.ApplicationTypes.List().Where(c => Telligent.Evolution.Extensibility.Version1.PluginManager.Get<IWebContextualApplicationType>().Any(a => a.ApplicationTypeId == c.Id.GetValueOrDefault(Guid.Empty))).Select(c => c.Id.Value).ToArray(); 
+/// so, here is the above code broken down:
+/// Get "All" Telligent ApplicationTypes
 //IEnumerable< TEApi.Entities.Version1.ApplicationType> all_teApplicationTypesIEnum = Telligent.Evolution.Extensibility.Api.Version1.PublicApi.ApplicationTypes.List();
 ////Get Web Page "Context" ApplicationTypes
 //IEnumerable<IWebContextualApplicationType> page_webContextApplicationTypesIEnum = Telligent.Evolution.Extensibility.Version1.PluginManager.Get<IWebContextualApplicationType>();
 ////Get "Matching" ApplicationTypes, between "All" and "Context"
-//IEnumerable<TEApi.Entities.Version1.ApplicationType> matching_teApplicationTypeListIEnum = all_teApplicationTypesList.Where(c => page_webContextApplicationTypesIEnum.Any(a => a.ApplicationTypeId == c.Id.GetValueOrDefault(Guid.Empty)));
+//IEnumerable<TEApi.Entities.Version1.ApplicationType> matching_teApplicationTypeListIEnum = all_teApplicationTypesIEnum.Where(c => page_webContextApplicationTypesIEnum.Any(a => a.ApplicationTypeId == c.Id.GetValueOrDefault(Guid.Empty)));
 ////Select "Guids" of  "Matching" ApplicationTypes
 //IEnumerable<Guid> guidIEnum = matching_teApplicationTypeListIEnum.Select(c => c.Id.Value);
 ////Convert IEnum to Array

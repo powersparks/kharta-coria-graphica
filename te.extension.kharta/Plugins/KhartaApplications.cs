@@ -22,7 +22,7 @@ using Telligent.Evolution.Urls.Routing;
 using Permission = Telligent.Evolution.Extensibility.Security.Version1.Permission;
 using TEApi = Telligent.Evolution.Extensibility.Api.Version1.PublicApi;
 using UIApi = Telligent.Evolution.Extensibility.UI.Version1;
-
+using kharta.coria.graphica;
 
 
 namespace te.extension.kharta.Plugins
@@ -65,16 +65,11 @@ namespace te.extension.kharta.Plugins
         public void Install(Version lastInstalledVersion)
         {
             #region Install SQL
-            /***** if (lastInstalledVersion == null || lastInstalledVersion.Major == 0)
-                 InternalApi.PollingDataService.Install();
+            //if (lastInstalledVersion == null || lastInstalledVersion.Major == 0)
+                
 
-             if (lastInstalledVersion == null || lastInstalledVersion <= new Version(1, 1))
-                 InternalApi.PollingDataService.Install("update-1.1.sql");
-
-             if (lastInstalledVersion == null || lastInstalledVersion <= new Version(1, 3))
-                 InternalApi.PollingDataService.Install("update-1.3.sql");
-
-             InternalApi.PollingDataService.Install("storedprocedures.sql");***/
+            // if (lastInstalledVersion == null || lastInstalledVersion <= new Version(1, 1))
+               
             #endregion
 
             #region Install Widgets
@@ -206,7 +201,9 @@ namespace te.extension.kharta.Plugins
             typeof(UI.SourceNewPostLink),
             typeof(UI.SourceGroupNavigation),
             typeof(UI.AdminPanel),
-            typeof(UI.WidgetExtension.OntologyWidgetExtension) 
+            typeof(UI.WidgetExtension.OntologyWidgetExtension),
+            typeof(Core)
+           
             
         };} }
         #endregion

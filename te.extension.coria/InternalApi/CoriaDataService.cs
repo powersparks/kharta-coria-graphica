@@ -40,8 +40,8 @@ namespace te.extension.coria.InternalApi
                     catch (DbUpdateConcurrencyException ex)
                     {
                         //TODO: handle exception and log it
-                       
-                         
+
+                        var exception = ex;
                     }
 
                 }
@@ -62,7 +62,7 @@ namespace te.extension.coria.InternalApi
             return mapbookApps;// mapbookApps.Cast<IApplication>().ToList();
         }
 
-        internal static PublicApi.MapBook GetMapBookByGroupId_Name(int groupId, string mapBookName)
+        internal static PublicApi.MapBook GetMapBookByGroupId_Name(int groupId, string mapBookName, string mapBookName2)
         {
               PublicApi.MapBook mapbook = new PublicApi.MapBook(GetCoriaMapBookByGroupId_MapBookName(groupId, mapBookName));
             return mapbook;

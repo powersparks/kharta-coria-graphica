@@ -7,7 +7,7 @@ using kharta.coria.graphica.Models;
 using System.Runtime.CompilerServices;
 using System.Diagnostics;
 using System.Data.Entity.Infrastructure;
-
+using System.Text.RegularExpressions;
 using System.Reflection;
 
 [assembly: InternalsVisibleTo("kharta.coria.graphica.test")]
@@ -190,7 +190,32 @@ namespace te.extension.kharta.InternalApi
             }
 
         }
+        #region SqlInstallMethods
+        internal static void Install(string fileName)
+        {
+            using (KhartaDataModel dbcontext =new KhartaDataModel())
+            { 
+                foreach (string statement in GetStatementsFromSqlBatch(Utility.EmbeddedResources.GetString("te.extension.kharta.Resources.Sql." + fileName)))
+                {
+                    dbcontext.Database.ExecuteSqlCommand(statement);
+                     
+                }
+                dbcontext.SaveChanges();
+            }
+        }
+        private static IEnumerable<string> GetStatementsFromSqlBatch(string sqlBatch)
+        {
+            // This isn't as reliable as the SQL Server SDK, but works for most SQL batches and prevents another assembly reference
+            foreach (string statement in Regex.Split(sqlBatch, @"^\s*GO\s*$", RegexOptions.IgnoreCase | RegexOptions.Multiline))
+            {
+                string sanitizedStatement = Regex.Replace(statement, @"(?:^SET\s+.*?$|\/\*.*?\*\/|--.*?$)", "\r\n", RegexOptions.IgnoreCase | RegexOptions.Multiline).Trim();
+                if (sanitizedStatement.Length > 0)
+                    yield return sanitizedStatement;
+            }
+        }
+        #endregion
 
-       
+
+
     }
 }
