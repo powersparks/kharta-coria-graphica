@@ -21,14 +21,28 @@ namespace te.extension.coria.PublicApi
             catch (Exception ex)
             {
                 var exception = ex;
-                return null;
+                throw null;
             } 
         }
-        public static IApplication Get(Guid id)
+        public static MapBook GetMapBook(int id)
         {
             try
             {
                 MapBook mapbook = new MapBook(InternalApi.CoriaDataService.GetCoriaMapBookApplication(id));
+
+                return mapbook;
+            }
+            catch (Exception ex)
+            {
+                var exception = ex;
+                return null;//throw ex;//new InternalApi.Utility.CoriaException("Coria", ex.Message);
+            }
+        }
+        public static IApplication Get(Guid mapBookGuId)
+        {
+            try
+            {
+                MapBook mapbook = new MapBook(InternalApi.CoriaDataService.GetCoriaMapBookApplication(mapBookGuId));
 
                 return  mapbook;
             }
@@ -61,8 +75,12 @@ namespace te.extension.coria.PublicApi
         {
             throw new NotImplementedException();
         }
-
-        internal static PagedList<MapBook> List(int groupId, MapBooksListOptions query)
+        public static IList<MapBook> List(int groupId) {
+            IList<InternalApi.CoriaMapBook> cMapBooks = InternalApi.CoriaDataService.GetCoriaMapBooksByGroup(groupId);
+            if (cMapBooks.Count == 0) { return null; }
+            return new List<MapBook>(cMapBooks.Select(m => new MapBook(m)));
+        }
+    internal static PagedList<MapBook> List(int groupId, MapBooksListOptions query)
         {
             int pageIndex = query.PageIndex < 1 ? 0 : query.PageIndex;
             int pageSize = query.PageSize >= 10 ? query.PageSize : 10;

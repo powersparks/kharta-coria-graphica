@@ -88,6 +88,8 @@
     <Compile Include="Plugins\Content\MapContentType.cs" />
     <Compile Include="Plugins\CoriaApplications.cs" />
     <Compile Include="Plugins\UI\CoriaManagementPanels\CoriaMapBookPanel.cs" />
+    <Compile Include="Plugins\UI\Navigation\MapsGroupNavigation.cs" />
+    <Compile Include="Plugins\UI\NewPostLink\MapBookNewMapLink.cs" />
     <Compile Include="Plugins\UI\WidgetExtension\MapWidgetExtension.cs" />
     <Compile Include="Plugins\UI\WidgetProviders\CoriaFactoryDefaultWidgetProvider.cs" />
     <Compile Include="Plugins\UI\WidgetProviders\CoriaWidgetContextProvider.cs" />
@@ -132,6 +134,7 @@
     <EmbeddedResource Include="Resources\Widgets\CoriaMapList\Supplementary\CoriaMapList.css" />
     <EmbeddedResource Include="Resources\Widgets\CoriaMapList\Supplementary\CoriaMapList.js" />
     <EmbeddedResource Include="Resources\Widgets\CoriaMapList\CoriaMapList.xml" />
+    <EmbeddedResource Include="Resources\Pages\coria-mapbook-map-Social-Group-Page.xml" />
     <Content Include="Resources\Widgets\ExampleKhartaName\ExampleKhartaName.xml" />
     <Content Include="Resources\Widgets\ExampleKhartaName\Supplementary\ExampleKhartaName.css" />
     <Content Include="Resources\Widgets\ExampleKhartaName\Supplementary\ExampleKhartaName.js" />

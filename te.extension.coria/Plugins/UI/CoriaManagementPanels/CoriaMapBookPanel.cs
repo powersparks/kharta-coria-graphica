@@ -22,7 +22,7 @@ namespace te.extension.coria.Plugins.UI.CoriaManagementPanels
      public class CoriaMapBookPanel : IPlugin, IApplicationPanel,  UIApi.IScriptablePlugin //, IContainerPanel
     {
         Guid _CoriaMapBookManPanel_WidgetId = new Guid("99f22a55-f1f4-4584-8a76-dd0a64452d6b");
-        Guid _panelId = new Guid("a06a4d37-82d6-42a4-b20c-140ffd882677");
+        public static Guid _panelId = new Guid("a06a4d37-82d6-42a4-b20c-140ffd882677");
         Guid _applicationPanel = new Guid("c4315566-7dcc-46b3-9ab7-7715d05498ad"); 
         UIApi.IScriptedContentFragmentController _iScriptedContentFragmentController;
         #region IPlugin

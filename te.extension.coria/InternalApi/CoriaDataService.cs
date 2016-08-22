@@ -64,6 +64,7 @@ namespace te.extension.coria.InternalApi
 
         internal static PublicApi.MapBook GetMapBookByGroupId_Name(int groupId, string mapBookName, string mapBookName2)
         {
+            mapBookName = mapBookName2 != null ? mapBookName2 : mapBookName;
               PublicApi.MapBook mapbook = new PublicApi.MapBook(GetCoriaMapBookByGroupId_MapBookName(groupId, mapBookName));
             return mapbook;
              
@@ -164,7 +165,7 @@ namespace te.extension.coria.InternalApi
             {
                 MapBook mapbook = (from m in dbcontext.MapBooks
                               where m.GroupId.Equals(groupId)
-                              && m.Url.Equals(mapBookName)
+                              && m.SafeName.Equals(mapBookName)
                               select m).FirstOrDefault();
 
                 return mapbook;
@@ -176,6 +177,7 @@ namespace te.extension.coria.InternalApi
             Func<MapBook, CoriaMapBook> toCoriaMapBook = (MapBook fromMapBook) => ToCoriaMapBook(fromMapBook, new CoriaMapBook());
        
             IList<MapBook> mapbooks = GetMapBooksByGroup(groupId);
+            if (mapbooks.Count == 0) { return null; }
             IList<CoriaMapBook> coriaMapBooks = new List<CoriaMapBook>();
             foreach (MapBook mapbook in mapbooks)
             {
@@ -305,7 +307,7 @@ namespace te.extension.coria.InternalApi
 
         private static object ConvertFromPropertiesTo(object fromObject, object toObject)
         {
-             
+            if (object.ReferenceEquals(null,fromObject) ){ return null; }
             //usage: (castToClass)ConvertFromPropertiesTo(fromObject, toObject)
             var inputObject = fromObject;
             var outputObject = toObject;

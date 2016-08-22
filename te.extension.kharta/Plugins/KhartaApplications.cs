@@ -202,7 +202,7 @@ namespace te.extension.kharta.Plugins
             typeof(UI.SourceGroupNavigation),
             typeof(UI.AdminPanel),
             typeof(UI.WidgetExtension.OntologyWidgetExtension),
-            typeof(Core)
+            //typeof(KhartaCore)
            
             
         };} }

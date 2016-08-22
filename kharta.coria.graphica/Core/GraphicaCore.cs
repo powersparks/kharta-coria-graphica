@@ -13,12 +13,12 @@ using System.Reflection;
 using Telligent.Evolution.Extensibility.Version1;
  
 
-namespace kharta.coria.graphica
+namespace kharta.coria.graphica.core
 {
-    public class Core : IPlugin, IInstallablePlugin
+    public class GraphicaCore : IPlugin, IInstallablePlugin
     {
-        public string Name { get { return "Kharta Coria Graphic Core"; } }
-        public string Description { get { return "Provides the Kharta Data Model and installs and upgrades a Kharta database using EF"; } }
+        public string Name { get { return "Graphica Applications Core"; } }
+        public string Description { get { return "Provides the Graphica Data Model and installs and upgrades a Kharta database using EF"; } }
          
         private static readonly Version _emptyVersion = new Version(0, 0, 0, 0);
         public Version Version { get { return GetType().Assembly.GetName().Version; } }
@@ -28,12 +28,8 @@ namespace kharta.coria.graphica
             #region Install SQL
             if (lastInstalledVersion == null || lastInstalledVersion.Major == 0)
             {
-                InstallSql("HostingCreateTable.sql");
-                InstallSql("MapBoxCreateTable.sql");
-                InstallSql("MapCreateTable.sql");
-                InstallSql("OntologyCreateTable.sql");
-                InstallSql("SourceCreateTable.sql");
-                InstallSql("TransformCreateTable.sql");
+               // InstallSql("HostingCreateTable.sql");
+           
             }
             if (lastInstalledVersion == null || lastInstalledVersion <= new Version(1, 1))
             {

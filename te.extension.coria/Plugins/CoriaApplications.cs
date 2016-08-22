@@ -6,10 +6,10 @@ using te.extension.coria.Plugins.UI;
 using Telligent.DynamicConfiguration.Components;
 using Telligent.Evolution.Extensibility.Version1;
 using UIApi = Telligent.Evolution.Extensibility.UI.Version1;
+using Embr = te.extension.coria.InternalApi.Utility.EmbeddedResources;
 
 namespace te.extension.coria.Plugins
-{
-
+{ 
     public class CoriaApplications : IPlugin, IInstallablePlugin, IPluginGroup, IConfigurablePlugin //IPlugin, IConfigurablePlugin, IRequiredConfigurationPlugin, IInstallablePlugin, IPluginGroup, IApplicationNavigable, INavigable, ITranslatablePlugin, IPermissionRegistrar, ICategorizedPlugin
     {
         private static readonly Version _emptyVersion = new Version(0, 0, 0, 0);
@@ -134,7 +134,7 @@ namespace te.extension.coria.Plugins
             {
                 foreach (var relativePath in supplementaryFiles[instanceId])
                 {
-                    using (var stream = InternalApi.Utility.EmbeddedResources.GetStream("te.extension.coria.Resources.Widgets." + relativePath.Replace("/", ".")))
+                    using (var stream = Embr.GetStream("te.extension.coria.Resources.Widgets." + relativePath.Replace("/", ".")))
                     {
                         UIApi.FactoryDefaultScriptedContentFragmentProviderFiles.AddUpdateSupplementaryFile(_widgetProvider, instanceId, relativePath.Substring(relativePath.LastIndexOf("/", StringComparison.InvariantCultureIgnoreCase) + 1), stream);
                     }
@@ -158,10 +158,14 @@ namespace te.extension.coria.Plugins
             foreach (var theme in UIApi.Themes.List(UIApi.ThemeTypes.Group))
             {
                 xml = new XmlDocument();
-                xml.LoadXml(InternalApi.Utility.EmbeddedResources.GetString("te.extension.coria.Resources.Pages.coria-mapbook-list-Social-Group-Page.xml"));
+                xml.LoadXml(Embr.GetString("te.extension.coria.Resources.Pages.coria-mapbook-list-Social-Group-Page.xml"));
                 UIApi.ThemePages.AddUpdateFactoryDefault(theme, xml.SelectSingleNode("theme/contentFragmentPages/contentFragmentPage"));
+                UIApi.ThemePages.DeleteDefault(theme, "coria-mapbooklist", true);
 
-                UIApi.ThemePages.DeleteDefault(theme, "mapbooklist", true);
+                xml = new XmlDocument();
+                xml.LoadXml(Embr.GetString("te.extension.coria.Resources.Pages.coria-mapbook-map-Social-Group-Page.xml"));
+                UIApi.ThemePages.AddUpdateFactoryDefault(theme, xml.SelectSingleNode("theme/contentFragmentPages/contentFragmentPage"));
+                UIApi.ThemePages.DeleteDefault(theme, "coria-map-page", true);
             }
             #endregion
 
@@ -181,9 +185,13 @@ namespace te.extension.coria.Plugins
             foreach (var theme in UIApi.Themes.List(UIApi.ThemeTypes.Group))
             {
             
-                UIApi.ThemePages.DeleteFactoryDefault(theme, "mapbooklist", true);
-                UIApi.ThemePages.DeleteDefault(theme, "mapbooklist", true);
-                UIApi.ThemePages.Delete(theme, "mapbooklist", true);
+                UIApi.ThemePages.DeleteFactoryDefault(theme, "coria-mapbooklist", true);
+                UIApi.ThemePages.DeleteDefault(theme, "coria-mapbooklist", true);
+                UIApi.ThemePages.Delete(theme, "coria-mapbooklist", true);
+
+                UIApi.ThemePages.DeleteFactoryDefault(theme, "coria-map-page", true);
+                UIApi.ThemePages.DeleteDefault(theme, "coria-map-page", true);
+                UIApi.ThemePages.Delete(theme, "coria-map-page", true);
 
             }
             #endregion
@@ -202,6 +210,9 @@ namespace te.extension.coria.Plugins
           typeof(UI.WidgetExtension.MapBookWidgetExtension),
           typeof(UI.CoriaManagementPanels.CoriaMapBookPanel),
           typeof(Content.MapContentType),
+          typeof(UI.MapsGroupNavigation),
+          typeof(UI.NewPostLink.MapBookNewMapLink)
+          
         };
             }
         }

@@ -25,7 +25,7 @@ namespace te.extension.kharta.Plugins.UI
 
             public string Description
             {
-                get { return "Adds poll custom navigation support within groups."; }
+                get { return "Adds Sources custom navigation support within groups."; }
             }
 
             public void Initialize()
@@ -120,14 +120,14 @@ namespace te.extension.kharta.Plugins.UI
 
                 public ICustomNavigationItem[] Children { get; set; }
                 public ICustomNavigationItemConfiguration Configuration { get; private set; }
-                public string CssClass { get { return "list-polls"; } }
+                public string CssClass { get { return "kharta"; } }
                 public string Label { get { return _getLabel(); } }
                 public ICustomNavigationPlugin Plugin { get; private set; }
                 public Guid UniqueID { get; private set; }
 
                 public bool IsSelected(string currentFullUrl)
                 {
-                    return currentFullUrl.Contains("/polls");
+                    return currentFullUrl.Contains("/sources");
                 }
 
                 public bool IsVisible(int userID)
@@ -139,8 +139,13 @@ namespace te.extension.kharta.Plugins.UI
                 {
                     get
                     {
-                    return null;// InternalApi.SourceingUrlService.SourceListUrl(_groupId);
-                    }
+                    //if (_source != null)
+                    //    return _source.Group.Url + "/" + _source.SafeName; // InternalApi.SourceingUrlService.SourceListUrl(_groupId);
+                    //if (_groupId > -1)
+                    //    return PublicApi.Sources.GetSourcesApplicationsByGroup(_groupId).FirstOrDefault().Container.Url + "/mapbooks";
+
+                    return null;
+                }
                 }
 
                 #endregion

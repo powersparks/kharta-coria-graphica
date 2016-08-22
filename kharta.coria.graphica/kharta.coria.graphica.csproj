@@ -53,10 +53,13 @@
     <Reference Include="System.Xml" />
     <Reference Include="Telligent.Evolution.Components">
       <HintPath>..\..\..\References\Telligent.Evolution.Components.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core.cs" />
+    <Compile Include="Core\GraphicaCore.cs" />
+    <Compile Include="Core\CoriaCore.cs" />
+    <Compile Include="Core\KhartaCore.cs" />
     <Compile Include="Models\Map.cs" />
     <Compile Include="Models\Hosting.cs" />
     <Compile Include="Models\KhartaDataModel.cs" />
@@ -75,11 +78,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\Sql\TransformCreateTable.sql" />
+    <EmbeddedResource Include="Resources\Sql\TransformCreateTable.sql" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Sql\HostingCreateTable.sql" />
-    <EmbeddedResource Include="Resources\Sql\MapBoxCreateTable.sql" />
+    <EmbeddedResource Include="Resources\Sql\MapBookCreateTable.sql" />
     <EmbeddedResource Include="Resources\Sql\MapCreateTable.sql" />
     <EmbeddedResource Include="Resources\Sql\OntologyCreateTable.sql" />
     <EmbeddedResource Include="Resources\Sql\SourceCreateTable.sql" />

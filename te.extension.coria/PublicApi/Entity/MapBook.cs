@@ -20,7 +20,7 @@ namespace te.extension.coria.PublicApi
 {
     public class MapBook: ApiEntity, IApplication
     {
-        private InternalApi.CoriaMapBook _mapbook = null;
+        private InternalApi.CoriaMapBook _mapbook = new CoriaMapBook();
         
 
         #region ApiEntity
@@ -40,7 +40,7 @@ namespace te.extension.coria.PublicApi
         public Guid ApplicationTypeId { get { return _mapbook.ApplicationTypeId.Value; } }
 
         public string AvatarUrl { get { return _mapbook.AvatarUrl; } }
-
+        public string SafeName { get { return _mapbook.SafeName; } }
         public IContainer Container
         {
             get
@@ -57,6 +57,7 @@ namespace te.extension.coria.PublicApi
         public Group Group
         {
             get {
+                if(object.ReferenceEquals(null, _mapbook)){ return null; }
                 GroupsGetOptions groupOpt = new GroupsGetOptions();
                 groupOpt.Id = _mapbook.GroupId;
                 if (groupOpt.Id > 0)
@@ -86,7 +87,7 @@ namespace te.extension.coria.PublicApi
         public string Url { get {
                 //string groupUrl = TEApi.Groups.Get(new GroupsGetOptions { Id = _mapbook.GroupId }).Url;
                 //groupUrl + "maps/" +
-                string safeUrl = this.Group.Url + "/" + _mapbook.Url + "/" + _mapbook.SafeName;
+                string safeUrl = this.Group.Url + "/" + _mapbook.Url; // + "/" + _mapbook.SafeName;
                 return safeUrl; } }
 
         public string HtmlDescription(string target) { return _mapbook.HtmlDescription(target); }

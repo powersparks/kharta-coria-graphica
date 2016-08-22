@@ -171,11 +171,15 @@ namespace te.extension.coria.Plugins.Application
 
         public void RegisterUrls(IUrlController controller)
         {
-            //var mapBookAction = new Action<HttpContextBase, PageContext>(MapBookAction);
-            //             controller.AddPage("MapBookList", "{mapbook}", new Telligent.Evolution.Urls.Routing.NotSiteRootRouteConstraint(), null, MapBookAction, PdOptions);
-            controller.AddPage("GroupMapBookList", "{mapBooks}", new Telligent.Evolution.Urls.Routing.NotSiteRootRouteConstraint(), null, "mapbooklist", PdOptions);
-            controller.AddPage("GroupMapBookList", "{mapBooks}/{mapBook}", new Telligent.Evolution.Urls.Routing.NotSiteRootRouteConstraint(), null, "mapbooklist", PdOptions);
-            controller.AddPage("UserMapBookList", "members/{UserName}/{mapBooks}", new Telligent.Evolution.Urls.Routing.NotSiteRootRouteConstraint(), null, "mapbooklist", PdOptions);
+            //var mapBookAction = new Action<HttpContextBase, PageContext>(MapBookAction); 
+            controller.AddPage("GroupMapBookList", "mapbooks",null, null, "coria-mapbooklist", PdOptions); 
+            controller.AddPage("GroupMapBookSingle", "mapbooks/{mapBook}", new Telligent.Evolution.Urls.Routing.NotSiteRootRouteConstraint(), null, "coria-mapbooklist", PdOptions);
+           
+            controller.AddPage("GroupMap", "mapbooks/{mapBook}/map", new Telligent.Evolution.Urls.Routing.NotSiteRootRouteConstraint(), null, "coria-map-page", PdOptions);
+            controller.AddPage("GroupMapNew", "mapbooks/{mapBook}/map/new", new Telligent.Evolution.Urls.Routing.NotSiteRootRouteConstraint(), null, "coria-map-page", PdOptions);
+
+            controller.AddPage("UserMapBookList", "members/{UserName}/{mapBooks}", new Telligent.Evolution.Urls.Routing.NotSiteRootRouteConstraint(), null, "coria-mapbooklist", PdOptions);
+            controller.AddPage("UserMapBookSingle", "members/{UserName}/{mapBooks}/{mapBook}", new Telligent.Evolution.Urls.Routing.NotSiteRootRouteConstraint(), null, "coria-mapbooklist", PdOptions);
 
         }
         private PageDefinitionOptions PdOptions { get { return new PageDefinitionOptions() {
@@ -213,7 +217,7 @@ namespace te.extension.coria.Plugins.Application
                 var ApplicationTypeId = pageContext.GetTokenValue("ApplicationTypeId");
                 var allContext = pageContext.ContextItems.GetAllContextItems();
                 var cnt = allContext.Count;
-                int groupId = 0;
+                int groupId = -1;
                 var typename = allContext[0].TypeName;
                 Guid appId = allContext[0].ApplicationId.Value;
                 if (!int.TryParse(allContext[0].Id, out groupId))
@@ -222,28 +226,43 @@ namespace te.extension.coria.Plugins.Application
                     // find by  mapbook name only... 
                     // TODO: optimize database with safeName and GroupId indexing
                 }
-                string mapBookContext = pageContext.GetTokenValue("mapBook") as string;
-           
-                string mapBooksContext = pageContext.GetTokenValue("mapBooks") as string;
+                string singleMapBook = pageContext.GetTokenValue("mapBook") as string;
 
-                
+            string appMapBookNameContext = "mapbooks";//pageContext.GetTokenValue("appName") as string;
+
+            IList<PublicApi.MapBook> mapbooks = new List<PublicApi.MapBook>();
                 var userName = pageContext.GetTokenValue("UserName");
-
+            if (groupId > -1)
+            {
                 var group = TEApi.Groups.Get(new GroupsGetOptions { Id = groupId });
-            
-               PublicApi.MapBook mapbook = InternalApi.CoriaDataService.GetMapBookByGroupId_Name(groupId, mapBooksContext, mapBookContext);
-
-                ContextItem contextItem = new ContextItem()
+                ContextItem contextItem = new ContextItem();
+                if (!string.IsNullOrEmpty(singleMapBook))
                 {
-                    ApplicationId = mapbook.ApplicationId,
-                    ApplicationTypeId = mapbook.ApplicationTypeId,
-                    ContainerId = mapbook.Container.ContainerId,
-                    ContainerTypeId = mapbook.Container.ContainerTypeId,    //Apis.Get<IGroups>().ContainerTypeId,  
-                    ContentId = mapbook.ApplicationId,
-                    ContentTypeId = mapbook.ApplicationTypeId,
-                    Id = mapbook.Group.Id.Value.ToString()
-                };
-             
+                    PublicApi.MapBook mapbook = InternalApi.CoriaDataService.GetMapBookByGroupId_Name(groupId, "mapbooks", singleMapBook);
+
+                    contextItem.ApplicationId = mapbook.ApplicationId;
+                    contextItem.ApplicationTypeId = mapbook.ApplicationTypeId;
+                    contextItem.ContainerId = mapbook.Container.ContainerId;
+                    contextItem.ContainerTypeId = mapbook.Container.ContainerTypeId;    //Apis.Get<IGroups>().ContainerTypeId,  
+                    contextItem.ContentId = mapbook.ApplicationId;
+                    contextItem.ContentTypeId = mapbook.ApplicationTypeId;
+                    contextItem.Id = mapbook.Group.Id.Value.ToString();
+                   
+                }
+                else {
+                    mapbooks = PublicApi.MapBooks.List(groupId);
+                     
+                    contextItem.ApplicationId = mapbooks[0].ApplicationId;
+                    contextItem.ApplicationTypeId = mapbooks[0].ApplicationTypeId;
+                    contextItem.ContainerId = mapbooks[0].Container.ContainerId;
+                    contextItem.ContainerTypeId = mapbooks[0].Container.ContainerTypeId;    //Apis.Get<IGroups>().ContainerTypeId,  
+                    contextItem.ContentId = mapbooks[0].ApplicationId;
+                    contextItem.ContentTypeId = mapbooks[0].ApplicationTypeId;
+                    contextItem.Id = mapbooks[0].Group.Id.Value.ToString();
+                     
+                }
+               
+
                 if (userName != null)
                 {
                     var user = TEApi.Users.Get(new UsersGetOptions() { Username = userName.ToString() });
@@ -257,6 +276,7 @@ namespace te.extension.coria.Plugins.Application
                 }
 
                 pageContext.ContextItems.Put(contextItem);
+            }
             //}
             //catch(Exception ex)
             //{

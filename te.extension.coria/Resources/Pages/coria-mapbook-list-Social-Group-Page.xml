@@ -2,11 +2,11 @@
 
   <contentFragmentPages>
     <contentFragmentPage 
-      pageName="mapbooklist" 
+      pageName="coria-mapbooklist" 
       isCustom="false" 
       layout="Content" 
       themeType="c6108064-af65-11dd-b074-de1a56d89593" 
-      title="Map Books &amp; Maps">
+      title="Map">
       <regions>
         <region regionName="Content">
           <contentFragments>
