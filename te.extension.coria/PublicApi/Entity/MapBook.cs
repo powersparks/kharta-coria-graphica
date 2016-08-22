@@ -87,7 +87,7 @@ namespace te.extension.coria.PublicApi
         public string Url { get {
                 //string groupUrl = TEApi.Groups.Get(new GroupsGetOptions { Id = _mapbook.GroupId }).Url;
                 //groupUrl + "maps/" +
-                string safeUrl = this.Group.Url + "/" + _mapbook.Url; // + "/" + _mapbook.SafeName;
+                string safeUrl = this.Group.Url + "mapbooks/" + _mapbook.SafeName; // + "/" + _mapbook.SafeName;
                 return safeUrl; } }
 
         public string HtmlDescription(string target) { return _mapbook.HtmlDescription(target); }

@@ -82,7 +82,7 @@ namespace te.extension.coria.Plugins.UI.NewPostLink
                         {
                             if (!requestUri.AbsolutePath.EndsWith(groupUri.AbsolutePath) || requestUri.AbsolutePath.EndsWith("/mapbooks/") || requestUri.AbsolutePath.EndsWith("/" + m.SafeName + "/") || !requestUri.AbsolutePath.EndsWith("/map/") || requestUri.AbsolutePath.EndsWith("/map/ping/") || requestUri.AbsolutePath.EndsWith("/map/new/") || requestUri.AbsolutePath.EndsWith("/map/on/"))
                             {
-                                 url = "mapbooks#_cptype=panel&_cpcontexttype=Application&_cppanelid=" + UI.CoriaManagementPanels.CoriaMapBookPanel._panelId.ToString("N");
+                                 url = groupUri + "/mapbooks/" + m.SafeName + "#_cptype=panel&_cpcontexttype=Application&_cppanelid=" + UI.CoriaManagementPanels.CoriaMapBookPanel._panelId.ToString("N");
                                 //a06a4d37-82d6-42a4-b20c-140ffd882677
                                 //url = groupUri + "mapbooks/" + m.SafeName + "/map/new/";
                                 break;
@@ -92,8 +92,9 @@ namespace te.extension.coria.Plugins.UI.NewPostLink
                         {
                             if (!requestUri.AbsolutePath.EndsWith(groupUri.AbsolutePath) || requestUri.AbsolutePath.EndsWith("/mapbooks") || requestUri.AbsolutePath.EndsWith("/" + m.SafeName) || !requestUri.AbsolutePath.EndsWith("/map") || requestUri.AbsolutePath.EndsWith("/map/ping") || requestUri.AbsolutePath.EndsWith("/map/new") || requestUri.AbsolutePath.EndsWith("/map/on"))
                             {
-                                url = "mapbooks#_cptype=panel&_cpcontexttype=Application&_cppanelid=" + UI.CoriaManagementPanels.CoriaMapBookPanel._panelId.ToString("N");
+                                url = groupUri + "/mapbooks/" + m.SafeName +"#_cptype=panel&_cpcontexttype=Application&_cppanelid=" + UI.CoriaManagementPanels.CoriaMapBookPanel._panelId.ToString("N");
                                 //url = groupUri + "/mapbooks/" + m.SafeName + "/map/new/";
+                                // //http://localhost/ideas/fuzzy/mapbooks/mapbook2#_cptype=panel&_cpcontexttype=Application&_cppanelid=a06a4d37-82d6-42a4-b20c-140ffd882677
                                 break;
                             }
                          
