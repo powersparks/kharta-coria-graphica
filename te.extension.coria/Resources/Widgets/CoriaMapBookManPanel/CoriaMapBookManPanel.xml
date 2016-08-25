@@ -12,7 +12,50 @@
     provider="11d248584e704d4f9bb7de3e627bc200">
     <contentScript>
       <![CDATA[  
- <h1>Coria Managament Panel</h1>
+ <p>Coria Managament Panel</p>
+
+$core_v2_page.AddLink("stylesheet", "$core_v2_widget.GetFileUrl('CoriaMapBookManPanel.css')" )
+##$core_v2_widget.ExecuteFile('CoriaMapBookManPanel.vm')
+
+<script id="saveTemplateId" type="text/html">
+	<fieldset>
+		<ul class="field-list">
+			<li class="field-item">
+				<span class="field-item-input">
+					<a href="#" class="button save" data-messagename="contextual-save">Save</a>
+				</span>
+			</li>
+		</ul>
+	</fieldset>
+</script>
+
+#registerEndOfPageHtml ("coria.mapbooks.ui")
+<script type="text/javascript" src="$core_v2_encoding.HtmlAttributeEncode($core_v2_widget.GetFileUrl('CoriaMapBookManPanel.js'))"></script>
+#end
+
+#registerEndOfPageHtml()
+<script type="text/javascript">
+jQuery(function(j){
+        j.coria.mapbooks.ui.register({
+            saveTemplateId:"saveTemplateId"
+        });
+});
+</script>
+#end
+
+<!-- 
+$core_v2_page.AddLink("stylesheet", "$core_v2_widget.GetFileUrl('https://code.jquery.com/ui/1.10.4/themes/dark-hive/jquery-ui.css')" )
+   maplayerdef:"maplayerdef",
+            mapsettings:"mapsettings",
+            panelId:"panelId",
+            tabsId:"tabs",
+<script src="https://code.jquery.com/jquery-1.11.3.min.js" integrity="sha256-7LkWEzqTdpEfELxcZZlS6wAx5Ff13zZ83lYO2/ujj7g=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-1.11.3.min.js" integrity="sha256-7LkWEzqTdpEfELxcZZlS6wAx5Ff13zZ83lYO2/ujj7g=" crossorigin="anonymous"></script>
+https://code.jquery.com/ui/1.10.4/themes/dark-hive/jquery-ui.css
+$core_v2_page.AddLink("stylesheet", "$core_v2_widget.GetFileUrl('https://code.jquery.com/ui/1.10.4/themes/dark-hive/jquery-ui.css')" )
+base black-tie blitzer cupertino dark-hive dot-luv eggplant excite-bike flick hot-sneaks humanity le-frog mint-choc overcast pepper-grinder redmond smoothness south-street start sunny swanky-purse trontastic ui-darkness ui-lightness vader
+-->
+
   ]]>
     </contentScript>
     <headerScript>

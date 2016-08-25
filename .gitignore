@@ -245,3 +245,8 @@ ModelManifest.xml
 .fake/
 /deploy_kharta.coria.graphica_Resources.bat
 /deploy.bat
+/Resources/EcmaScript/_references.js
+/te.extension.coria/Resources/EcmaScript/_references.js
+/te.extension.coria/Resources/EcmaScript/blogOptionsUi.js
+/te.extension.coria/Resources/Widgets/CoriaMapBookManPanel/Supplementary/_references.js
+/te.extension.coria/Resources/Widgets/CoriaMapBookManPanel/Supplementary/telligent.evolution.js
