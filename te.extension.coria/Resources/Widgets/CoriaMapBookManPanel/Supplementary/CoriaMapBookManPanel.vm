@@ -1,44 +1,27 @@
-﻿<div class="custom-panel-heading-content">
-    <fieldset>
-        <ul class="field-list">
-            <li class="field-item"> <span class="field-item-input"> <a href="/ideas/fuzzy/b/announcements/new" class="button save">New Map</a>  </span> </li>
-        </ul>
-        <ul class="field-list">
-            <li class="field-item panel-instructions">   Coria Managament Panel. </li>
-       
-        </ul>
-    </fieldset>
-</div>
-<div id="panelId">
-    <ul class="filter">
-        <li class="filter-option"><a href="#">Layers</a></li>
-        <li class="filter-option"><a href="#">Map Settings</a></li>
-    </ul>
+﻿#if ($core_v2_page.IsPost)
+$core_v2_page.SetContentType('application/json')
+#set($options = "%{}")
+#set ($id = $core_v2_utility.ParseInt($core_v2_page.GetFormValue('id')))
+#set ($name = $core_v2_page.GetFormValue('name'))
+#set ($description = $core_v2_page.GetFormValue('description'))
+#set ($enable = $core_v2_utility.ParseBool($core_v2_page.GetFormValue('enable')))
+#set ($groupId = $core_v2_utility.ParseInt($core_v2_page.GetFormValue('groupId')))
+#set ($authors = $core_v2_page.GetFormValue('authors'))
 
+$options.Add('name', $name)
+$options.Add('description', $description)
+$options.Add('enable', $enable)
+$options.Add('groupId', $groupId)
+$options.Add('authors', $authors)
 
-<div id="layertab" style="top: 138px; " class="contextual-panel-content ">
-    <ul id="maplayerdef" class="navigation-list contextual-administration-links map-layer-def" style="display: block; ">
-    <li class="navigation-list-item ">
-		<a href="# " class="layer " data-messagename="contextual-edit-role " data-roleid="1 " data-title="Everyone " data-hasoverrides="False ">
-			<div> 
-				<span class="name ">Layers</span>
-				<span class="description ">now you see me.</span>
-			</div>
-		</a>
-	</li>
+#set($response = $context.Update($options))
 
-    </ul>
-</div>
-<div id="mapsettingstab" style="top: 138px; " class="contextual-panel-content ">
-    <ul id="mapsettings" class="navigation-list contextual-administration-links map-settings" style="display: none; ">
-    	<li class="navigation-list-item ">
-		<a href="# " class="map " data-messagename="contextual-edit-role " data-roleid="2 " data-title="map " data-hasoverrides="False ">
-			<div>
-				<span class="name ">map settings</span>
-				<span class="description "><div>now you don't.</div></span>
-			</div>
-		</a>
-	</li>
-    </ul>
-</div>
-</div>
+#if($response.HasErrors())
+$core_v2_page.SendJsonError($response.Errors)
+#end
+
+#set ($mapbook = $core_v1_mapbook.Get("%{Id = $id}"))
+
+{"success":true, "redirectUrl":"$mapbook.Url"}
+
+#end

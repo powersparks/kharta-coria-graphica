@@ -12,8 +12,15 @@
     provider="11d248584e704d4f9bb7de3e627bc200">
     <contentScript>
       <![CDATA[  
+  
+#set ($mapbook = false)
+#set ($context = $coria_v1_panel_context)
+#set ($mapbook = $context.MapBook)
+#if (!$mapbook)
+##$core_v2_utility.Describe( $context)##, "%{Depth = $depthArg, Format = $formatArg}")
+	$core_v2_widget.Hide()
+#end
  <p>Coria Managament Panel</p>
-
 $core_v2_page.AddLink("stylesheet", "$core_v2_widget.GetFileUrl('CoriaMapBookManPanel.css')" )
 ##$core_v2_widget.ExecuteFile('CoriaMapBookManPanel.vm')
 
@@ -35,7 +42,7 @@ $core_v2_page.AddLink("stylesheet", "$core_v2_widget.GetFileUrl('CoriaMapBookMan
 
 #registerEndOfPageHtml()
 <script type="text/javascript">
-jQuery(function(j){
+jQuery(document).ready(function(j){
         j.coria.mapbooks.ui.register({
             saveTemplateId:"saveTemplateId"
         });

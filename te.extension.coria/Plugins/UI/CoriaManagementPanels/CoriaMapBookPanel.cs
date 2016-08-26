@@ -61,7 +61,7 @@ namespace te.extension.coria.Plugins.UI.CoriaManagementPanels
         }
         public class PanelContext : IContextualScriptedContentFragmentExtension
         {
-            public string ExtensionName { get { return "context"; } }
+            public string ExtensionName { get { return "coria_v1_panel_context"; } }
             public object GetExtension(NameValueCollection context)
             {
                 Guid applicationId   = Guid.TryParse(context["applicationId"], out applicationId)     ? applicationId : Guid.Empty;
