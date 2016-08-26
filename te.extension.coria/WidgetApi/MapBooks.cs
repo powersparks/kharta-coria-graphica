@@ -15,8 +15,8 @@ namespace te.extension.coria.WidgetApi
     [Documentation(Category = "Coria")]
     public class MapBooks
     {
-        
-        [Documentation("The current contextual mapBook.")]
+          
+       [Documentation("The current contextual mapBook.")]
         public PublicApi.MapBook Current
         {
             get

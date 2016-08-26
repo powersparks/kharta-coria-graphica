@@ -2,8 +2,8 @@
 ## Perform Query
 ##
 
-## Analyzes context and performs a blog post query based on it,
-## resulting in an exposed $posts object in widget scope
+## Analyzes context and performs a map book Maps query based on it,
+## resulting in an exposed $maps object in widget scope
 
 ## user to query
 #set ($user = false)
@@ -14,21 +14,21 @@
 	#set($user = $core_v2_user.Current)
 #end
 
-## blog post data sourcing
-#set($selectedBlogOrGroup = $core_v2_widget.GetStringValue("selectedBlogOrGroup", ""))
-#set($parsedBlogOrGroup = $core_v2_page.ParseQueryString($selectedBlogOrGroup))
+## map book map data sourcing
+#set($selectedMapBookOrGroup = $core_v2_widget.GetStringValue("selectedMapBookOrGroup", ""))
+#set($parsedBlogOrGroup = $core_v2_page.ParseQueryString($selectedMapBookOrGroup))
 #set($blogs = false)
 #set($blogs = $parsedBlogOrGroup.Values('Blog'))
 #set($group = false)
 #set($group = $parsedBlogOrGroup.Value('Group'))
 #set($includeSubGroups = $parsedBlogOrGroup.Value('IncludeSubGroups'))
-#if ($selectedBlogOrGroup.length == 0)
+#if ($selectedMapBookOrGroup.length == 0)
 	#set ($includeSubGroups = true)
 #end
 
-#if (!$blogs && !$group)
-	#if ($core_v2_blog.Current)
-		#set($blogs = [$core_v2_blog.Current.Id])
+#if (!$mapbook && !$group)
+	#if ($core_v1_mapbook.Current)
+		#set($mapbook = [$core_v1_mapbook.Current.Id])
 	#elseif($core_v2_group.Current)
 		#set($group = $core_v2_group.Current.Id)
 	#end
@@ -55,7 +55,7 @@
 #set($pageIndex = $core_v2_ui.GetCurrentPageIndex())
 #set($pageSize = $core_v2_widget.GetIntValue('pageSize', 25))
 
-## base blog query
+## base map book query
 #set ($query = "%{ PageSize = $pageSize, PageIndex = $pageIndex, SortBy = $postSortBy, SortOrder = $postSortOrder, Tags = $tagsToFilter }")
 
 ## date filtering
@@ -65,8 +65,8 @@
 #set ($minDate = $core_v2_utility.ParseDate('0001-01-01'))
 #set ($maxDate = $core_v2_utility.ParseDate('9999-12-31'))
 #if ($month > 0 && $month < 13 && $day > 0 && $day < 32 && $year > $minDate.Year && $year <= $maxDate.Year)
-	#set ($currentBlogPost = false)
-	#set ($currentBlogPost = $core_v2_blogPost.Current)
+	#set ($currentMapBookMap = false)
+	#set ($currentMapBookMap = $core_v2_map.Current)
 	#if (!$currentBlogPost)
 		$query.Add('DateFilter', "${year}-${month}-${day}")
 		$query.Add('DateFilterType', 'Month')

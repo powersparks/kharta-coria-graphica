@@ -88,6 +88,7 @@ base black-tie blitzer cupertino dark-hive dot-luv eggplant excite-bike flick ho
     </configuration>
     <languageResources>
       <language key="en-us">
+        <resource name="MapBookOptionsApplicationPanel_Name">Map Options</resource>
         <resource name="widget_title">Coria MapBook Management Panel Widget</resource>
         <resource name="widget_description">widget for the Coria MapBook Application Panel</resource>
         <resource name="widget_modal_title_label">Widget Name</resource>

@@ -89,8 +89,8 @@ $header
     </configuration>
     <languageResources>
       <language key="en-us">
-        <resource name="MapBooks_MapList_Name">Map - Post List</resource>
-        <resource name="MapBooks_MapList_Description">Displays a list of blog posts.</resource>
+        <resource name="MapBooks_MapList_Name">Map Book - Map List</resource>
+        <resource name="MapBooks_MapList_Description">Displays a list a Map Book Maps.</resource>
         <resource name="Options">Options</resource>
         <resource name="CF_Title">Widget Title</resource>
         <resource name="CF_MapList_ViewDetail">View Detail</resource>
@@ -104,21 +104,21 @@ $header
         <resource name="CF_MapList_UserQueryType_All">All</resource>
         <resource name="CF_MapList_UserQueryType_Accessing">The logged in user</resource>
         <resource name="CF_MapList_UserQueryType_Current">The current user</resource>
-        <resource name="CF_Map_SelectGroupAndMap">Select group/blog to pull content from</resource>
+        <resource name="CF_Map_SelectGroupAndMap">Select group/Map Book to pull content from</resource>
         <resource name="CF_MapList_TagsToFilter">Tag to filter posts by</resource>
         <resource name="CF_MapList_ExcerptSize">Excerpt Size</resource>
-        <resource name="CF_MapList_PageSize">Number of posts to display</resource>
-        <resource name="CF_MapList_ExcerptSize_Description">Enter the maximum number of characters to display for post excerpts.</resource>
+        <resource name="CF_MapList_PageSize">Number of maps to display</resource>
+        <resource name="CF_MapList_ExcerptSize_Description">Enter the maximum number of characters to display for map excerpts.</resource>
         <resource name="Rss">RSS</resource>
         <resource name="by">by</resource>
         <resource name="Comments">Comments</resource>
-        <resource name="MapBook_NoPosts_Created">There are no blog posts to show. This could be because there are no posts in this blog or due to a filter.</resource>
+        <resource name="MapBook_NoPosts_Created">There are no Maps to show. This could be because there are no maps in this map book or due to a filter.</resource>
         <resource name="MostRecent">By date</resource>
         <resource name="MostViews">By view count</resource>
         <resource name="MostComments">By comment count</resource>
         <resource name="MapBooks_MapList_Title_Activity">Activity</resource>
         <resource name="UserMaps_Header_Leader"></resource>
-        <resource name="UserMaps_Header_Trailer">'s Posts</resource>
+        <resource name="UserMaps_Header_Trailer">'s Maps</resource>
         <resource name="more">More</resource>
         <resource name="cancel">Cancel</resource>
         <resource name="tags">Tags</resource>
