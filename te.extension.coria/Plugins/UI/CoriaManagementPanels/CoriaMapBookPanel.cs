@@ -70,7 +70,7 @@ namespace te.extension.coria.Plugins.UI.CoriaManagementPanels
                 return new MapBookPanelApi(applicationType, applicationId);
             }
         }
-        // A class of application-specific methods and properites your application panel's widget might want access to via $context.
+        
         [Documentation(Category = "Coria")]
         public class MapBookPanelApi
         {
