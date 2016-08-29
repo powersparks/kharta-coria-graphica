@@ -1,17 +1,14 @@
 ﻿using System;
 using Telligent.Evolution.Extensibility.Version1;
-
+using Telligent.Evolution.Components;
 namespace te.extension.coria.InternalApi.Utility
 {
-    public class CoriaException :  Exception, ILoggableException
+    public class CoriaException :  CSException//, ILoggableException//, ITranslatablePlugin
     {
-        string _category = "Unknown";
+         
+
         
-        public CoriaException() : base(){ }
-        public CoriaException( string category, string internalMessage) : base(internalMessage) { _category = category; }
-        public CoriaException(string category, string internalMessage, Exception innerException) : base(internalMessage, innerException){ _category = category; }
-        public CoriaException(string category, System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : base(info,context){ _category = category; }
-        public string Category
-        { get { return _category; } }
+        public CoriaException( CSExceptionType exType, string internalMessage, Func<CSException,string> trans) : base(exType, internalMessage,trans) {}
+      
     }
 }

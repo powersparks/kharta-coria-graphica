@@ -20,10 +20,89 @@
 ##$core_v2_utility.Describe( $context)##, "%{Depth = $depthArg, Format = $formatArg}")
 	$core_v2_widget.Hide()
 #end
+$core_v2_utility.Describe( $context)##, "%{Depth = $depthArg, Format = $formatArg}")
  <p>Coria Managament Panel</p>
 $core_v2_page.AddLink("stylesheet", "$core_v2_widget.GetFileUrl('CoriaMapBookManPanel.css')" )
-##$core_v2_widget.ExecuteFile('CoriaMapBookManPanel.vm')
 
+
+
+<!-- id's for html components to add -->
+#set ($fieldInputListId         = $core_v2_widget.UniqueId('fieldInputListId'))
+#set ($nameId         = $core_v2_widget.UniqueId('nameId'))
+#set ($descriptionId  = $core_v2_widget.UniqueId('descriptionId'))
+#set ($avatarUrlId    = $core_v2_widget.UniqueId('avatarUrlId'))
+#set ($isEnableId     = $core_v2_widget.UniqueId('isEnableId')) 
+#set ($urlId          = $core_v2_widget.UniqueId('urlId')) 
+#set($ontologyId      = $core_v2_widget.UniqueId('ontologyId'))
+#set ($groupId        = $core_v2_widget.UniqueId('groupId'))
+#set ($safeNameId     = $core_v2_widget.UniqueId('safeNameId'))
+##these are not proposed fields
+#set ($authorsId      = $core_v2_widget.UniqueId('authorsId'))
+ 
+
+#set($redirect = false)
+#if($coria_v1_mapbook.Current && $coria_v1_mapbook.Current.Id == $context.MapBook.ObjectId)
+	#set($redirect = true)
+#end
+
+<!--identifiers, normally hidden-->
+#set ($canDelete = $core_v2_nodePermission.Get("groups", $context.MapBook.Group.Id, "Group_DeleteWiki").IsAllowed)
+
+<fieldset>
+	<ul id="$fieldInputListId" class="field-list">
+  <!-- prepend input values here -->
+  		<!--li class="field-item">
+			<label class="field-item-name">$core_v2_language.GetResource('NameLabel')</label>
+			<span class="field-item-description">$core_v2_language.GetResource('NameLabel_Desc')</span>
+			<span class="field-item-input">
+				<input type="text" value="$core_v2_encoding.HtmlAttributeEncode($mapbook.Name)" id="$core_v2_encoding.HtmlAttributeEncode($nameId)" name="$core_v2_encoding.HtmlAttributeEncode($nameId)" />
+			</span>
+			<span class="field-item-validation" style="display:none;"></span>
+		</li-->
+  #if ($mapbook)
+			<li class="field-item identifiers">
+				<a href="#" class="viewidentifiers inline-button">$core_v2_language.GetResource('ViewIdentifiers')</a>
+			</li>
+      <li class="field-item identifiers" style="display: none;">
+				<a href="#" class="viewidentifiers inline-button">$core_v2_language.GetResource('HideIdentifiers')</a>
+			</li>
+			<li class="field-item identifiers entityid" style="display: none;">
+				<label class="field-item-name">$core_v2_language.GetResource('EntityId')</label>
+				<span class="field-item-input">$mapbook.ObjectId</span>
+			</li>
+			<li class="field-item identifiers contentid" style="display: none;">
+				<label class="field-item-name">$core_v2_language.GetResource('ApplicationId')</label>
+				<span class="field-item-input">$!mapbook.ApplicationId</span>
+			</li>
+			<li class="field-item identifiers contenttypeid" style="display: none;">
+				<label class="field-item-name">$core_v2_language.GetResource('ApplicationTypeId')</label>
+				<span class="field-item-input">$!mapbook.ApplicationTypeId</span>
+			</li>
+#end
+   <!--alarming big delete button-->
+#if ($canDelete || true)
+			<li class="field-item">
+				<li class="field-item">
+					<span class="field-item-input">
+						<a href="#" class="button delete" data-messagename="contextual-delete">$core_v2_language.GetResource('Delete')</a>
+					</span>
+				</li>
+			</li>
+		#end
+    	</ul>
+</fieldset>
+<!--field item -->
+<script id="fieldItemTemplateId" type="text/html">
+    <li class="field-item">
+    <label class="field-item-name"></label>
+      <span class="field-item-description"></span>
+      <span class="field-item-input">
+	      <input type="text" value="#ff66ff" id="" name="" />
+      </span>
+      <span class="field-item-validation" style="display:none;"></span>
+    </li>
+</script>
+<!--a big save button, as a script, as reusable template-->
 <script id="saveTemplateId" type="text/html">
 	<fieldset>
 		<ul class="field-list">
@@ -44,7 +123,45 @@ $core_v2_page.AddLink("stylesheet", "$core_v2_widget.GetFileUrl('CoriaMapBookMan
 <script type="text/javascript">
 jQuery(document).ready(function(j){
         j.coria.mapbooks.ui.register({
-            saveTemplateId:"saveTemplateId"
+            saveTemplateId : "saveTemplateId",
+            fieldItemTemplateId: "fieldItemTemplateId",
+            fieldInputListId: '#$core_v2_encoding.JavascriptEncode($fieldInputListId)',
+            updateUrl      : '$core_v2_encoding.JavascriptEncode($core_v2_widget.ExecuteFile('CoriaMapBookManPanel.vm'))',
+            redirect       : #if ($redirect) true #else false #end,
+            groupRedirect  : '$core_v2_encoding.JavaScriptEncode($core_v2_page.AbsoluteUrl($core_v2_groupUrls.Group($context.MapBook.Group.Id)))',
+		        groupId        : '$context.MapBook.Group.Id',
+		        mapbookId      :  $context.MapBook.ObjectId,
+		        applicationKey : '$context.MapBook.SafeName',
+		        groupName      : '$context.MapBook.Group.Name',
+            inputs: { 
+			          nameId: '#$core_v2_encoding.JavascriptEncode($nameId)', 
+			          descriptionId: '#$core_v2_encoding.JavascriptEncode($descriptionId)',
+			          avatarUrlId: '#$core_v2_encoding.JavascriptEncode($avatarUrlId)',
+			          isEnableId: '#$core_v2_encoding.JavascriptEncode($isEnableId)',
+                urlId: '#$core_v2_encoding.JavascriptEncode($urlId)', 
+			          ontologyId: '#$core_v2_encoding.JavascriptEncode($ontologyId)', 
+			          groupId: '#$core_v2_encoding.JavascriptEncode($groupId)',
+                safeNameId: '#$core_v2_encoding.JavascriptEncode($safeNameId)',
+			          authors: '#$core_v2_encoding.JavascriptEncode($authorsId)'
+		        },
+            values:{
+            mapBookName: '$core_v2_encoding.JavascriptEncode($mapbook.Name)',
+            mapBookDescription: '$core_v2_encoding.JavascriptEncode($mapbook.Description)'
+            },
+            text: {
+                nameLabel: '$core_v2_encoding.JavascriptEncode($core_v2_language.GetResource('NameLabel'))',
+                nameLabel_Desc: '$core_v2_encoding.JavascriptEncode($core_v2_language.GetResource('NameLabel_Desc'))',
+			          requiredText: '$core_v2_encoding.JavascriptEncode($core_v2_language.GetResource('Required'))',
+			          updateSuccess: '$core_v2_encoding.JavascriptEncode($core_v2_language.GetResource('UpdateSuccess'))',
+			          noGroupsMatch: '$core_v2_language.GetResource('GroupLookUp_NoMatches')',
+			          moveWarning: '$core_v2_encoding.JavascriptEncode($core_v2_language.GetResource('ValidateMove'))',
+			          deleteConfirm: '$core_v2_encoding.JavascriptEncode($core_v2_language.GetResource('DeleteConfirm'))',
+			          noUsersMatch: '$core_v2_encoding.JavascriptEncode($core_v2_language.GetResource('UserLookUp_NoMatches'))',
+			          invalidAddress: '$core_v2_encoding.JavascriptEncode($core_v2_language.GetResource('Invalid_Address'))',
+			          namePatternMessage: "$core_v2_encoding.JavascriptEncode($core_v2_language.GetResource('NamePatternMessage'))",
+			          addressPatternMessage: "$core_v2_encoding.JavascriptEncode($core_v2_language.GetResource('AddressPatternMessage'))"
+		        }
+   
         });
 });
 </script>
@@ -66,53 +183,68 @@ base black-tie blitzer cupertino dark-hive dot-luv eggplant excite-bike flick ho
   ]]>
     </contentScript>
     <headerScript>
-      <![CDATA[$core_v2_widget.ApplyTokens($core_v2_widget.GetStringValue('fragmentHeader', '${resource:widget_title}'))
+      <![CDATA[
+      $core_v2_widget.ApplyTokens($core_v2_widget.GetStringValue('fragmentHeader', '${resource:widget_name}'))
+$core_v2_widget.ApplyTokens($core_v2_widget.GetStringValue('fragmentDescription', '${resource:widget_description}')) 
 	]]>
     </headerScript>
     <configuration>
       <![CDATA[<propertyGroup id="options" resourceName="Options">
-	<property id="fragmentHeader" resourceName="widget_modal_title_label" dataType="string" defaultValue="${resource:widget_title}" controlType="Telligent.Evolution.Controls.ContentFragmentTokenStringControl, Telligent.Evolution.Controls" />
- 	
-	<property id="map_canvas_height" resourceName="map_canvas_height" dataType="unit" defaultValue="250px" />
-	<property id="map_canvas_width" resourceName="map_canvas_width" dataType="unit" defaultValue="100%" />
-	<property id="map_center_lat" resourceName="map_center_lat" dataType="double" defaultValue="21.5" >
-	    	<propertyRule type="Telligent.Evolution.Controls.PropertyRules.MinMaxValueRule, Telligent.Evolution.Controls" minValue="-90" maxValue="90" />
-	</property>
-	<property id="map_center_lng" resourceName="map_center_lng" dataType="double" defaultValue="-158">
-	<propertyRule type="Telligent.Evolution.Controls.PropertyRules.MinMaxValueRule, Telligent.Evolution.Controls" minValue="-180" maxValue="180" />
-	</property>
-    <property id="map_zoom_level" resourceName="map_zoom_level"  descriptionResourceName="map_zoom_level_description" dataType="integer" defaultValue="3">
-	<propertyRule type="Telligent.Evolution.Controls.PropertyRules.MinMaxValueRule, Telligent.Evolution.Controls" minValue="0" maxValue="100" />
-	</property>
-	<property id="map_application_type" resourceName="map_application_type" descriptionResourceName="map_application_type_description" dataType="string" defaultValue="Base">
-		<propertyValue value="Base" resourceName="map_application_base" />
-    <propertyValue value="MapBox" resourceName="map_application_mapbox" />
-		<propertyValue value="GoogleMaps" resourceName="map_application_googlemaps" />
-    <!--propertyValue value="ArcGis" resourceName="map_application_arcgis" /-->
-     <propertyValue value="ArcGis4" resourceName="map_application_arcgis4" />
-	</property>
+		<property id="fragmentHeader" resourceName="CF_Title" dataType="string" defaultValue="${resource:widget_name}" controlType="Telligent.Evolution.Controls.ContentFragmentTokenStringControl, Telligent.Evolution.Controls" />
+	  <property id="fragmentDescription" resourceName="CF_Description" dataType="string" defaultValue="${resource:widget_description}" controlType="Telligent.Evolution.Controls.ContentFragmentTokenStringControl, Telligent.Evolution.Controls" />
+	
+	 
 </propertyGroup>]]>
     </configuration>
     <languageResources>
       <language key="en-us">
-        <resource name="MapBookOptionsApplicationPanel_Name">Map Options</resource>
+        <!--widget stuff-->
+        <resource name="CF_Title">Widget Title:</resource>
+        <resource name="CF_Description">Widget Description:</resource>
+        <resource name="MapBookOptionsApplicationPanel_Name">Map Book Options</resource>
         <resource name="widget_title">Coria MapBook Management Panel Widget</resource>
         <resource name="widget_description">widget for the Coria MapBook Application Panel</resource>
         <resource name="widget_modal_title_label">Widget Name</resource>
+
+<!--  CRUD and Identifiers-->
+        <resource name="Delete">Delete</resource>
+        <resource name="DeleteConfirm">Are you sure you want to delete this map book?</resource>
+        <resource name="EntityId">Identifier</resource>
+        <resource name="ApplicationId">Application Identifier</resource>
+        <resource name="ApplicationTypeId">Application Type Identifier</resource>
+        <resource name="ViewIdentifiers">View Identifiers</resource>
+        <resource name="HideIdentifiers">Hide Identifiers</resource>
+        <resource name="Save">Save</resource>
+        <resource name="UpdateSuccess">Success</resource>
+        
+        <resource name="GroupLookUp_NoMatches">A matching ${group_lowercase} could not be found.</resource>
+        <resource name="ValidateMove">You have selected to move the blog to another ${group_lowercase}. There are permission overrides on this blog that will be removed if you choose to continue.</resource>
+    
+        <resource name="UserLookUp_NoMatches">A matching user could not be found.</resource>
+        <resource name="Invalid_Address">The URL that you requested is not available. Please enter a different URL to create/edit this blog.</resource>
+        <resource name="NameLabel">Map Book Title</resource>
+        <resource name="NameLabel_Desc">Enter a title to be displayed on the Map Book.</resource>
+        <resource name="DescriptionLabel">Map Book Description</resource>
+        <resource name="DescriptionLabel_Desc">Enter a description displayed under the title.</resource>
+        <resource name="AddressLabel">Web Address </resource>
+        <resource name="AddressLabel_Desc">Enter the name of the Map Book as you wish it to appear for the web address for this Map Book</resource>
+        <resource name="EnableLabel">Enable Map Book </resource>
+        <resource name="EnableLabel_Desc">When disabled the Map Book is not accessible.</resource>
+       
+        <resource name="GroupLabel">Map Book Group</resource>
+        <resource name="GroupLabel_Desc">Select a group that this map book is associated with</resource>
+        <resource name="AuthorsLabel">Authors</resource>
+        <resource name="AuthorsLabel_Desc">Enter a list of users that can manage this map book. For multi-user mapping group permissions can be used.</resource>
+        <resource name="NamePatternMessage">Name must contain an alphanumeric character</resource>
+        <resource name="AddressPatternMessage">Web address is limited to only numbers, letters, "-", and "_".</resource>
+        
+        <resource name="Required">This field is required.</resource>
+        
         <resource name="map_canvas_width">Map Width:</resource>
         <resource name="map_canvas_height">Map Height:</resource>
-        <resource name="map_application_type_description">Loading multiple API's are allowed. Mapbox likes to be first, and ArcGIS 3.x and 4.x are not compatiable.</resource>
-        <resource name="map_application_type">Map Application Type:</resource>
-        <resource name="map_application_base">Base Settings and Options</resource>
-        <resource name="map_application_mapbox">MapBox (https://www.mapbox.com/)</resource>
-        <resource name="map_application_googlemaps">Google Maps (https://googlemaps.com/)</resource>
-        <resource name="map_application_arcgis">ArcGis (https://www.arcgis.com/)</resource>
-        <resource name="map_application_arcgis4">ArcGis (https://www.arcgis.com/)</resource>
-        <resource name="CF_Description">Widget Description:</resource>
-        <resource name="map_center_lng">Longitude (Decimal Degree,  -180 to 180):</resource>
-        <resource name="map_center_lat">Latitude (Decimal Degree, -90 to 90):</resource>
-        <resource name="map_zoom_level">Zoom (0 to 100):</resource>
-        <resource name="map_zoom_level_description">Dependent on Map API or basemap resolution sets.</resource>
+       
+       
+        
 
       </language>
     </languageResources>

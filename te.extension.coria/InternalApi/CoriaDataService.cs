@@ -16,8 +16,10 @@ using Telligent.Evolution.Extensibility.Api.Entities.Version1;
 [assembly: InternalsVisibleTo("kharta.coria.graphica.test")]
 namespace te.extension.coria.InternalApi
 {
+    [Serializable]
     internal class CoriaDataService
     { 
+        
         internal static  CoriaMapBook CreateUpdateMapBook(CoriaMapBook coriaMapBook )
         {
             if (coriaMapBook.Id == 0)

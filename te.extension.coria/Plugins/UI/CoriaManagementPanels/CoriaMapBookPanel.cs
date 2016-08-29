@@ -91,12 +91,12 @@ namespace te.extension.coria.Plugins.UI.CoriaManagementPanels
                 
                 _mapbook = PublicApi.MapBooks.Get(_applicationId) as PublicApi.MapBook;
             }
-            [Documentation("just testing panel api documentation.")]
-            public string easy { get { return "easy"; } }
+            [Documentation("Map Book ")]
+            public Guid SectionId { get { return _mapbook.Id; } }
             [Documentation("Map Book Application Guid ")]
             public Guid ApplicationId { get { return _applicationId; } }
             [Documentation("Coria Map Book Type Guid")]
-            public Guid ApplicationType { get { return _applicationType; } }
+            public Guid ApplicationTypeId { get { return _applicationType; } }
             [Documentation("Coria Map Book")]
             public PublicApi.MapBook MapBook { get { return _mapbook; } }
         } 

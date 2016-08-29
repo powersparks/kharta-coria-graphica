@@ -272,7 +272,9 @@ namespace te.extension.coria.Plugins.Application
                         contextItem.ContainerTypeId = BuildUserContextItem(user).ContainerTypeId.Value;
                         contextItem.Id = BuildUserContextItem(user).Id.ToString();
                     }
-                    else { Globals.RedirectToLoginOrThrowException(Telligent.Evolution.Components.CSExceptionType.UserNotFound); }
+                    else {
+                       
+                        Globals.RedirectToLoginOrThrowException(new InternalApi.Utility.CoriaException(CSExceptionType.UserNotFound, "Coria Parse MapBook Context.", null)); }
                 }
 
                 pageContext.ContextItems.Put(contextItem);
