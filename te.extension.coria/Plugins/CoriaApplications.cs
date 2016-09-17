@@ -203,7 +203,7 @@ namespace te.extension.coria.Plugins
             get
             {
                 return new Type[] {
-          typeof(te.extension.coria.Plugins.Application.CoriaMapType),
+          typeof(te.extension.coria.Plugins.Application.CoriaMapBookType),
           typeof (UI.CoriaFactoryDefaultWidgetProvider),
           typeof (UI.CoriaWidgetContextProvider),
           typeof(UI.WidgetExtension.MapWidgetExtension),
@@ -211,7 +211,8 @@ namespace te.extension.coria.Plugins
           typeof(UI.CoriaManagementPanels.CoriaMapBookPanel),
           typeof(Content.MapContentType),
           typeof(UI.MapsGroupNavigation),
-          typeof(UI.NewPostLink.MapBookNewMapLink)
+          typeof(UI.NewPostLink.MapBookNewMapLink),
+          typeof(InternalApi.CoriaPermissions)
           
         };
             }

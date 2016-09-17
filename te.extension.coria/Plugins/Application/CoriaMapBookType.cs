@@ -11,31 +11,31 @@ using Telligent.Evolution.Extensibility.Content.Version1;
 using Telligent.Evolution.Extensibility.Urls.Version1;
 using Telligent.Evolution.Extensibility.Version1;
 using TEApi = Telligent.Evolution.Extensibility.Api.Version1.PublicApi;
- 
+using TeUi = Telligent.Evolution.Extensibility.UI.Version1;
 
 namespace te.extension.coria.Plugins.Application
 {
-    public class CoriaMapType : IPlugin, IApplicationType, IManageableApplicationType, IQueryableApplicationType, IApplicationNavigable, ICategorizedPlugin
+    public class CoriaMapBookType : IPlugin, IApplicationType,  IManageableApplicationType, IQueryableApplicationType, IApplicationNavigable, ICategorizedPlugin, IWebContextualApplicationType
     {
         IApplicationStateChanges _applicationState = null;
-        public static Guid _applicationTypeId = new Guid("bfdb6103-e8e5-4cbf-8fbf-42dbac4046ef");      
+        public static Guid _applicationTypeId = new Guid("bfdb6103-e8e5-4cbf-8fbf-42dbac4046ef");
         public Guid ApplicationTypeId { get { return _applicationTypeId; } }
-        public string ApplicationTypeName { get { return "Map Book"; } }
+        public string ApplicationTypeName { get { return "MapBook"; } }
         public Guid[] ContainerTypes { get { return new Guid[] { Apis.Get<IGroups>().ContainerTypeId }; } }
         public string Description { get { return "Maps and metadata management tools"; } }
         public string Name { get { return "Coria Maps Application"; } }
         public void AttachChangeEvents(IApplicationStateChanges stateChanges) { _applicationState = stateChanges; }
         public IApplication Get(Guid applicationId) { return PublicApi.MapBooks.Get(applicationId); }
         public void Initialize()
-        { 
-           
+        {
+
         }
         #region  IManageableApplicationType 
-        public bool CanCreate(int userId, Guid containerTypeId, Guid containerId) {  return true;  }
+        public bool CanCreate(int userId, Guid containerTypeId, Guid containerId) { return true; }
 
-        public bool CanDelete(int userId, Guid applicationId) {  return true; }
+        public bool CanDelete(int userId, Guid applicationId) { return true; }
 
-        public bool CanSetEnabled(int userId, Guid applicationId) {  return true; }
+        public bool CanSetEnabled(int userId, Guid applicationId) { return true; }
 
         public PropertyGroup[] GetCreateConfiguration(int userId, Guid containerTypeId, Guid containerId)
         {
@@ -68,10 +68,8 @@ namespace te.extension.coria.Plugins.Application
         public IApplication Create(int userId, Guid containerTypeId, Guid containerId, ConfigurationDataBase createConfigurationData)
         {
             try
-            {
-
-
-                foreach (Guid _containerTypeId in ContainerTypes)
+            {  
+              foreach (Guid _containerTypeId in ContainerTypes)
                 {
                     //container types for groups is 
                     if (Apis.Get<IGroups>().ContainerTypeId == _containerTypeId)
@@ -79,7 +77,7 @@ namespace te.extension.coria.Plugins.Application
                         int groupId = Apis.Get<IGroups>().Get(containerId).Id.Value;
                         InternalApi.CoriaMapBook coriaMapBook = new InternalApi.CoriaMapBook();
                         coriaMapBook.ApplicationId = Guid.NewGuid();
-                        coriaMapBook.ApplicationTypeId = CoriaMapType._applicationTypeId;
+                        coriaMapBook.ApplicationTypeId = CoriaMapBookType._applicationTypeId;
                         coriaMapBook.AvatarUrl = createConfigurationData.GetStringValue("mapBookAvatarUrl", "/cfs-filesystemfile/__key/system/images/grid.svg");
                         coriaMapBook.Name = createConfigurationData.GetStringValue("mapBookName", "Map Book");
                         coriaMapBook.GroupId = groupId;
@@ -113,7 +111,7 @@ namespace te.extension.coria.Plugins.Application
 
         public void SetEnabled(int userId, Guid applicationId, bool enabled)
         {
-           // throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
 
         public void Delete(int userId, Guid applicationId)
@@ -159,7 +157,7 @@ namespace te.extension.coria.Plugins.Application
 
         #endregion
         #region IApplicationNavigable
-        Guid IApplicationNavigable.ApplicationTypeId{ get { return TEApi.Groups.ApplicationTypeId; } }
+        Guid IApplicationNavigable.ApplicationTypeId { get { return TEApi.Groups.ApplicationTypeId; } }
 
         public string[] Categories
         {
@@ -172,9 +170,9 @@ namespace te.extension.coria.Plugins.Application
         public void RegisterUrls(IUrlController controller)
         {
             //var mapBookAction = new Action<HttpContextBase, PageContext>(MapBookAction); 
-            controller.AddPage("GroupMapBookList", "mapbooks",null, null, "coria-mapbooklist", PdOptions); 
+            controller.AddPage("GroupMapBookList", "mapbooks", null, null, "coria-mapbooklist", PdOptions);
             controller.AddPage("GroupMapBookSingle", "mapbooks/{mapBook}", new Telligent.Evolution.Urls.Routing.NotSiteRootRouteConstraint(), null, "coria-mapbooklist", PdOptions);
-           
+
             controller.AddPage("GroupMap", "mapbooks/{mapBook}/map", new Telligent.Evolution.Urls.Routing.NotSiteRootRouteConstraint(), null, "coria-map-page", PdOptions);
             controller.AddPage("GroupMapNew", "mapbooks/{mapBook}/map/new", new Telligent.Evolution.Urls.Routing.NotSiteRootRouteConstraint(), null, "coria-map-page", PdOptions);
 
@@ -182,12 +180,19 @@ namespace te.extension.coria.Plugins.Application
             controller.AddPage("UserMapBookSingle", "members/{UserName}/{mapBooks}/{mapBook}", new Telligent.Evolution.Urls.Routing.NotSiteRootRouteConstraint(), null, "coria-mapbooklist", PdOptions);
 
         }
-        private PageDefinitionOptions PdOptions { get { return new PageDefinitionOptions() {
-            ForceLowercaseUrl = true,
-            HasApplicationContext = true,
-            ParseContext = new Action<PageContext>(this.ParseMapBookContext)
-            //Validate = new Action<PageContext, IUrlAccessController>(Validate)
-        }; } }
+        private PageDefinitionOptions PdOptions
+        {
+            get
+            {
+                return new PageDefinitionOptions()
+                {
+                    ForceLowercaseUrl = true,
+                    HasApplicationContext = true,
+                    ParseContext = new Action<PageContext>(this.ParseMapBookContext)
+                    //Validate = new Action<PageContext, IUrlAccessController>(Validate)
+                };
+            }
+        }
 
         private void MapBookAction(HttpContextBase arg1, PageContext arg2)
         {
@@ -213,25 +218,25 @@ namespace te.extension.coria.Plugins.Application
         {
             //try
             //{
-                var ApplicationId = pageContext.GetTokenValue("ApplicationId");
-                var ApplicationTypeId = pageContext.GetTokenValue("ApplicationTypeId");
-                var allContext = pageContext.ContextItems.GetAllContextItems();
-                var cnt = allContext.Count;
-                int groupId = -1;
-                var typename = allContext[0].TypeName;
-                Guid appId = allContext[0].ApplicationId.Value;
-                if (!int.TryParse(allContext[0].Id, out groupId))
-                {
-                    //if groupid is not 
-                    // find by  mapbook name only... 
-                    // TODO: optimize database with safeName and GroupId indexing
-                }
-                string singleMapBook = pageContext.GetTokenValue("mapBook") as string;
+            var ApplicationId = pageContext.GetTokenValue("ApplicationId");
+            var ApplicationTypeId = pageContext.GetTokenValue("ApplicationTypeId");
+            var allContext = pageContext.ContextItems.GetAllContextItems();
+            var cnt = allContext.Count;
+            int groupId = -1;
+            var typename = allContext[0].TypeName;
+            Guid appId = allContext[0].ApplicationId.Value;
+            if (!int.TryParse(allContext[0].Id, out groupId))
+            {
+                //if groupid is not 
+                // find by  mapbook name only... 
+                // TODO: optimize database with safeName and GroupId indexing
+            }
+            string singleMapBook = pageContext.GetTokenValue("mapBook") as string;
 
             string appMapBookNameContext = "mapbooks";//pageContext.GetTokenValue("appName") as string;
 
             IList<PublicApi.MapBook> mapbooks = new List<PublicApi.MapBook>();
-                var userName = pageContext.GetTokenValue("UserName");
+            var userName = pageContext.GetTokenValue("UserName");
             if (groupId > -1)
             {
                 var group = TEApi.Groups.Get(new GroupsGetOptions { Id = groupId });
@@ -246,12 +251,14 @@ namespace te.extension.coria.Plugins.Application
                     contextItem.ContainerTypeId = mapbook.Container.ContainerTypeId;    //Apis.Get<IGroups>().ContainerTypeId,  
                     contextItem.ContentId = mapbook.ApplicationId;
                     contextItem.ContentTypeId = mapbook.ApplicationTypeId;
+                    contextItem.TypeName = ApplicationTypeName;
                     contextItem.Id = mapbook.Group.Id.Value.ToString();
-                   
+
                 }
-                else {
+                else
+                {
                     mapbooks = PublicApi.MapBooks.List(groupId);
-                     
+
                     contextItem.ApplicationId = mapbooks[0].ApplicationId;
                     contextItem.ApplicationTypeId = mapbooks[0].ApplicationTypeId;
                     contextItem.ContainerId = mapbooks[0].Container.ContainerId;
@@ -259,9 +266,9 @@ namespace te.extension.coria.Plugins.Application
                     contextItem.ContentId = mapbooks[0].ApplicationId;
                     contextItem.ContentTypeId = mapbooks[0].ApplicationTypeId;
                     contextItem.Id = mapbooks[0].Group.Id.Value.ToString();
-                     
+
                 }
-               
+
 
                 if (userName != null)
                 {
@@ -272,9 +279,11 @@ namespace te.extension.coria.Plugins.Application
                         contextItem.ContainerTypeId = BuildUserContextItem(user).ContainerTypeId.Value;
                         contextItem.Id = BuildUserContextItem(user).Id.ToString();
                     }
-                    else {
-                       
-                        Globals.RedirectToLoginOrThrowException(new InternalApi.Utility.CoriaException(CSExceptionType.UserNotFound, "Coria Parse MapBook Context.", null)); }
+                    else
+                    {
+
+                        Globals.RedirectToLoginOrThrowException(new InternalApi.Utility.CoriaException(CSExceptionType.UserNotFound, "Coria Parse MapBook Context.", null));
+                    }
                 }
 
                 pageContext.ContextItems.Put(contextItem);
@@ -284,45 +293,108 @@ namespace te.extension.coria.Plugins.Application
             //{
             //    throw new InternalApi.Utility.CoriaException(Categories[0], "ParseMapBookContex method error. ", ex);
             //}
- 
+
         }
         #endregion
+        #region IWebContext
+
+                bool IWebContextualApplicationType.IsCurrentApplicationType(TeUi.IWebContext context)
+        {
+           bool iscurrentApplicationType = context.Url.Contains("mapbooks") ? true : false  ;
+            return iscurrentApplicationType;
+        }
+
+        public IApplication GetCurrentApplication(TeUi.IWebContext context)
+        {
+            PublicApi.MapBook mapbook = new PublicApi.MapBook();
+            IApplication app = mapbook as IApplication;
+            var apptype = app.GetType();
+            if (TEApi.Url.CurrentContext == null) return null;
+            var item = TEApi.Url.CurrentContext.ContextItems.GetAllContextItems();
+            foreach (var it in item)
+            {
+                var typeName = it.TypeName;
+                if (ApplicationTypeName == typeName.ToString())
+                {
+
+                    if (it.ApplicationId.HasValue)
+                        return PublicApi.MapBooks.Get(it.ApplicationId.Value);
+                }
+            }
+            //    if (PublicApi.Url.CurrentContext == null) return null;
+            //    var item = PublicApi.Url.CurrentContext.ContextItems.GetItemByContentType(ContentTypeId);
+
+            //    if (item != null && item.ContentId.HasValue)
+            //        return IdeasApi.Ideas.Get(item.ContentId.Value);
+
+            //    return null;
+
+            return null;
+        }
+        
+        #endregion
     }
-    /**********
-     public class CoriaMapManagePanel : IPlugin, IManageableApplicationType, IQueryableApplicationType
-     {
-         #region IPlugin
-         public string Name { get { throw new NotImplementedException(); } }
-         public string Description { get { throw new NotImplementedException(); } }
-         public void Initialize() { }
-         #endregion
-         #region IQueryableApplicationType
-         public string ApplicationTypeName { get { throw new NotImplementedException(); } }
+    /***
 
-         public Guid ApplicationTypeId { get { throw new NotImplementedException(); } }
+ using Telligent.Evolution.Extensibility.UI.Version1;
+using Telligent.Evolution.Extensibility.Version1;
 
-         public Guid[] ContainerTypes { get { throw new NotImplementedException(); } }
+namespace Telligent.Evolution.Extensibility.Content.Version1
+{
+public interface IWebContextualApplicationType : IPlugin, IApplicationType
+{
+IApplication GetCurrentApplication(IWebContext context);
+bool IsCurrentApplicationType(IWebContext context);
+}
+}
 
-         public IList<IApplication> List(int userId, Guid containerTypeId, Guid containerId) { throw new NotImplementedException(); }
+    #endregion
+    //IContent IWebContextualContentType.GetCurrentContent(Extensibility.UI.Version1.IWebContext context)
+    //{
+    //    if (PublicApi.Url.CurrentContext == null) return null;
+    //    var item = PublicApi.Url.CurrentContext.ContextItems.GetItemByContentType(ContentTypeId);
 
-         public IList<IApplication> Search(int userId, Guid containerTypeId, Guid containerId, string searchText) { throw new NotImplementedException(); }
+    //    if (item != null && item.ContentId.HasValue)
+    //        return IdeasApi.Ideas.Get(item.ContentId.Value);
 
-         public IApplication Get(Guid applicationId) { throw new NotImplementedException(); }
+    //    return null;
+    //}
+}
+/**********
+ public class CoriaMapManagePanel : IPlugin, IManageableApplicationType, IQueryableApplicationType
+ {
+     #region IPlugin
+     public string Name { get { throw new NotImplementedException(); } }
+     public string Description { get { throw new NotImplementedException(); } }
+     public void Initialize() { }
+     #endregion
+     #region IQueryableApplicationType
+     public string ApplicationTypeName { get { throw new NotImplementedException(); } }
 
-         public void AttachChangeEvents(IApplicationStateChanges stateChanges) { throw new NotImplementedException(); }
+     public Guid ApplicationTypeId { get { throw new NotImplementedException(); } }
 
-         #endregion
-         #region IManageableApplicationType
+     public Guid[] ContainerTypes { get { throw new NotImplementedException(); } }
 
-         public bool CanCreate(int userId, Guid containerTypeId, Guid containerId) { throw new NotImplementedException(); }
-         public bool CanDelete(int userId, Guid applicationId) { throw new NotImplementedException(); }
-         public bool CanEdit(int userID, Guid applicationId) { throw new NotImplementedException(); }
-         public bool CanSetEnabled(int userId, Guid applicationId) { throw new NotImplementedException(); }
-         public IApplication Create(int userId, Guid containerTypeId, Guid containerId, ConfigurationDataBase createConfigurationData) { throw new NotImplementedException(); }
-         public void Delete(int userId, Guid applicationId) { throw new NotImplementedException(); }
-         public PropertyGroup[] GetCreateConfiguration(int userId, Guid containerTypeId, Guid containerId) { throw new NotImplementedException(); }
-         public void SetEnabled(int userId, Guid applicationId, bool enabled) { throw new NotImplementedException(); }
-         #endregion
-     }
-     ***/
+     public IList<IApplication> List(int userId, Guid containerTypeId, Guid containerId) { throw new NotImplementedException(); }
+
+     public IList<IApplication> Search(int userId, Guid containerTypeId, Guid containerId, string searchText) { throw new NotImplementedException(); }
+
+     public IApplication Get(Guid applicationId) { throw new NotImplementedException(); }
+
+     public void AttachChangeEvents(IApplicationStateChanges stateChanges) { throw new NotImplementedException(); }
+
+     #endregion
+     #region IManageableApplicationType
+
+     public bool CanCreate(int userId, Guid containerTypeId, Guid containerId) { throw new NotImplementedException(); }
+     public bool CanDelete(int userId, Guid applicationId) { throw new NotImplementedException(); }
+     public bool CanEdit(int userID, Guid applicationId) { throw new NotImplementedException(); }
+     public bool CanSetEnabled(int userId, Guid applicationId) { throw new NotImplementedException(); }
+     public IApplication Create(int userId, Guid containerTypeId, Guid containerId, ConfigurationDataBase createConfigurationData) { throw new NotImplementedException(); }
+     public void Delete(int userId, Guid applicationId) { throw new NotImplementedException(); }
+     public PropertyGroup[] GetCreateConfiguration(int userId, Guid containerTypeId, Guid containerId) { throw new NotImplementedException(); }
+     public void SetEnabled(int userId, Guid applicationId, bool enabled) { throw new NotImplementedException(); }
+     #endregion
+ }
+ ***/
 }

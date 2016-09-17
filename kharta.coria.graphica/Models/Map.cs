@@ -6,22 +6,17 @@ namespace kharta.coria.graphica.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
+    [Table("Map")]
     public partial class Map
     {
-        [Key]
-        [Column(Order = 0)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Key]
-        [Column(Order = 1)]
         public Guid MapId { get; set; }
 
-        [Key]
-        [Column(Order = 2)]
         public Guid MapTypeId { get; set; }
 
-        [Key]
-        [Column(Order = 3)]
+        [Required]
         [StringLength(256)]
         public string Title { get; set; }
 
@@ -42,6 +37,14 @@ namespace kharta.coria.graphica.Models
 
         public int? CreateByUserId { get; set; }
 
+        public int? ModifiedByUserId { get; set; }
+
         public DateTime? CreateUtcDate { get; set; }
+
+        public DateTime? ModifiedUtcDate { get; set; }
+
+        public bool IsIndexed { get; set; }
+
+        public virtual MapBook MapBook { get; set; }
     }
 }

@@ -7,11 +7,11 @@ using kharta.coria.graphica.Models;
 using System.Runtime.CompilerServices;
 using System.Diagnostics;
 using System.Data.Entity.Infrastructure;
-
+using Telligent.Evolution.Components;
 using System.Reflection;
 using Telligent.Evolution.Extensibility.Content.Version1;
- 
-using Telligent.Evolution.Extensibility.Api.Entities.Version1;
+
+using Telligent.Evolution.Extensibility.Api.Entities.Version1; 
 
 [assembly: InternalsVisibleTo("kharta.coria.graphica.test")]
 namespace te.extension.coria.InternalApi
@@ -71,11 +71,127 @@ namespace te.extension.coria.InternalApi
             return mapbook;
              
         }
+        internal static CoriaMap CreateCoriaMap(CoriaMap coriaMap)
+        {
+            try
+            {
+                return coriaMap.toCoriaMap(CreateMap(coriaMap.toMap(coriaMap)));
+            }
+            catch (Exception ex)
+            {
 
+                string error = ex.InnerException.Message;
+                InternalApi.Utility.CoriaException csEx = new Utility.CoriaException(CSExceptionType.LoggableException, ex.InnerException.Message, null);
+                csEx.Log();
+                return coriaMap;
+            }
+          
+          
+        }
+        internal static Map CreateMap(Map map) {
+            MapBook mapbook = GetMapBook(map.MapTypeId);
+            if (mapbook != null)
+            {
+                //if(map.MapBook.ApplicationId != null)
+                try
+                {
+                    using (KhartaDataModel dbcontext = new KhartaDataModel())
+                    {
+                        map = dbcontext.Maps.Add(map);
+                        dbcontext.SaveChanges();
+                        return map;
+
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                    string error = ex.InnerException.Message;
+                    InternalApi.Utility.CoriaException csEx = new Utility.CoriaException(CSExceptionType.LoggableException, ex.InnerException.Message, null);
+                    csEx.Log();
+
+                    return map;
+                }
+            }else { return map; }
+            
+        }
+        internal static IList<Map> ReadMaps() {
+            using (KhartaDataModel dbcontext = new KhartaDataModel())
+            {
+                IList<Map> maps = new List<Map>();
+                 
+                    maps = (from m in dbcontext.Maps
+                            select m).ToList();
+              
+                    return maps;
+            }
+        }
+        internal static IList<Map> ReadMaps(Guid MapBookId)
+        {
+            using (KhartaDataModel dbcontext = new KhartaDataModel())
+            {
+                IList<Map> maps = new List<Map>();
+
+                maps = (from m in dbcontext.Maps
+                        where m.MapTypeId == MapBookId
+                        select m).ToList();
+                return maps;
+            }
+        }
+        internal static Map ReadMap(int id)
+        {
+            using (KhartaDataModel dbcontext = new KhartaDataModel())
+            {
+                Map map  = new Map();
+
+                map = (from m in dbcontext.Maps
+                        where m.Id == id
+                        select m).FirstOrDefault();
+                return map;
+            }
+        }
+        internal static Map CreateUpdateMap(Map map)
+        {
+            Func<CoriaMap, Map> toMap = (CoriaMap fromCoriaMap) => ToMap(fromCoriaMap, new Map());
+            Func<Map, CoriaMap> toCoriaMap = (Map fromMap) => ToCoriaMap(fromMap, new CoriaMap());
+            
+            if (map.Id == 0)
+            {  
+                try
+                {
+                    map = CreateMap(map);
+                }
+                catch (Exception ex)
+                {
+                    //TODO: log exception
+                    var exception = ex;
+                    throw ;
+                } 
+            }
+            else
+            {
+                using (KhartaDataModel dbcontext = new KhartaDataModel())
+                {
+                    try
+                    {
+                        dbcontext.Entry(map).State = System.Data.Entity.EntityState.Modified;
+                        dbcontext.SaveChanges();
+                    }
+                    catch (DbUpdateConcurrencyException ex)
+                    {
+                        
+                        var exception = ex;
+                        throw;
+                    }
+
+                }
+                map = ReadMap(map.Id);
+            }
+            return map;
+        }
         internal static PagedList<CoriaMapBook> CoriaMapBookPagedList(int groupId, int pageIndex, int pageSize, string sortBy, string sortOrder)
         {
             Func<MapBook, CoriaMapBook> toCoriaMapBook = (MapBook fromMapBook) => ToCoriaMapBook(fromMapBook, new CoriaMapBook());
-             
             PagedList<CoriaMapBook> listMapBooks = new PagedList<CoriaMapBook>();
             PagedList<MapBook> MapBookList = MapBookPagedList(groupId, pageIndex, pageSize, sortBy, sortOrder);
             int totalCount = MapBookList.Count();
@@ -91,29 +207,13 @@ namespace te.extension.coria.InternalApi
             {
                 int skip = pageIndex * pageSize;
                 IList<MapBook> mapbooks =   new List<MapBook>();
-                //switch (sortBy){
-                //    case PublicApi.Entity.SortBy.Id:
-                //        break;
-                //    case PublicApi.Entity.SortBy.CreatedDateTimeUtc:
-                //        break;
-                //    case PublicApi.Entity.SortBy.ModifiedDateTimeUtc:
-                //        break;
-                //    case PublicApi.Entity.SortBy.Title:
-                //        break;
-                //    default:  break; }
-                          mapbooks = (from m in dbcontext.MapBooks
+                    mapbooks = (from m in dbcontext.MapBooks
                                     where m.GroupId.Equals(groupId)
                                     orderby m.Id ascending
                                     select m).Skip(skip).Take(pageSize).ToList();
-
-
-
-
                 int totalCount = mapbooks.Count();
                 return new PagedList<MapBook>(mapbooks , pageSize, pageIndex, totalCount);
             }
-               
-
         }
 
         /****
@@ -218,6 +318,7 @@ namespace te.extension.coria.InternalApi
             return toCoriaMap(GetMap(id));
         }
         internal static CoriaMap ToCoriaMap(Map fromMap, CoriaMap toCoriaMap) { return (CoriaMap)ConvertFromPropertiesTo(fromMap, toCoriaMap); }
+        internal static Map ToMap(CoriaMap fromCoriaMap, Map toMap) { return (Map)ConvertFromPropertiesTo(fromCoriaMap, toMap); }
 
         private static Map GetMap(int id)
         {
@@ -325,8 +426,9 @@ namespace te.extension.coria.InternalApi
             foreach (PropertyInfo outProp in outProperties)
             {
                 //4) confirm that you can write to the output field
-                if (outProp.CanWrite)
+                if (outProp.CanWrite && typeof(ICollection<>).Name != outProp.PropertyType.Name )
                 {
+                    //if (typeof(ICollection<>).IsAssignableFrom(pi.PropertyType))
                     //5)try to get the intput property with the same name and type
                     try
                     {
@@ -347,33 +449,7 @@ namespace te.extension.coria.InternalApi
             return outputObject;
         }
         internal static CoriaMapBook ToCoriaMapBook(MapBook fromMapBook, CoriaMapBook toCoriaMapBook){ return (CoriaMapBook)ConvertFromPropertiesTo(fromMapBook, toCoriaMapBook); }
-
-        /// <summary>   Converts a fromCoriaMapBook to a map book. 
-        ///             ToMapBook loops thru each of it's properties and finds 
-        ///             the CoriaMapBook derived property. CoriaMapBook, as a child of MapBook,
-        ///             inherits properties. 
-        ///             </summary>
-        ///
-        /// <remarks>   Admin, 8/6/2016. Advantage: frequent updates to the data model are expected.
-        ///              Limitation: assumes property names are the same, also doesn't check for relationships.
-        ///              TODO: deprecate when the data model is stable
-        ///              TODO: create an entity that gets and sets the required properties 
-        ///              </remarks>
-        ///
-        /// <param name="fromCoriaMapBook"> from coria map book. </param>
-        ///
-        /// <returns>   fromCoriaMapBook as a MapBook. </returns>
-
         internal static MapBook ToMapBook(CoriaMapBook fromCoriaMapBook, MapBook toMapBook){ return (MapBook)ConvertFromPropertiesTo(fromCoriaMapBook, toMapBook); }
-
-        /// <summary>   Creates new map book application. </summary>
-        ///
-        /// <remarks>   Admin, 8/6/2016. </remarks>
-        ///
-        /// <param name="coriaMapBook"> The coria map book. </param>
-        ///
-        /// <returns>   The new new map book application. </returns>
-
         internal static CoriaMapBook CreateNewMapBookApplication(CoriaMapBook coriaMapBook)
         {
             Func<CoriaMapBook, MapBook> toMapBook = (CoriaMapBook fromCoriaMapBook) => ToMapBook(fromCoriaMapBook, new MapBook());
@@ -403,7 +479,7 @@ namespace te.extension.coria.InternalApi
             using (KhartaDataModel dbcontext = new KhartaDataModel())
             {
                 var result = (from m in dbcontext.MapBooks
-                              where m.ApplicationId.Equals(coriamapbook.Id)
+                              where m.ApplicationId.Equals(coriamapbook.ApplicationId)
                               select m).FirstOrDefault();
                 MapBook mapbook = result;
                 dbcontext.MapBooks.Remove(mapbook);

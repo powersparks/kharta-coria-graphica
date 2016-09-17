@@ -90,9 +90,9 @@ namespace te.extension.coria.PublicApi
                 string safeUrl = this.Group.Url + "mapbooks/" + _mapbook.SafeName; // + "/" + _mapbook.SafeName;
                 return safeUrl; } }
 
-        public string HtmlDescription(string target) { return _mapbook.HtmlDescription(target); }
+        public string HtmlDescription(string target) { return _mapbook.HtmlDescription(target.ToLower()); }
 
-        public string HtmlName(string target) { return _mapbook.HtmlName(target); }
+        public string HtmlName(string target) { return _mapbook.HtmlName(target.ToLower()); }
         #endregion
     }
 }

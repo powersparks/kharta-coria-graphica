@@ -48,7 +48,7 @@ $core_v2_ui.PagedContent('CoriaMapBooks.vm')
     </configuration>
     <languageResources>
       <language key="en-us">
-        <resource name="MapBooks_BrowseMapBooks_Name">Map Books - Browse Maps</resource>
+        <resource name="MapBooks_BrowseMapBooks_Name">Map Books - Geospatial Applications</resource>
         <resource name="MapBooks_BrowseMapBooks_Description">Displays a browse control to view all maps on the site.</resource>
         <resource name="Options">Options</resource>
         <resource name="CF_Title">Widget Title</resource>

@@ -19,6 +19,10 @@ namespace kharta.coria.graphica.Models
         public virtual DbSet<MapBook> MapBooks { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<MapBook>()
+                .HasMany(e => e.Maps)
+                .WithRequired(e => e.MapBook)
+                .HasForeignKey(e => e.MapTypeId);
         }
     }
 }

@@ -31,6 +31,8 @@ namespace te.extension.coria.PublicApi
         public string Name { get { return _map.Title; } }
         public string Description { get { return _map.Description; } }
         public string AvatarUrl { get { return _map.ThumbnailUrl; } }
+        public Guid MapId { get { return _map.MapId; } }
+        public Guid MapTypeId { get { return _map.MapTypeId; } }
 
         public Guid ContentId { get { return _map.MapId; } }
 
@@ -38,9 +40,11 @@ namespace te.extension.coria.PublicApi
 
         public int? CreatedByUserId { get { return _map.CreateByUserId.Value; } }
 
-        public DateTime CreatedDate { get { return _map.CreateUtcDate.Value; } }
-
+        public DateTime CreatedDate { get { return _map.CreateUtcDate.HasValue ? _map.CreateUtcDate.Value : DateTime.UtcNow; } }
+        public int? ModifiedByUserId { get { return _map.ModifiedByUserId.Value; } }
+        public DateTime ModifiedDate { get { return _map.ModifiedUtcDate.HasValue ? _map.ModifiedUtcDate.Value : DateTime.UtcNow; } }
         public bool IsEnabled { get { return true; } }
+        public bool IsIndexed { get { return _map.IsIndexed; } }
 
         public string Url { get { return _map.MapId.ToString("N") ; } }
 

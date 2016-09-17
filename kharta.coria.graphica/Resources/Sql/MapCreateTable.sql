@@ -21,8 +21,9 @@ CREATE TABLE [dbo].[Map](
 	[OntologyId] [int] NULL,
 	[GroupId] [int] NULL,
 	[CreateByUserId] [int] NULL,
-	[CreateUtcDate] [datetime] NULL
+	[ModifiedByUserId] [int] NULL,
+	[CreateUtcDate] [datetime] NULL,
+    [ModifiedUtcDate] [datetime] NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 END
 GO
-  

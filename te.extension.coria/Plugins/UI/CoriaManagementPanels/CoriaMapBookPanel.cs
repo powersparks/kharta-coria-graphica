@@ -22,6 +22,8 @@ namespace te.extension.coria.Plugins.UI.CoriaManagementPanels
     public class CoriaMapBookPanel : IPlugin, IApplicationPanel, UIApi.IScriptablePlugin //, IContainerPanel
     {
         Guid _CoriaMapBookManPanel_WidgetId = new Guid("99f22a55-f1f4-4584-8a76-dd0a64452d6b");
+        public static readonly Guid _scriptedContentFragmentFactoryDefaultIdentifier = new Guid("23098a95-0892-41cd-bb3e-fa7f78cdd21b");
+
         public static Guid _panelId = new Guid("a06a4d37-82d6-42a4-b20c-140ffd882677");
         Guid _applicationPanel = new Guid("c4315566-7dcc-46b3-9ab7-7715d05498ad");
         UIApi.IScriptedContentFragmentController _iScriptedContentFragmentController;
@@ -31,7 +33,7 @@ namespace te.extension.coria.Plugins.UI.CoriaManagementPanels
         public void Initialize() { }
         #endregion
         #region IApplicationPanel
-        public Guid[] ApplicationTypes { get { return new Guid[] { Application.CoriaMapType._applicationTypeId }; } }
+        public Guid[] ApplicationTypes { get { return new Guid[] { Application.CoriaMapBookType._applicationTypeId }; } }
         public string CssClass { get { return _iScriptedContentFragmentController.GetMetadata(_CoriaMapBookManPanel_WidgetId).CssClass; } }
         public int? DisplayOrder { get { return 3; } }
         public bool IsCacheable { get { return _iScriptedContentFragmentController.GetMetadata(_CoriaMapBookManPanel_WidgetId).IsCacheable; ; } }
@@ -42,7 +44,8 @@ namespace te.extension.coria.Plugins.UI.CoriaManagementPanels
         public string GetViewHtml(Guid type, Guid id) { return _iScriptedContentFragmentController.RenderContent(_CoriaMapBookManPanel_WidgetId, new NameValueCollection() { { "ApplicationTypeId", type.ToString() }, { "ApplicationId", id.ToString() } }); }
         public bool HasAccess(int userId, Guid applicationType, Guid applicationId) { return true; }
         #endregion
-        public Guid ScriptedContentFragmentFactoryDefaultIdentifier { get { return _CoriaMapBookManPanel_WidgetId; } }
+
+        public Guid ScriptedContentFragmentFactoryDefaultIdentifier { get { return _scriptedContentFragmentFactoryDefaultIdentifier; } } //_CoriaMapBookManPanel_WidgetId; } }
         public Guid[] ContainerTypes { get { return new Guid[] { Apis.Get<IGroups>().ContainerTypeId }; } }
         public void Register(UIApi.IScriptedContentFragmentController controller)
         {
@@ -74,9 +77,9 @@ namespace te.extension.coria.Plugins.UI.CoriaManagementPanels
         [Documentation(Category = "Coria")]
         public class MapBookPanelApi
         {
-            Guid _applicationType, _applicationId, contentType, _contentId;
+            Guid _applicationType, _applicationId;//, contentType, _contentId;
             PublicApi.MapBook _mapbook;
-            PublicApi.Map _map;
+            //PublicApi.Map _map;
             IList<PublicApi.Map> _maps;
             public MapBookPanelApi() { }
             public MapBookPanelApi(PublicApi.MapBook mapbook)

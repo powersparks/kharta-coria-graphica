@@ -60,9 +60,9 @@
     <Compile Include="Core\GraphicaCore.cs" />
     <Compile Include="Core\CoriaCore.cs" />
     <Compile Include="Core\KhartaCore.cs" />
-    <Compile Include="Models\Map.cs" />
     <Compile Include="Models\Hosting.cs" />
     <Compile Include="Models\KhartaDataModel.cs" />
+    <Compile Include="Models\Map.cs" />
     <Compile Include="Models\MapBook.cs" />
     <Compile Include="Models\Ontology.cs" />
     <Compile Include="Models\Source.cs" />

@@ -9,10 +9,18 @@ namespace kharta.coria.graphica.Models
     [Table("MapBook")]
     public partial class MapBook
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public MapBook()
+        {
+            Maps = new HashSet<Map>();
+        }
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         public Guid? ApplicationTypeId { get; set; }
 
+        [Key]
         public Guid ApplicationId { get; set; }
 
         [Required]
@@ -36,5 +44,10 @@ namespace kharta.coria.graphica.Models
 
         [StringLength(256)]
         public string SafeName { get; set; }
+
+        public bool IsIndexed { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Map> Maps { get; set; }
     }
 }

@@ -15,7 +15,7 @@ namespace kharta.coria.graphica.test
     public class CoriaUnitTest
     {
         [TestMethod]
-        public void NewCoriaMapTest()
+        public void NewCoriaMapBookTest()
         {
             teCoria.InternalApi.CoriaMapBook mapbook = new teCoria.InternalApi.CoriaMapBook();
             mapbook.Id = 1;
@@ -47,7 +47,7 @@ namespace kharta.coria.graphica.test
         public void CreateCoriaMapBookTest()
         {
             teCoria.InternalApi.CoriaMapBook mapbook = new teCoria.InternalApi.CoriaMapBook();
-            mapbook.ApplicationId = new Guid();
+            mapbook.ApplicationId = Guid.NewGuid();
             mapbook.ApplicationTypeId = new Guid();
             mapbook.AvatarUrl = "";
             mapbook.Description = "testing description";
@@ -58,11 +58,74 @@ namespace kharta.coria.graphica.test
             Assert.IsNotNull(mapbook);
         }
         [TestMethod]
-        public void ReadCoriaMapTest() { Assert.Fail(); }
+        public void CreateCoriaMapTest()
+        {
+
+            //teCoria.PublicApi.Map map = new teCoria.PublicApi.Map();
+            //teCoria.InternalApi.CoriaMap cMap = new teCoria.InternalApi.CoriaMap();
+            //cMap = teCoria.InternalApi.CoriaDataService.CreateUpdateMap(cMap);
+            //kharta.coria.graphica.Models.Map map = new Models.Map();
+            teCoria.InternalApi.CoriaMap map = new teCoria.InternalApi.CoriaMap();
+            Models.MapBook mapbook = new Models.MapBook();
+            using (kharta.coria.graphica.Models.KhartaDataModel dbcontext = new kharta.coria.graphica.Models.KhartaDataModel())
+            {
+                mapbook = (from m in dbcontext.MapBooks
+                           where m.GroupId.Equals(8)
+                           select m).First();
+
+            }
+            map.Title = "new test map";
+            map.Description = "description is not required, Title, MapId, MapTypeId are required";
+            map.MapId = Guid.NewGuid();
+            map.MapTypeId = mapbook.ApplicationId;
+            map.CreateByUserId = 2100;
+
+            map = te.extension.coria.InternalApi.CoriaDataService.CreateCoriaMap(map);
+            Assert.IsTrue(map.Id > 0);
+        }
 
         [TestMethod]
-        public void UpdateCoriaMapTest() { Assert.Fail(); }
+        public void CreateMapTest() {
+
+            //teCoria.PublicApi.Map map = new teCoria.PublicApi.Map();
+            //teCoria.InternalApi.CoriaMap cMap = new teCoria.InternalApi.CoriaMap();
+            //cMap = teCoria.InternalApi.CoriaDataService.CreateUpdateMap(cMap);
+            kharta.coria.graphica.Models.Map map = new Models.Map();
+            Models.MapBook mapbook = new Models.MapBook();
+            using (kharta.coria.graphica.Models.KhartaDataModel dbcontext = new kharta.coria.graphica.Models.KhartaDataModel())
+            {
+                 mapbook = (from m in dbcontext.MapBooks
+                                          where m.GroupId.Equals(8)
+                                          select m).First();
+
+            }
+                map.Title = "new test map";
+            map.Description = "description is not required, Title, MapId, MapTypeId are required";
+            map.MapId = Guid.NewGuid();
+            map.MapTypeId = mapbook.ApplicationId ;
+            map.CreateByUserId = 2100;
+
+            map = te.extension.coria.InternalApi.CoriaDataService.CreateMap(map);
+            Assert.IsTrue( map.Id > 0);
+        }
         [TestMethod]
-        public void DeleteCoriaMapTest() { Assert.Fail(); }
+        public void ReadCoriaMapTest() {
+           var maps = te.extension.coria.InternalApi.CoriaDataService.ReadMaps();
+            Assert.IsTrue(maps.Count() > 0);
+        }
+
+        [TestMethod]
+        public void UpdateCoriaMapTest() {
+            //var maps = te.extension.coria.InternalApi.CoriaDataService.ReadMaps();
+            //var map = maps.FirstOrDefault();
+            //map.Description = "Testing";
+            // map = te.extension.coria.InternalApi.CoriaDataService.CreateUpdateMap()
+            //Assert.IsTrue(> 0);
+            Assert.Fail();
+              }
+        [TestMethod]
+        public void DeleteCoriaMapTest() {
+            //var maps = te.extension.coria.InternalApi.CoriaDataService.
+            Assert.Fail(); }
     }
 }

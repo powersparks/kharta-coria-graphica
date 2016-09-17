@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using Telligent.Evolution.Extensibility.Version1;
+using Telligent.Evolution.Extensibility.Content.Version1;
 using Telligent.Evolution.Extensibility.UI.Version1;
 using Telligent.DynamicConfiguration.Components;
 using TEApi = Telligent.Evolution.Extensibility.Api.Version1.PublicApi;
@@ -41,7 +42,7 @@ namespace te.extension.coria.Plugins.UI.NewPostLink
             get
             {
                 var translation = new Translation("en-US");
-                translation.Set("link_label", "Add a Map");
+                translation.Set("link_label", "Add a Map Book");
 
                 return new Translation[] { translation };
             }
@@ -58,54 +59,63 @@ namespace te.extension.coria.Plugins.UI.NewPostLink
 
         public IEnumerable<IGroupNewPostLink> GetNewPostLinks(int groupId, int userId)
         {
+
             string url = null;
             if (TEApi.Url.CurrentContext == null || TEApi.Url.CurrentContext.ApplicationTypeId != null)
                 return null;
 
             var group = TEApi.Groups.Get(new GroupsGetOptions { Id = groupId });
+            if (group == null && group.HasErrors())
+                return null;
+
+            //var url = InternalApi.PollingUrlService.CreatePollUrl(groupId, true);
+            //if (string.IsNullOrEmpty(url))
+            //    return null;
             Guid container = group.ApplicationId;
             if (group.Id.HasValue)
             {
-                
-                if (group == null && group.HasErrors())
-                    return null;
-                //            PublicApi.MapBook mapbook = PublicApi.MapBooks.Get(;
-                Uri groupUri = new Uri(group.Url);
-                Uri requestUri = HttpContext.Current.Request.Url;
-                IList<PublicApi.MapBook> mapbooks = PublicApi.MapBooks.List(group.Id.Value);
-                if (mapbooks.Count == 0) { return null; }
-                foreach (PublicApi.MapBook m in mapbooks)
-                {
-                    if (requestUri.AbsolutePath.Contains(m.SafeName))
-                    {
-                        if (requestUri.AbsolutePath.EndsWith("/"))
-                        {
-                            if (!requestUri.AbsolutePath.EndsWith(groupUri.AbsolutePath) || requestUri.AbsolutePath.EndsWith("/mapbooks/") || requestUri.AbsolutePath.EndsWith("/" + m.SafeName + "/") || !requestUri.AbsolutePath.EndsWith("/map/") || requestUri.AbsolutePath.EndsWith("/map/ping/") || requestUri.AbsolutePath.EndsWith("/map/new/") || requestUri.AbsolutePath.EndsWith("/map/on/"))
-                            {
-                                 url = groupUri + "/mapbooks/" + m.SafeName + "#_cptype=panel&_cpcontexttype=Application&_cppanelid=" + UI.CoriaManagementPanels.CoriaMapBookPanel._panelId.ToString("N");
-                                //a06a4d37-82d6-42a4-b20c-140ffd882677
-                                //url = groupUri + "mapbooks/" + m.SafeName + "/map/new/";
-                                break;
-                            }
-                        }
-                        else
-                        {
-                            if (!requestUri.AbsolutePath.EndsWith(groupUri.AbsolutePath) || requestUri.AbsolutePath.EndsWith("/mapbooks") || requestUri.AbsolutePath.EndsWith("/" + m.SafeName) || !requestUri.AbsolutePath.EndsWith("/map") || requestUri.AbsolutePath.EndsWith("/map/ping") || requestUri.AbsolutePath.EndsWith("/map/new") || requestUri.AbsolutePath.EndsWith("/map/on"))
-                            {
-                                url = groupUri + "/mapbooks/" + m.SafeName +"#_cptype=panel&_cpcontexttype=Application&_cppanelid=" + UI.CoriaManagementPanels.CoriaMapBookPanel._panelId.ToString("N");
-                                //url = groupUri + "/mapbooks/" + m.SafeName + "/map/new/";
-                                // //http://localhost/ideas/fuzzy/mapbooks/mapbook2#_cptype=panel&_cpcontexttype=Application&_cppanelid=a06a4d37-82d6-42a4-b20c-140ffd882677
-                                break;
-                            }
-                         
+                 url = InternalApi.CoriaMappingUrlService.CoriaMapBookUrl(groupId,false);
 
-                        }
-                    }
-                }
+
+
+
+
+                //            PublicApi.MapBook mapbook = PublicApi.MapBooks.Get(;
+                /***   Uri groupUri = new Uri(group.Url);
+                   Uri requestUri = HttpContext.Current.Request.Url;
+                   IList<PublicApi.MapBook> mapbooks = PublicApi.MapBooks.List(group.Id.Value);
+                   if (mapbooks.Count == 0) { return null; }
+                   foreach (PublicApi.MapBook m in mapbooks)
+                   {
+                       if (requestUri.AbsolutePath.Contains(m.SafeName))
+                       {
+                           if (requestUri.AbsolutePath.EndsWith("/"))
+                           {
+                               if (!requestUri.AbsolutePath.EndsWith(groupUri.AbsolutePath) || requestUri.AbsolutePath.EndsWith("/mapbooks/") || requestUri.AbsolutePath.EndsWith("/" + m.SafeName + "/") || !requestUri.AbsolutePath.EndsWith("/map/") || requestUri.AbsolutePath.EndsWith("/map/ping/") || requestUri.AbsolutePath.EndsWith("/map/new/") || requestUri.AbsolutePath.EndsWith("/map/on/"))
+                               {
+                                    url = groupUri + "/mapbooks/" + m.SafeName + "#_cptype=panel&_cpcontexttype=Application&_cppanelid=" + UI.CoriaManagementPanels.CoriaMapBookPanel._panelId.ToString("N");
+                                   //a06a4d37-82d6-42a4-b20c-140ffd882677
+                                   //url = groupUri + "mapbooks/" + m.SafeName + "/map/new/";
+                                   break;
+                               }
+                           }
+                           else
+                           {
+                               if (!requestUri.AbsolutePath.EndsWith(groupUri.AbsolutePath) || requestUri.AbsolutePath.EndsWith("/mapbooks") || requestUri.AbsolutePath.EndsWith("/" + m.SafeName) || !requestUri.AbsolutePath.EndsWith("/map") || requestUri.AbsolutePath.EndsWith("/map/ping") || requestUri.AbsolutePath.EndsWith("/map/new") || requestUri.AbsolutePath.EndsWith("/map/on"))
+                               {
+                                   url = groupUri + "/mapbooks/" + m.SafeName +"#_cptype=panel&_cpcontexttype=Application&_cppanelid=" + UI.CoriaManagementPanels.CoriaMapBookPanel._panelId.ToString("N");
+                                   //url = groupUri + "/mapbooks/" + m.SafeName + "/map/new/";
+                                   // //http://localhost/ideas/fuzzy/mapbooks/mapbook2#_cptype=panel&_cpcontexttype=Application&_cppanelid=a06a4d37-82d6-42a4-b20c-140ffd882677
+                                   break;
+                               }
+
+
+                           }
+                       }
+                   }***/
             }
             //groupUri.AbsolutePath +
             // InternalApi.CoriaDataService.CreateMapUrl(groupId, true);
-
             if (string.IsNullOrEmpty(url))
                 return null;
 

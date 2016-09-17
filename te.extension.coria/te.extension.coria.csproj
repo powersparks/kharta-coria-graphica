@@ -36,6 +36,9 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\..\References\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -80,11 +83,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InternalApi\CoriaDataService.cs" />
+    <Compile Include="InternalApi\CoriaMappingUrlService.cs" />
+    <Compile Include="InternalApi\CoriaPermissionService.cs" />
     <Compile Include="InternalApi\Entity\CoriaMap.cs" />
     <Compile Include="InternalApi\Entity\CoriaMapBook.cs" />
     <Compile Include="InternalApi\Utility\EmbeddedResources.cs" />
     <Compile Include="InternalApi\Utility\CoriaException.cs" />
-    <Compile Include="Plugins\Application\CoriaMapType.cs" />
+    <Compile Include="Plugins\Application\CoriaMapBookType.cs" />
     <Compile Include="Plugins\Content\MapContentType.cs" />
     <Compile Include="Plugins\CoriaApplications.cs" />
     <Compile Include="Plugins\UI\CoriaManagementPanels\CoriaMapBookPanel.cs" />
@@ -102,6 +107,7 @@
     <Compile Include="PublicApi\MapBooks.cs" />
     <Compile Include="PublicApi\Maps.cs" />
     <Compile Include="PublicApi\MapsListOptions.cs" />
+    <Compile Include="RestApi\MapBookRestEndpoints.cs" />
     <Compile Include="WidgetApi\MapBooks.cs" />
     <Compile Include="WidgetApi\Maps.cs" />
   </ItemGroup>
