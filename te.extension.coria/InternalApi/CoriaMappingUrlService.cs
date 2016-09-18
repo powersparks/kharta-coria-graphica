@@ -31,6 +31,7 @@ namespace te.extension.coria.InternalApi
                 Uri groupUri = new Uri(group.Url);
                 Uri requestUri = HttpContext.Current.Request.Url;
                 IList<PublicApi.MapBook> mapbooks = PublicApi.MapBooks.List(group.Id.Value);
+                if (mapbooks == null) { return null; }
                 if (mapbooks.Count == 0) { return null; }
                 foreach (PublicApi.MapBook m in mapbooks)
                 {

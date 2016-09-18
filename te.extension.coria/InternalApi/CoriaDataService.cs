@@ -10,6 +10,8 @@ using System.Data.Entity.Infrastructure;
 using Telligent.Evolution.Components;
 using System.Reflection;
 using Telligent.Evolution.Extensibility.Content.Version1;
+using TEApi = Telligent.Evolution.Extensibility.Api.Version1.PublicApi;
+using Telligent.Evolution.Extensibility.Api.Version1;
 
 using Telligent.Evolution.Extensibility.Api.Entities.Version1; 
 
@@ -18,8 +20,20 @@ namespace te.extension.coria.InternalApi
 {
     [Serializable]
     internal class CoriaDataService
-    { 
-        
+    {
+        #region MapBook Maps
+        internal static bool CanCreateMapBookMap(int groupId)
+        {
+            return true; //TEApi.NodePermissions.Get("groups", groupId, Plugins.MapPermissions.CreateMapId.ToString()).IsAllowed;
+        }
+        internal static string CreateMapBookMapUrl(int groupId, bool checkPermissions)
+        {
+            var group = TEApi.Groups.Get(new GroupsGetOptions { Id = groupId });
+            if (group == null) { return null; }
+            if (checkPermissions && !CanCreateMapBookMap(groupId)) { return null; }
+            return string.Format("{0}maps/add", group.Url);
+        }
+        #endregion
         internal static  CoriaMapBook CreateUpdateMapBook(CoriaMapBook coriaMapBook )
         {
             if (coriaMapBook.Id == 0)
@@ -51,7 +65,6 @@ namespace te.extension.coria.InternalApi
             }
                 return coriaMapBook;
         }
-
         internal static IList<PublicApi.MapBook> GetMapBookApplicationsByGroup(int groupId)
         {
             IList<PublicApi.MapBook> mapbookApps = new List<PublicApi.MapBook>();

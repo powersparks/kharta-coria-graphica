@@ -77,6 +77,7 @@ namespace te.extension.coria.PublicApi
         }
         public static IList<MapBook> List(int groupId) {
             IList<InternalApi.CoriaMapBook> cMapBooks = InternalApi.CoriaDataService.GetCoriaMapBooksByGroup(groupId);
+            if (cMapBooks == null ){ return null; }
             if (cMapBooks.Count == 0) { return null; }
             return new List<MapBook>(cMapBooks.Select(m => new MapBook(m)));
         }

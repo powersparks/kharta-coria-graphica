@@ -170,7 +170,7 @@ namespace te.extension.coria.Plugins.Application
         public void RegisterUrls(IUrlController controller)
         {
             //var mapBookAction = new Action<HttpContextBase, PageContext>(MapBookAction); 
-            controller.AddPage("GroupMapBookList", "mapbooks", null, null, "coria-mapbooklist", PdOptions);
+            controller.AddPage("GroupMapBookList", "mapbooks", new Telligent.Evolution.Urls.Routing.NotSiteRootRouteConstraint(), null, "coria-mapbooklist", PdOptions);
             controller.AddPage("GroupMapBookSingle", "mapbooks/{mapBook}", new Telligent.Evolution.Urls.Routing.NotSiteRootRouteConstraint(), null, "coria-mapbooklist", PdOptions);
 
             controller.AddPage("GroupMap", "mapbooks/{mapBook}/map", new Telligent.Evolution.Urls.Routing.NotSiteRootRouteConstraint(), null, "coria-map-page", PdOptions);
@@ -314,11 +314,14 @@ namespace te.extension.coria.Plugins.Application
             foreach (var it in item)
             {
                 var typeName = it.TypeName;
-                if (ApplicationTypeName == typeName.ToString())
+                if (typeName != null)
                 {
+                    if (ApplicationTypeName == typeName.ToString())
+                    {
 
-                    if (it.ApplicationId.HasValue)
-                        return PublicApi.MapBooks.Get(it.ApplicationId.Value);
+                        if (it.ApplicationId.HasValue)
+                            return PublicApi.MapBooks.Get(it.ApplicationId.Value);
+                    }
                 }
             }
             //    if (PublicApi.Url.CurrentContext == null) return null;

@@ -20,7 +20,7 @@
 ##$core_v2_utility.Describe( $context)##, "%{Depth = $depthArg, Format = $formatArg}")
 	$core_v2_widget.Hide()
 #end
-$core_v2_utility.Describe( $context)##, "%{Depth = $depthArg, Format = $formatArg}")
+
  <p>Coria Managament Panel</p>
 $core_v2_page.AddLink("stylesheet", "$core_v2_widget.GetFileUrl('CoriaMapBookManPanel.css')" )
 
@@ -77,6 +77,7 @@ $core_v2_page.AddLink("stylesheet", "$core_v2_widget.GetFileUrl('CoriaMapBookMan
 			<li class="field-item identifiers contenttypeid" style="display: none;">
 				<label class="field-item-name">$core_v2_language.GetResource('ApplicationTypeId')</label>
 				<span class="field-item-input">$!mapbook.ApplicationTypeId</span>
+        $core_v2_utility.Describe( $context)##, "%{Depth = $depthArg, Format = $formatArg}")
 			</li>
 #end
    <!--alarming big delete button-->
