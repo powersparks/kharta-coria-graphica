@@ -59,62 +59,14 @@ namespace te.extension.coria.Plugins.UI.NewPostLink
 
         public IEnumerable<IGroupNewPostLink> GetNewPostLinks(int groupId, int userId)
         {
-
             string url = null;
             if (TEApi.Url.CurrentContext == null || TEApi.Url.CurrentContext.ApplicationTypeId != null) { return null; }
             var group = TEApi.Groups.Get(new GroupsGetOptions { Id = groupId });
-            if (group == null && group.HasErrors())
-                return null;
- 
-            Guid container = group.ApplicationId;
-            if (group.Id.HasValue)
-            {
-                 url = InternalApi.CoriaMappingUrlService.CoriaMapBookUrl(groupId,false);
-
-
-
-
-
-                //            PublicApi.MapBook mapbook = PublicApi.MapBooks.Get(;
-                /***   Uri groupUri = new Uri(group.Url);
-                   Uri requestUri = HttpContext.Current.Request.Url;
-                   IList<PublicApi.MapBook> mapbooks = PublicApi.MapBooks.List(group.Id.Value);
-                   if (mapbooks.Count == 0) { return null; }
-                   foreach (PublicApi.MapBook m in mapbooks)
-                   {
-                       if (requestUri.AbsolutePath.Contains(m.SafeName))
-                       {
-                           if (requestUri.AbsolutePath.EndsWith("/"))
-                           {
-                               if (!requestUri.AbsolutePath.EndsWith(groupUri.AbsolutePath) || requestUri.AbsolutePath.EndsWith("/mapbooks/") || requestUri.AbsolutePath.EndsWith("/" + m.SafeName + "/") || !requestUri.AbsolutePath.EndsWith("/map/") || requestUri.AbsolutePath.EndsWith("/map/ping/") || requestUri.AbsolutePath.EndsWith("/map/new/") || requestUri.AbsolutePath.EndsWith("/map/on/"))
-                               {
-                                    url = groupUri + "/mapbooks/" + m.SafeName + "#_cptype=panel&_cpcontexttype=Application&_cppanelid=" + UI.CoriaManagementPanels.CoriaMapBookPanel._panelId.ToString("N");
-                                   //a06a4d37-82d6-42a4-b20c-140ffd882677
-                                   //url = groupUri + "mapbooks/" + m.SafeName + "/map/new/";
-                                   break;
-                               }
-                           }
-                           else
-                           {
-                               if (!requestUri.AbsolutePath.EndsWith(groupUri.AbsolutePath) || requestUri.AbsolutePath.EndsWith("/mapbooks") || requestUri.AbsolutePath.EndsWith("/" + m.SafeName) || !requestUri.AbsolutePath.EndsWith("/map") || requestUri.AbsolutePath.EndsWith("/map/ping") || requestUri.AbsolutePath.EndsWith("/map/new") || requestUri.AbsolutePath.EndsWith("/map/on"))
-                               {
-                                   url = groupUri + "/mapbooks/" + m.SafeName +"#_cptype=panel&_cpcontexttype=Application&_cppanelid=" + UI.CoriaManagementPanels.CoriaMapBookPanel._panelId.ToString("N");
-                                   //url = groupUri + "/mapbooks/" + m.SafeName + "/map/new/";
-                                   // //http://localhost/ideas/fuzzy/mapbooks/mapbook2#_cptype=panel&_cpcontexttype=Application&_cppanelid=a06a4d37-82d6-42a4-b20c-140ffd882677
-                                   break;
-                               }
-
-
-                           }
-                       }
-                   }***/
-            }
-            //groupUri.AbsolutePath +
-            // InternalApi.CoriaDataService.CreateMapUrl(groupId, true);
-            if (string.IsNullOrEmpty(url))
-                return null;
-
-            return new IGroupNewPostLink[] { new GroupNewMapLink(_translation.GetLanguageResourceValue("link_label"), url) };
+            if (group == null && group.HasErrors()) { return null; } 
+            //Guid container = group.ApplicationId;
+            url = group.Id.HasValue ? InternalApi.CoriaMappingUrlService.CoriaNewMapBookUrl(groupId,false): null;
+            if (string.IsNullOrEmpty(url)) { return null; } 
+            return new IGroupNewPostLink[] { new GroupNewMapBookLink(_translation.GetLanguageResourceValue("link_label"), url) };
         }
 
         public bool HasNewPostLinks(int groupId, int userId)
@@ -125,28 +77,18 @@ namespace te.extension.coria.Plugins.UI.NewPostLink
 
         #endregion
 
-        public class GroupNewMapLink : IGroupNewPostLink
+        public class GroupNewMapBookLink : IGroupNewPostLink
         {
-            internal GroupNewMapLink(string label, string url)
+            internal GroupNewMapBookLink(string label, string url)
             {
                 Label = label;
                 Url = url;
             }
 
-            #region IGroupNewPostLink Members
-
-            public string CssClass
-            {
-                get { return "internal-link add-post map"; }
-            }
-
-            public string Label { get; private set; }
-
-            public string NewPostTypeName
-            {
-                get { return Label; }
-            }
-
+            #region IGroupNewPostLink Members 
+            public string CssClass  { get { return "internal-link add-post mapbook"; } } 
+            public string Label { get; private set; } 
+            public string NewPostTypeName {  get { return Label; }  } 
             public string Url { get; private set; }
 
             #endregion

@@ -46,7 +46,7 @@ namespace te.extension.coria.PublicApi
             get
             {
                 GroupsGetOptions groupOpt = new GroupsGetOptions();
-                groupOpt.Id = _mapbook.GroupId;
+                groupOpt.Id = _mapbook != null ? _mapbook.GroupId : -1;
                 if (groupOpt.Id > 0)
                 {
                     return Apis.Get<IGroups>().Get(groupOpt);

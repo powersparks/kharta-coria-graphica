@@ -10,7 +10,7 @@ using Telligent.DynamicConfiguration.Components;
 namespace te.extension.coria.Plugins.UI
 {
 
-    public class MapsGroupNavigation : IPlugin, ITranslatablePlugin, IGroupCustomNavigationPlugin, IGroupDefaultCustomNavigationPlugin
+    public class MapsGroupNavigation : IPlugin, ITranslatablePlugin,ISiteCustomNavigationPlugin, IGroupCustomNavigationPlugin, IGroupDefaultCustomNavigationPlugin
     {
         private readonly Guid _defaultId = new Guid("9ff37043-8c76-40ce-891e-ffa216415a0c");
 
@@ -62,12 +62,27 @@ namespace te.extension.coria.Plugins.UI
 
         public PropertyGroup[] GetConfigurationProperties(int groupId)
         {
-            PropertyGroup group = new PropertyGroup("options", _translation.GetLanguageResourceValue("configuration_options"), 1);
+            var groups = new PropertyGroup[] { 
+             new PropertyGroup("options", _translation.GetLanguageResourceValue("configuration_options"), 1)
+            };
+            if (groupId > -1)
+            {
 
-            group.Properties.Add(new Property("groupid", "", PropertyType.Int, 1, groupId.ToString()) { Visible = false, Editable = false });
-            group.Properties.Add(new Property("label", _translation.GetLanguageResourceValue("configuration_label"), PropertyType.String, 2, "") { DescriptionText = _translation.GetLanguageResourceValue("configuration_label_description") });
+                groups[0].Properties.Add(new Property("groupid", "Current Group", PropertyType.Int, 1, groupId.ToString()) { Visible = false, Editable = false });
+                groups[0].Properties.Add(new Property("label", _translation.GetLanguageResourceValue("configuration_label"), PropertyType.String, 1, "") { DescriptionText = _translation.GetLanguageResourceValue("configuration_label_description") });
 
-            return new PropertyGroup[] { group };
+
+            }
+            else {
+
+                groups[0].Properties.Add(new Property("groupid", "Current Group", PropertyType.Custom, 0, string.Empty) {
+                    ControlType = typeof(Telligent.Evolution.Controls.GroupSelectionList),
+                    DescriptionText = "Select a Group"
+                });
+                groups[0].Properties.Add(new Property("label", _translation.GetLanguageResourceValue("configuration_label"), PropertyType.String, 1, "") { DescriptionText = _translation.GetLanguageResourceValue("configuration_label_description") });
+
+            }
+            return groups;
         }
 
         public ICustomNavigationItem GetNavigationItem(Guid id, ICustomNavigationItemConfiguration configuration)
@@ -100,6 +115,11 @@ namespace te.extension.coria.Plugins.UI
             return new MapsGroupNavigationItem(this, configuration, _defaultId, groupId, () => _translation.GetLanguageResourceValue("configuration_defaultLabel"));
         }
 
+        public PropertyGroup[] GetConfigurationProperties()
+        {
+            return GetConfigurationProperties(-1);
+        }
+
         #endregion
 
         public class MapsGroupNavigationItem : ICustomNavigationItem
@@ -128,7 +148,7 @@ namespace te.extension.coria.Plugins.UI
 
             public bool IsSelected(string currentFullUrl)
             {
-                return currentFullUrl.Contains("/mapbook");
+                return currentFullUrl.Contains("/mapbooks");
             }
 
             public bool IsVisible(int userID)
@@ -141,7 +161,7 @@ namespace te.extension.coria.Plugins.UI
                 get
                 {
                     // if (_groupId == -1) { return null; }
-                    if (_mapbooks.Count > 0)
+                    if ( _mapbooks != null && _mapbooks.Count > 0)
                     {
                         if (_mapbooks.Count == 1)
                         {
