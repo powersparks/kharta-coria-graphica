@@ -93,7 +93,9 @@
     <Compile Include="Plugins\Content\MapContentType.cs" />
     <Compile Include="Plugins\CoriaApplications.cs" />
     <Compile Include="Plugins\UI\CoriaManagementPanels\CoriaMapBookPanel.cs" />
-    <Compile Include="Plugins\UI\Navigation\MapsGroupNavigation.cs" />
+    <Compile Include="Plugins\UI\Navigation\MapBookMapsSiteNavigation.cs" />
+    <Compile Include="Plugins\UI\Navigation\MapBooksGroupNavigation.cs" />
+    <Compile Include="Plugins\UI\Navigation\MapBookUserNavigation.cs" />
     <Compile Include="Plugins\UI\NewPostLink\MapBookNewBookLink.cs" />
     <Compile Include="Plugins\UI\NewPostLink\MapBookNewMapLink.cs" />
     <Compile Include="Plugins\UI\WidgetExtension\MapWidgetExtension.cs" />

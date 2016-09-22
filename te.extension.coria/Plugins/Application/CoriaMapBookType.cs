@@ -2,20 +2,22 @@
 using System.Collections.Generic;
 using System.Web;
 
-using Telligent.Evolution.Components;
+ 
 using Telligent.DynamicConfiguration.Components;
-
+ 
+ 
 using Telligent.Evolution.Extensibility;
 using Telligent.Evolution.Extensibility.Api.Version1;
 using Telligent.Evolution.Extensibility.Content.Version1;
 using Telligent.Evolution.Extensibility.Urls.Version1;
+using TeUrls = Telligent.Evolution.Extensibility.Urls;
 using Telligent.Evolution.Extensibility.Version1;
 using TEApi = Telligent.Evolution.Extensibility.Api.Version1.PublicApi;
 using TeUi = Telligent.Evolution.Extensibility.UI.Version1;
 
 namespace te.extension.coria.Plugins.Application
 {
-    public class CoriaMapBookType : IPlugin, IApplicationType, IManageableApplicationType, IQueryableApplicationType, IApplicationNavigable, ICategorizedPlugin, IWebContextualApplicationType
+    public class CoriaMapBookType : IPlugin, IApplicationType, IManageableApplicationType, IQueryableApplicationType, IApplicationNavigable, INavigableApplicationType, ICategorizedPlugin, IWebContextualApplicationType//, TeUi.IGroupCustomNavigationPlugin , TeUi.IGroupDefaultCustomNavigationPlugin //, TeUrls.Version1.INavigableApplicationType
     {
         IApplicationStateChanges _applicationState = null;
         public static Guid _applicationTypeId = new Guid("bfdb6103-e8e5-4cbf-8fbf-42dbac4046ef");
@@ -157,7 +159,7 @@ namespace te.extension.coria.Plugins.Application
 
         #endregion
         #region IApplicationNavigable
-        Guid IApplicationNavigable.ApplicationTypeId { get { return   TEApi.Groups.ApplicationTypeId;  } }
+        Guid IApplicationNavigable.ApplicationTypeId { get { return this.ApplicationTypeId /***TEApi.Groups.ApplicationTypeId**/; } }
 
         public string[] Categories
         {
@@ -166,18 +168,21 @@ namespace te.extension.coria.Plugins.Application
                 return new string[] { "Coria" };
             }
         }
-
+        #region INavigableApplicationType
+        public string PathDelimiter
+        {
+            get { return "mapbooks"; }
+        }
+        #endregion
         public void RegisterUrls(IUrlController controller)
         {
             //var mapBookAction = new Action<HttpContextBase, PageContext>(MapBookAction); 
-            controller.AddPage("GroupMapBookList", "mapbooks", new Telligent.Evolution.Urls.Routing.NotSiteRootRouteConstraint(), null, "coria-mapbooklist", MapBooks_PdOptions);
-            controller.AddPage("GroupMapBookSingle", "mapbooks/{mapBook}", new Telligent.Evolution.Urls.Routing.NotSiteRootRouteConstraint(), null, "coria-mapbook-map-list", MapBook_PdOptions);
+            controller.AddPage("GroupMapBookList", "", new Telligent.Evolution.Urls.Routing.NotSiteRootRouteConstraint(), null, "coria-mapbooklist", MapBooks_PdOptions);
+            controller.AddPage("GroupMapBookSingle", "{mapBook}", null, null, "coria-mapbook-map-list", MapBook_PdOptions);
 
-            controller.AddPage("GroupMap", "mapbooks/{mapBook}/map", new Telligent.Evolution.Urls.Routing.NotSiteRootRouteConstraint(), null, "coria-map-page", Map_PdOptions);
-            controller.AddPage("GroupMapNew", "mapbooks/{mapBook}/map/new", new Telligent.Evolution.Urls.Routing.NotSiteRootRouteConstraint(), null, "coria-map-page", Map_PdOptions);
+            //controller.AddPage("GroupMap", "mapbooks/{mapBook}/map", new Telligent.Evolution.Urls.Routing.NotSiteRootRouteConstraint(), null, "coria-map-page", Map_PdOptions);
+            //controller.AddPage("GroupMapNew", "mapbooks/{mapBook}/map/new", new Telligent.Evolution.Urls.Routing.NotSiteRootRouteConstraint(), null, "coria-map-page", Map_PdOptions);
 
-            controller.AddPage("UserMapBookList", "members/{UserName}/mapbooks", new Telligent.Evolution.Urls.Routing.NotSiteRootRouteConstraint(), null, "coria-mapbooklist", MapBooks_PdOptions);
-            controller.AddPage("UserMapBookSingle", "members/{UserName}/{mapBooks}/{mapBook}", new Telligent.Evolution.Urls.Routing.NotSiteRootRouteConstraint(), null, "coria-mapbook-map-list", MapBook_PdOptions);
 
         }
         private PageDefinitionOptions MapBooks_PdOptions
@@ -220,6 +225,7 @@ namespace te.extension.coria.Plugins.Application
             }
         }
 
+
         private void MapBookAction(HttpContextBase arg1, PageContext arg2)
         {
             //throw new NotImplementedException();
@@ -242,7 +248,7 @@ namespace te.extension.coria.Plugins.Application
 
         private void ParseMapBooks_Context(PageContext pageContext)
         {
-             
+
             var ApplicationId = pageContext.GetTokenValue("ApplicationId");
             var ApplicationTypeId = pageContext.GetTokenValue("ApplicationTypeId");
             var allContext = pageContext.ContextItems.GetAllContextItems();
@@ -259,41 +265,41 @@ namespace te.extension.coria.Plugins.Application
             var typename = allContext[0].TypeName;
             var hashCode = allContext[0].GetHashCode();
 
-             
+
             if (!int.TryParse(allContext[0].Id, out groupId))
             {
                 //if groupid is not 
                 // find by  mapbook name only... 
                 // TODO: optimize database with safeName and GroupId indexing
             }
-       
+
             IList<PublicApi.MapBook> mapbooks = new List<PublicApi.MapBook>();
-            
-            if (groupId > -1  )
+
+            if (groupId > -1)
             {
                 var group = TEApi.Groups.Get(new GroupsGetOptions { Id = groupId });
                 ContextItem contextItem = new ContextItem();
-            
+
                 try
                 {
                     if (groupId >= 0)
-                    { 
+                    {
                         mapbooks = PublicApi.MapBooks.List(groupId);
-                        if (mapbooks != null )
+                        if (mapbooks != null)
                         {
                             if (mapbooks.Count == 1)
                             {
                                 contextItem.ApplicationId = mapbooks[0].ApplicationId;
                                 contextItem.ContentId = mapbooks[0].ApplicationId;
                             }
-                    
+
                             contextItem.ContainerId = mapbooks[0].Container.ContainerId;
                             contextItem.ContainerTypeId = mapbooks[0].Container.ContainerTypeId;    //Apis.Get<IGroups>().ContainerTypeId,  
-                       
+
                             contextItem.ContentTypeId = mapbooks[0].ApplicationTypeId;
                             contextItem.TypeName = ApplicationTypeName;
                             contextItem.Id = mapbooks[0].Group.Id.Value.ToString();
-                     
+
                         }
                         contextItem.TypeName = ApplicationTypeName;
                         contextItem.ApplicationTypeId = this.ApplicationTypeId;
@@ -305,7 +311,6 @@ namespace te.extension.coria.Plugins.Application
                     //throw;
                 }
 
-  
                 pageContext.ContextItems.Put(contextItem);
             }
         }
@@ -313,8 +318,8 @@ namespace te.extension.coria.Plugins.Application
         {
             //try
             //{
-            var ApplicationId = pageContext.GetTokenValue("ApplicationId");
-            var ApplicationTypeId = pageContext.GetTokenValue("ApplicationTypeId");
+            //var ApplicationId = pageContext.GetTokenValue("ApplicationId");
+            //var ApplicationTypeId = pageContext.GetTokenValue("ApplicationTypeId");
             var allContext = pageContext.ContextItems.GetAllContextItems();
             var cnt = allContext.Count;
             int groupId = -1;
@@ -328,10 +333,6 @@ namespace te.extension.coria.Plugins.Application
             }
             string singleMapBook = pageContext.GetTokenValue("mapBook") as string;
 
-            string appMapBookNameContext = "mapbooks";//pageContext.GetTokenValue("appName") as string;
-
-            IList<PublicApi.MapBook> mapbooks = new List<PublicApi.MapBook>();
-            var userName = pageContext.GetTokenValue("UserName");
             if (groupId > -1)
             {
                 var group = TEApi.Groups.Get(new GroupsGetOptions { Id = groupId });
@@ -340,6 +341,26 @@ namespace te.extension.coria.Plugins.Application
                 {
                     PublicApi.MapBook mapbook = InternalApi.CoriaDataService.GetMapBookByGroupId_Name(groupId, "mapbooks", singleMapBook);
 
+                    //allContext[0].ApplicationId = mapbook.ApplicationId;
+                    //allContext[0].ApplicationTypeId = mapbook.ApplicationTypeId;
+                    //allContext[0].ContainerId = mapbook.Container.ContainerId;
+                    //allContext[0].ContainerTypeId = mapbook.Container.ContainerTypeId;    //Apis.Get<IGroups>().ContainerTypeId,  
+                    //allContext[0].ContentId = mapbook.ApplicationId;
+                    //allContext[0].ContentTypeId = mapbook.ApplicationTypeId;
+                    ////allContext[0].TypeName = ApplicationTypeName;
+                    //allContext[0].Id = mapbook.Group.Id.Value.ToString();
+
+                    //orignal
+                    /***
+                    TypeName = "Blog",
+                            ApplicationId = blog.ApplicationId,
+                            ApplicationTypeId = blogsApi.ApplicationTypeId,
+                            ContainerId = blog.Group.ApplicationId,
+                            ContainerTypeId = groupsApi.ContentTypeId,
+                            ContentId = blog.ApplicationId,
+                            ContentTypeId = blogsApi.ApplicationTypeId,
+                            Id = blog.Id.ToString()
+                        ***/
                     contextItem.ApplicationId = mapbook.ApplicationId;
                     contextItem.ApplicationTypeId = mapbook.ApplicationTypeId;
                     contextItem.ContainerId = mapbook.Container.ContainerId;
@@ -350,37 +371,9 @@ namespace te.extension.coria.Plugins.Application
                     contextItem.Id = mapbook.Group.Id.Value.ToString();
 
                 }
-                else
-                {
-                    mapbooks = PublicApi.MapBooks.List(groupId);
+                //Telligent.Evolution.Urls.Routing.IContextCollection iContextCollection = new ContextCollection();
 
-                    contextItem.ApplicationId = mapbooks[0].ApplicationId;
-                    contextItem.ApplicationTypeId = mapbooks[0].ApplicationTypeId;
-                    contextItem.ContainerId = mapbooks[0].Container.ContainerId;
-                    contextItem.ContainerTypeId = mapbooks[0].Container.ContainerTypeId;    //Apis.Get<IGroups>().ContainerTypeId,  
-                    contextItem.ContentId = mapbooks[0].ApplicationId;
-                    contextItem.ContentTypeId = mapbooks[0].ApplicationTypeId;
-                    contextItem.Id = mapbooks[0].Group.Id.Value.ToString();
-
-                }
-
-
-                if (userName != null)
-                {
-                    var user = TEApi.Users.Get(new UsersGetOptions() { Username = userName.ToString() });
-                    if (user != null)
-                    {
-                        contextItem.ContainerId = BuildUserContextItem(user).ContainerId;
-                        contextItem.ContainerTypeId = BuildUserContextItem(user).ContainerTypeId.Value;
-                        contextItem.Id = BuildUserContextItem(user).Id.ToString();
-                    }
-                    else
-                    {
-
-                        Globals.RedirectToLoginOrThrowException(new InternalApi.Utility.CoriaException(CSExceptionType.UserNotFound, "Coria Parse MapBook Context.", null));
-                    }
-                }
-
+                //pageContext.ContextItems = iContextCollection;
                 pageContext.ContextItems.Put(contextItem);
             }
             //}
@@ -405,8 +398,8 @@ namespace te.extension.coria.Plugins.Application
                 var item = TEApi.Url.CurrentContext.ContextItems.Find(c => c.ApplicationTypeId.Value == ApplicationTypeId);//.GetAllContextItems();
                 isCurrentMapBookType = (item != null && item.ApplicationId.HasValue) ? true : false;
             }
-            return isCurrentMapBookType; 
-        } 
+            return isCurrentMapBookType;
+        }
         public IApplication GetCurrentApplication(TeUi.IWebContext context)
         {
             PublicApi.MapBook mapbook = new PublicApi.MapBook();
@@ -418,10 +411,32 @@ namespace te.extension.coria.Plugins.Application
 
             return null;
         }
- 
-        
+
+
+
         #endregion
     }
+        /***
+        private readonly string siteHomePageXml = @"<contentFragmentPage pageName=""common-home"" isCustom=""false"" layout=""Content"" themeType=""0c647246-6735-42f9-875d-c8b991fe739b"">
+                                                <regions>
+                                                  <region regionName=""Content"" >
+                                                    <contentFragments>
+                                                      <contentFragment type=""Telligent.Evolution.ScriptedContentFragments.ScriptedContentFragment, Telligent.Evolution.Platform::906f3e32e53c4dce8bc495d8c9bd83ff"" showHeader=""False"" cssClassAddition=""no-wrapper with-spacing responsive-1"" isLocked=""False"" configuration="""" />
+                                                    </contentFragments>
+                                                  </region>
+                                                </regions>
+                                              <contentFragmentTabs />
+                                            </contentFragmentPage>";
+
+
+        controller.AddPage("home", "", null, null, "common-home", new PageDefinitionOptions()
+        {
+            ParseContext = ParseUserContext,
+            TitleFunction = () => _translation.GetLanguageResourceValue("page-common-home-site"),
+            DescriptionFunction = () => _translation.GetLanguageResourceValue("page-common-home-site-description"),
+            DefaultPageXml = siteHomePageXml,
+        });
+    ***/
     /***
 
  using Telligent.Evolution.Extensibility.UI.Version1;

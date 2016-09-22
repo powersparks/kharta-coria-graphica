@@ -10,7 +10,7 @@ using Telligent.DynamicConfiguration.Components;
 namespace te.extension.coria.Plugins.UI
 {
 
-    public class MapsGroupNavigation : IPlugin, ITranslatablePlugin,ISiteCustomNavigationPlugin, IGroupCustomNavigationPlugin, IGroupDefaultCustomNavigationPlugin
+    public class MapBooksGroupNavigation : IPlugin, ITranslatablePlugin,  ISiteCustomNavigationPlugin, IGroupCustomNavigationPlugin, IGroupDefaultCustomNavigationPlugin //
     {
         private readonly Guid _defaultId = new Guid("9ff37043-8c76-40ce-891e-ffa216415a0c");
 
@@ -44,8 +44,8 @@ namespace te.extension.coria.Plugins.UI
                 translation.Set("configuration_options", "Options");
                 translation.Set("configuration_label", "Label");
                 translation.Set("configuration_label_description", "Enter an optional label for this link.");
-                translation.Set("configuration_defaultLabel", "Maps");
-                translation.Set("navigationitem_name", "Group Maps");
+                translation.Set("configuration_defaultLabel", "Map Books");
+                translation.Set("navigationitem_name", "GroupMapBooks");
 
                 return new Translation[] { translation };
             }

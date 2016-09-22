@@ -60,7 +60,7 @@ namespace te.extension.coria.Plugins.UI.NewPostLink
         public IEnumerable<IGroupNewPostLink> GetNewPostLinks(int groupId, int userId)
         {
             string url = null;
-            if (TEApi.Url.CurrentContext == null || TEApi.Url.CurrentContext.ApplicationTypeId != null) { return null; }
+            if (TEApi.Url.CurrentContext == null || TEApi.Url.CurrentContext.ApplicationTypeId == null) { return null; }
             var group = TEApi.Groups.Get(new GroupsGetOptions { Id = groupId });
             if (group == null && group.HasErrors()) { return null; } 
             //Guid container = group.ApplicationId;

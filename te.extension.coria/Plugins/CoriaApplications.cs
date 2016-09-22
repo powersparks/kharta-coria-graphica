@@ -210,7 +210,7 @@ namespace te.extension.coria.Plugins
           typeof(UI.WidgetExtension.MapBookWidgetExtension),
           typeof(UI.CoriaManagementPanels.CoriaMapBookPanel),
           typeof(Content.MapContentType),
-          typeof(UI.MapsGroupNavigation),
+          typeof(UI.MapBooksGroupNavigation),
           typeof(UI.NewPostLink.MapBookNewBookLink),
           typeof(UI.NewPostLink.MapBookNewMapLink),
           typeof(InternalApi.CoriaPermissions)

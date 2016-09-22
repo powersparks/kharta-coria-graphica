@@ -37,7 +37,7 @@ namespace te.extension.coria.Plugins.UI.NewPostLink
             Uri groupUri = new Uri(group.Url);
             Uri requestUri = HttpContext.Current.Request.Url;
             string url = null;
-            if (TEApi.Url.CurrentContext == null || TEApi.Url.CurrentContext.ApplicationTypeId != null) { return null; }
+            if (TEApi.Url.CurrentContext == null || TEApi.Url.CurrentContext.ApplicationTypeId == null) { return null; }
             //Guid container = group.ApplicationId;
              url = group.Id.HasValue ? InternalApi.CoriaMappingUrlService.CoriaNewMapBookUrl(groupId, false) : null;
             if (string.IsNullOrEmpty(url)) { return null; }
