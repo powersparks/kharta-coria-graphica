@@ -2,9 +2,20 @@
 using Telligent.Evolution.Extensibility.Content.Version1;
 using Telligent.Evolution.Extensibility.Version1;
 using TeUi = Telligent.Evolution.Extensibility.UI.Version1;
+using Telligent.DynamicConfiguration.Components;
+
+
+using Telligent.Evolution.Extensibility;
+using Telligent.Evolution.Extensibility.Api.Version1;
+ 
+using Telligent.Evolution.Extensibility.Urls.Version1;
+using TeUrls = Telligent.Evolution.Extensibility.Urls;
+ 
+using TEApi = Telligent.Evolution.Extensibility.Api.Version1.PublicApi;
+ 
 namespace te.extension.coria.Plugins.Content
 {
-    public class MapContentType : IPlugin, IContentType//, IWebContextualContentType
+    public class MapContentType : IPlugin, IContentType //, IWebContextualContentType
     /* TODO: , ITranslatablePlugin, IPermissions , ITaggableContentType, ISearchableContentType,  
      *  IScriptedContentFragmentExtension, 
      *  IGroupNewPostLinkPlugin
@@ -43,6 +54,6 @@ namespace te.extension.coria.Plugins.Content
 
         public void Initialize() {   }
 
-
+    
     }
 }

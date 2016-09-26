@@ -1,6 +1,6 @@
 ﻿namespace te.extension.coria.PublicApi
 {
-    internal class MapsListOptions
+    public class MapsListOptions
     {
         public MapsListOptions()
         {

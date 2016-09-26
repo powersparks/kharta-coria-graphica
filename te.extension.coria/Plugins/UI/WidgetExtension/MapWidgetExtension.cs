@@ -18,10 +18,10 @@ namespace te.extension.coria.Plugins.UI.WidgetExtension
     }
     public class MapBookWidgetExtension : IPlugin, IScriptedContentFragmentExtension
     {
-        public string Name { get { return "Coria Map Widget Extension(coria_v1_mapBook)"; } }
+        public string Name { get { return "Coria Map Widget Extension(coria_v1_mapbook)"; } }
         public string Description { get { return "Widget API Extension for working with coria map books"; } }
         public object Extension { get { return new WidgetApi.MapBooks(); } }
-        public string ExtensionName { get { return "coria_v1_mapBook"; } }
+        public string ExtensionName { get { return "coria_v1_mapbook"; } }
         public void Initialize() { }
     }
 

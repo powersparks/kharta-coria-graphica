@@ -91,7 +91,7 @@ namespace te.extension.coria.Plugins
                 "CoriaMap/CoriaMap.xml",
                 "CoriaMapBooks/CoriaMapBooks.xml",
                 "CoriaMapTitle/CoriaMapTitle.xml",
-                "CoriaMapList/CoriaMapList.xml",
+                "CoriaMapList/CoriaMapList.xml", 
                 "CoriaMapBookManPanel/CoriaMapBookManPanel.xml"
             };
 
@@ -123,6 +123,7 @@ namespace te.extension.coria.Plugins
                 "CoriaMapList/Supplementary/CoriaMapList.js",
                 "CoriaMapList/Supplementary/CoriaMapList.css",
                 "CoriaMapList/Supplementary/CoriaMapList.vm",
+                "CoriaMapList/Supplementary/CoriaMapListQuery.vm",
             };
             supplementaryFiles[new Guid("99f22a55-f1f4-4584-8a76-dd0a64452d6b")] = new string[] {
                 "CoriaMapBookManPanel/Supplementary/CoriaMapBookManPanel.js",
@@ -160,7 +161,12 @@ namespace te.extension.coria.Plugins
                 xml = new XmlDocument();
                 xml.LoadXml(Embr.GetString("te.extension.coria.Resources.Pages.coria-mapbook-list-Social-Group-Page.xml"));
                 UIApi.ThemePages.AddUpdateFactoryDefault(theme, xml.SelectSingleNode("theme/contentFragmentPages/contentFragmentPage"));
-                UIApi.ThemePages.DeleteDefault(theme, "coria-mapbooklist", true);
+                UIApi.ThemePages.DeleteDefault(theme, "coria-mapbook-list", true);
+
+                xml = new XmlDocument();
+                xml.LoadXml(Embr.GetString("te.extension.coria.Resources.Pages.coria-mapbook-map-list-Social-Group-Page.xml"));
+                UIApi.ThemePages.AddUpdateFactoryDefault(theme, xml.SelectSingleNode("theme/contentFragmentPages/contentFragmentPage"));
+                UIApi.ThemePages.DeleteDefault(theme, "coria-mapbook-map-list", true);
 
                 xml = new XmlDocument();
                 xml.LoadXml(Embr.GetString("te.extension.coria.Resources.Pages.coria-mapbook-map-Social-Group-Page.xml"));
@@ -185,10 +191,14 @@ namespace te.extension.coria.Plugins
             foreach (var theme in UIApi.Themes.List(UIApi.ThemeTypes.Group))
             {
             
-                UIApi.ThemePages.DeleteFactoryDefault(theme, "coria-mapbooklist", true);
-                UIApi.ThemePages.DeleteDefault(theme, "coria-mapbooklist", true);
-                UIApi.ThemePages.Delete(theme, "coria-mapbooklist", true);
+                UIApi.ThemePages.DeleteFactoryDefault(theme, "coria-mapbook-list", true);
+                UIApi.ThemePages.DeleteDefault(theme, "coria-mapbook-list", true);
+                UIApi.ThemePages.Delete(theme, "coria-mapbook-list", true);
 
+                UIApi.ThemePages.DeleteFactoryDefault(theme, "coria-mapbook-map-list", true);
+                UIApi.ThemePages.DeleteDefault(theme, "coria-mapbook-map-list", true);
+                UIApi.ThemePages.Delete(theme, "coria-mapbook-map-list", true);
+                
                 UIApi.ThemePages.DeleteFactoryDefault(theme, "coria-map-page", true);
                 UIApi.ThemePages.DeleteDefault(theme, "coria-map-page", true);
                 UIApi.ThemePages.Delete(theme, "coria-map-page", true);

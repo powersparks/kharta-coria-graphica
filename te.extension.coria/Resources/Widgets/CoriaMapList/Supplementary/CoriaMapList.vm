@@ -1,160 +1,41 @@
-﻿##
-## Perform Query
-##
-
-## Analyzes context and performs a map book Maps query based on it,
-## resulting in an exposed $maps object in widget scope
-
-## user to query
-#set ($user = false)
-#set($userFilterType = $core_v2_widget.GetStringValue("userQueryType", "all"))
-#if($userFilterType == "accessingUser")
-	#set($user = $core_v2_user.Accessing)
-#elseif($userFilterType == "currentUser")
-	#set($user = $core_v2_user.Current)
-#end
-
-## map book map data sourcing
-#set($selectedMapBookOrGroup = $core_v2_widget.GetStringValue("selectedMapBookOrGroup", ""))
-#set($parsedBlogOrGroup = $core_v2_page.ParseQueryString($selectedMapBookOrGroup))
-#set($blogs = false)
-#set($blogs = $parsedBlogOrGroup.Values('Blog'))
-#set($group = false)
-#set($group = $parsedBlogOrGroup.Value('Group'))
-#set($includeSubGroups = $parsedBlogOrGroup.Value('IncludeSubGroups'))
-#if ($selectedMapBookOrGroup.length == 0)
-	#set ($includeSubGroups = true)
-#end
-
-#if (!$mapbook && !$group)
-	#if ($core_v1_mapbook.Current)
-		#set($mapbook = [$core_v1_mapbook.Current.Id])
-	#elseif($core_v2_group.Current)
-		#set($group = $core_v2_group.Current.Id)
-	#end
-#elseif (!$blogs && $group == '-1')
-	#set($group = $core_v2_group.Current.Id)
-#end
-
-#set($tagsToFilter = $core_v2_widget.GetStringValue('tagsToFilter', ''))
-
-## sorting
-#set ($postSortBy = $core_v2_page.GetQueryStringValue('PostSortBy'))
-#if (!$postSortBy || $postSortBy.Length == 0)
-	## if not provided, use the default
-	#set($postSortBy = $core_v2_widget.GetStringValue('postSortBy', 'MostRecent'))
-#end
-
-## sort order
-#set ($postSortOrder = $core_v2_page.GetQueryStringValue('PostSortOrder'))
-#if (!$postSortOrder || $postSortOrder != 'Ascending')
-	#set($postSortOrder = 'Descending')
-#end
-
-## paging
-#set($pageIndex = $core_v2_ui.GetCurrentPageIndex())
-#set($pageSize = $core_v2_widget.GetIntValue('pageSize', 25))
-
-## base map book query
-#set ($query = "%{ PageSize = $pageSize, PageIndex = $pageIndex, SortBy = $postSortBy, SortOrder = $postSortOrder, Tags = $tagsToFilter }")
-
-## date filtering
-#set ($day = $core_v2_utility.ParseInt($core_v2_page.GetQueryStringValue('d')))
-#set ($month = $core_v2_utility.ParseInt($core_v2_page.GetQueryStringValue('m')))
-#set ($year = $core_v2_utility.ParseInt($core_v2_page.GetQueryStringValue('y')))
-#set ($minDate = $core_v2_utility.ParseDate('0001-01-01'))
-#set ($maxDate = $core_v2_utility.ParseDate('9999-12-31'))
-#if ($month > 0 && $month < 13 && $day > 0 && $day < 32 && $year > $minDate.Year && $year <= $maxDate.Year)
-	#set ($currentMapBookMap = false)
-	#set ($currentMapBookMap = $core_v2_map.Current)
-	#if (!$currentBlogPost)
-		$query.Add('DateFilter', "${year}-${month}-${day}")
-		$query.Add('DateFilterType', 'Month')
-	#end
-#end
-
-#set($oneBlog = true)
-
-## Query for blog posts
-#if($blogs)
-	## get posts related to a group or groups
-	## construct a comma-separated string of blog ids
-	#foreach ($blog in $blogs)
-		## id of 0 means use the current blog
-		#if ($blog == 0)
-			#set ($blog = $core_v2_blog.Current.Id)
-		#end
-		#if($blog > 0)
-			#if(!$blogIds)
-				#set($blogIds = "$blog")
-			#else
-				#set($blogIds = "$blogIds,$blog")
-				#set($oneBlog = false)
-			#end
-		#end
-	#end
-
-	$query.Add('BlogIds', $blogIds)
-#else
-	## get posts related to a group
-	#if($group == 0 || !$group)
-		#set($groupId = $core_v2_group.Current.Id)
-	#else
-		#set($groupId = $group)
-	#end
-
-	#set($groupBlogs = $core_v2_blog.List("%{GroupId=$groupId,IncludeSubGroups=$includeSubGroups,PageIndex=0,PageSize=2}"))
-	#if($groupBlogs && $groupBlogs.Count > 1)
-		#set($oneBlog = false)
-	#end
-
-	$query.Add('GroupId', $groupId)
-	$query.Add('IncludeSubGroups', $includeSubGroups)
-#end
-
-## user filtering
-#if ($user)
-	$query.Add('AuthorId', $user.Id)
-#end
-
-## Load Posts
-#set ($posts = $core_v2_blogPost.List($query))
-
+﻿
 
 ##
 ## Render Filtering and Sorting
 ##
+##above velocity is from mapbook-map-list's query.vm
+$core_v2_widget.ExecuteFile('CoriaMapListQuery.vm')
 
-#set ($currentBlog = $core_v2_blog.Current)
-#if ($currentBlog)
+#set ($currentMapBook = $coria_v1_mapbook.Current)
+#if ($currentMapBook)
 	<div class="navigation-list navigation ui-links" data-minlinks="0" data-maxlinks="0">
 		<ul>
-			#set ($blogTagsUrl = $core_v2_blogUrls.Tags($currentBlog.Id))
-			#if ($blogTagsUrl)
+			#set ($mapbookTagsUrl = $coria_v1_mapbookUrls.Tags($currentMapBook.Id))
+			#if ($mapbookTagsUrl)
 				<li class="navigation-list-item">
-					<a href="$core_v2_encoding.HtmlAttributeEncode($blogTagsUrl)" class="internal-link">
+					<a href="$core_v2_encoding.HtmlAttributeEncode($mapbookTagsUrl)" class="internal-link">
 						$core_v2_language.GetResource('tags')
 					</a>
 				</li>
 			#end
 
 			#set($url = false)
-			#set($url = $core_v2_blogUrls.About($currentBlog.Id))
+			#set($url = $coria_v1_mapbookUrls.About($currentMapBook.Id))
 			#if($url)
 				<li class="navigation-list-item">
 					<a href="$core_v2_encoding.HtmlAttributeEncode($url)" class="internal-link view-user-profile">
-						$core_v2_language.GetResource('Weblog_Link_AboutAuthor')
+						$core_v2_language.GetResource('MapBook_Link_AboutAuthor')
 					</a>
 				</li>
 				#set($hasLinks = true)
 			#end
 
 			#set($url = false)
-			#set($url = $core_v2_blogUrls.Contact($currentBlog.Id))
+			#set($url = $coria_v1_mapbookUrls.Contact($currentMapBook.Id))
 			#if($url)
 				<li class="navigation-list-item">
 					<a href="$core_v2_encoding.HtmlAttributeEncode($url)" class="internal-link view-contact">
-						$core_v2_language.GetResource('Weblog_Link_Contact')
+						$core_v2_language.GetResource('MapBook_Link_Contact')
 					</a>
 				</li>
 				#set($hasLinks = true)
@@ -162,25 +43,25 @@
 
 			#if ($core_v2_user.IsRegistered($core_v2_user.Accessing.Id))
 				<li class="navigation-list-item">
-					<a data-messagename="widget.${core_v2_widget.WrapperElementId}.weblogSubscribe" data-blogid="$currentBlog.Id" data-subscribed="true" href="#" #if(!$core_v2_blog.IsSubscribed($currentBlog.Id)) style="display:none" #end>
-						$core_v2_language.GetResource('Weblog_Subscribed')
+					<a data-messagename="widget.${core_v2_widget.WrapperElementId}.mapbookSubscribe" data-mapbookid="$currentMapBook.Id" data-subscribed="true" href="#" #if(!$coria_v1_mapbook.IsSubscribed($currentMapBook.Id)) style="display:none" #end>
+						$core_v2_language.GetResource('MapBook_Subscribed')
 					</a>
 				</li>
 				<li class="navigation-list-item">
-					<a data-messagename="widget.${core_v2_widget.WrapperElementId}.weblogSubscribe" data-blogid="$currentBlog.Id" data-subscribed="false" href="#" #if($core_v2_blog.IsSubscribed($currentBlog.Id)) style="display:none" #end>
-						$core_v2_language.GetResource('Weblog_Unsubscribed')
+					<a data-messagename="widget.${core_v2_widget.WrapperElementId}.mapbookSubscribe" data-mapbookid="$currentMapBook.Id" data-subscribed="false" href="#" #if($coria_v1_mapbook.IsSubscribed($currentMapBook.Id)) style="display:none" #end>
+						$core_v2_language.GetResource('MapBook_Unsubscribed')
 					</a>
 				</li>
-				#registerEndOfPageHtml("widget.${core_v2_widget.WrapperElementId}.weblogSubscribe")
+				#registerEndOfPageHtml("widget.${core_v2_widget.WrapperElementId}.mapbookSubscribe")
 					<script type="text/javascript">
 					jQuery(function(j){
 						function update(value, link) {
 							j.telligent.evolution.post({
 								url: '$core_v2_encoding.JavascriptEncode($core_v2_widget.GetExecutedFileUrl('subscribe.vm'))',
 								data: {
-									type: 'blog',
+									type: 'mapbook',
 									subscribe: value,
-									blogId: link.data('blogid')
+									mapbookId: link.data('mapbookid')
 								},
 								dataType: 'json',
 								success: function(response) {
@@ -198,7 +79,7 @@
 								}
 							});
 						}
-						j.telligent.evolution.messaging.subscribe('widget.${core_v2_widget.WrapperElementId}.weblogSubscribe', function(data){
+						j.telligent.evolution.messaging.subscribe('widget.${core_v2_widget.WrapperElementId}.mapbookSubscribe', function(data){
 							update(!j(data.target).data('subscribed'), j(data.target));
 						});
 					});
@@ -206,7 +87,7 @@
 				#end
 			#else
 				<li class="navigation-list-item">
-					<a href="#" onclick="jQuery.glowModal('$core_v2_encoding.JavascriptEncode($core_v2_page.AdjustQueryString($core_v2_widget.GetExecutedFileUrl('subscribebyemail.vm'), "BlogId=$currentBlog.Id"))', { width: 400, height: 200 }); return false;">
+					<a href="#" onclick="jQuery.glowModal('$core_v2_encoding.JavascriptEncode($core_v2_page.AdjustQueryString($core_v2_widget.GetExecutedFileUrl('subscribebyemail.vm'), "MapBookId=$currentMapBook.Id"))', { width: 400, height: 200 }); return false;">
 						$core_v2_language.GetResource('Subscribe_ByEmail')
 					</a>
 				</li>
@@ -225,15 +106,15 @@
 <div class="sort" id="$core_v2_encoding.HtmlAttributeEncode($core_v2_widget.UniqueId('sort'))">
 	<span class="by">
 		<select class="ui-select" data-querykey="PostSortBy">
-			<option value="MostRecent" #if($postSortBy == 'MostRecent') selected #end>$core_v2_language.GetResource('MostRecent')</option>
-			<option value="MostViewed" #if($postSortBy == 'MostViewed') selected #end>$core_v2_language.GetResource('MostViews')</option>
-			<option value="MostComments" #if($postSortBy == 'MostComments') selected #end>$core_v2_language.GetResource('MostComments')</option>
+			<option value="MostRecent" #if($mapSortBy == 'MostRecent') selected #end>$core_v2_language.GetResource('MostRecent')</option>
+			<option value="MostViewed" #if($mapSortBy == 'MostViewed') selected #end>$core_v2_language.GetResource('MostViews')</option>
+			<option value="MostComments" #if($mapSortBy == 'MostComments') selected #end>$core_v2_language.GetResource('MostComments')</option>
 		</select>
 	</span>
 	<span class="order">
 		<select class="ui-select" data-querykey="PostSortOrder">
-			<option value="Descending" #if ($postSortOrder == 'Descending') selected #end>$core_v2_language.GetResource('Sort_Descending')</option>
-			<option value="Ascending" #if ($postSortOrder == 'Ascending') selected #end>$core_v2_language.GetResource('Sort_Ascending')</option>
+			<option value="Descending" #if ($mapSortOrder == 'Descending') selected #end>$core_v2_language.GetResource('Sort_Descending')</option>
+			<option value="Ascending" #if ($mapSortOrder == 'Ascending') selected #end>$core_v2_language.GetResource('Sort_Ascending')</option>
 		</select>
 	</span>
 </div>
@@ -259,86 +140,89 @@
 ## Render Posts
 ##
 
-
+#if(!$maps)
+   #set ($maps = $coria_v1_map.List($core_v2_group.Current.Id, $coria_v1_mapbook.Current.SafeName, $query))
+#end
 #set($excerptSize = $core_v2_widget.GetIntValue('excerptSize', 250))
 #set($displayPostImage = $core_v2_widget.GetBoolValue('displayPostImage', true))
 
-#foreach($post in $posts)
+#foreach($map in $maps)
 #beforeall
 	<ul class="content-list content margin-bottom">
 #each
-	#set ($blog = $core_v2_blog.Get("%{ Id = $post.BlogId }"))
-	#if ($blog && $blog.Id > 0)
+    #set ($mapboook = false)
+	#set ($mapbook = $coria_v1_mapbook.Current)##.Get("%{ Id = $map.MapBookId }"))
+	#if ($mapbook)
 
-        #set ($postImage = '')
-        #if ($post.PostImageUrl && $post.PostImageUrl != '')
-            #set ($postImage = $post.PostImageUrl)
-        #elseif ($blog.DefaultPostImageUrl)
-            #set ($postImage = $blog.DefaultPostImageUrl)
+        #set ($mapImage = '')
+        #if ($map.PostImageUrl && $map.PostImageUrl != '')
+            #set ($mapImage = $map.PostImageUrl)
+        #elseif ($mapbook.DefaultPostImageUrl)
+            #set ($mapImage = $mapbook.DefaultPostImageUrl)
         #end
 
         #set ($showthumbnail = false)
-        #if ($displayPostImage && $postImage && $postImage != '')
+        #if ($displayPostImage && $mapImage && $mapImage != '')
             #set ($showthumbnail = true)
         #end
 
 	<li class="content-item">
 
-		<div class="content abbreviated #if($showthumbnail)with-postimage#end">
+		<div class="content abbreviated #if($showthumbnail)with-mapimage#end">
 		    #if ($showthumbnail)
-		    <div class="post-thumbnail">
-		        $core_v2_ui.GetResizedImageHtml($postImage, 100, 100, "%{border='0px', alt=$post.Name, ResizeMethod = 'ZoomAndCrop' }")
+		    <div class="map-thumbnail">
+		        $core_v2_ui.GetResizedImageHtml($mapImage, 100, 100, "%{border='0px', alt=$map.Name, ResizeMethod = 'ZoomAndCrop' }")
 		    </div>
 		    #end
 
 			<div class="author">
 				<div class="avatar">
-					#if ($post.Author.ProfileUrl)
-						<a href="$core_v2_encoding.HtmlAttributeEncode($post.Author.ProfileUrl)">
-							$core_v2_ui.GetResizedImageHtml($post.Author.AvatarUrl, 44, 44, "%{border='0px', alt=$post.Author.DisplayName, ResizeMethod = 'ZoomAndCrop' }")
+					#if ($map.Author.ProfileUrl)
+						<a href="$core_v2_encoding.HtmlAttributeEncode($map.Author.ProfileUrl)">
+							$core_v2_ui.GetResizedImageHtml($map.Author.AvatarUrl, 44, 44, "%{border='0px', alt=$map.Author.DisplayName, ResizeMethod = 'ZoomAndCrop' }")
 						</a>
 					#else
-						$core_v2_ui.GetResizedImageHtml($post.Author.AvatarUrl, 44, 44, "%{border='0px', alt=$post.Author.DisplayName, ResizeMethod = 'ZoomAndCrop' }")
+						$core_v2_ui.GetResizedImageHtml($map.Author.AvatarUrl, 44, 44, "%{border='0px', alt=$map.Author.DisplayName, ResizeMethod = 'ZoomAndCrop' }")
 					#end
 				</div>
 				<span class="user-name">
-					#if ($post.Author.ProfileUrl)
-						<a href="$core_v2_encoding.HtmlAttributeEncode($post.Author.ProfileUrl)" class="internal-link view-user-profile">
-							$post.Author.DisplayName
+					#if ($map.Author.ProfileUrl)
+						<a href="$core_v2_encoding.HtmlAttributeEncode($map.Author.ProfileUrl)" class="internal-link view-user-profile">
+							$map.Author.DisplayName
 						</a>
 					#else
-						$post.Author.DisplayName
+						$map.Author.DisplayName
 					#end
 				</span>
 			</div>
 			<div class="attributes">
 				<ul class="attribute-list">
 					<li class="attribute-item">
-						<span class="attribute-value">$core_v2_language.FormatDate($post.PublishedDate)</span>
+						<span class="attribute-value">$core_v2_language.FormatDate($map.PublishedDate)</span>
 					</li>
 				</ul>
 			</div>
 			<h3 class="name">
-				#if($blog && !$oneBlog)
-					<a class="internal-link view-application" href="$core_v2_encoding.HtmlAttributeEncode($blog.Url)">
-						$blog.Name:
+				#if($mapbook && !$oneMapBook)
+					<a class="internal-link view-application" href="$core_v2_encoding.HtmlAttributeEncode($mapbook.Url)">
+						$mapbook.Name:
 					</a>
 				#end
-				<a href="$core_v2_encoding.HtmlAttributeEncode($post.Url)">$post.Title</a>
+				<a href="$core_v2_encoding.HtmlAttributeEncode($map.Url)">$map.Title</a>
 			</h3>
 			<div class="content">
 				#set ($viewDetail = $core_v2_widget.GetStringValue("viewDetail", "list"))
 				#if ($viewDetail == 'list')
-					<div class="post-summary">
-						#if($post.Excerpt && $post.Excerpt.Length > 0)
-							$core_v2_language.Truncate($post.Excerpt, $excerptSize, '...')
+					<div class="map-summary">
+						#if($map.Excerpt && $map.Excerpt.Length > 0)
+							$core_v2_language.Truncate($map.Excerpt, $excerptSize, '...')
 						#else
-							$core_v2_language.Truncate($post.Body('WebQuote'), $excerptSize, '...')
+							$core_v2_language.Truncate($map.Body('WebQuote'), $excerptSize, '...')
 						#end
 					</div>
 				#elseif ($viewDetail == 'detail')
-					$core_v2_blogPost.IncrementViewCount($post.Id)
-					$post.Body()
+					$coria_v1_mapbookPost.IncrementViewCount($map.Id)
+					$map.Body()
 				#end
 			</div>
 		</div>
@@ -348,7 +232,7 @@
 #afterall
 	</ul>
 #nodata
-	<div class="message norecords">$core_v2_language.GetResource('Weblog_NoPosts_Created')</div>
+	<div class="message norecords">$core_v2_language.GetResource('MapBook_NoMaps_Created')</div>
 #end
 
-$core_v2_ui.Pager($posts.PageIndex, $posts.PageSize, $posts.TotalCount, "%{ PagedContentFile = 'list.vm', LoadingIndicator = 'true', LoadOnAnyHashChange = 'true' }")
+$core_v2_ui.Pager($maps.PageIndex, $maps.PageSize, $maps.TotalCount, "%{ PagedContentFile = 'CoriaMapList.vm', LoadingIndicator = 'true', LoadOnAnyHashChange = 'true' }")

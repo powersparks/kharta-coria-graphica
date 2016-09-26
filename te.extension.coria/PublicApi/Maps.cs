@@ -55,11 +55,24 @@ namespace te.extension.coria.PublicApi
             throw new NotImplementedException();
         }
 
-        internal static PagedList<Map> List(int groupId, MapsListOptions query)
+        public static PagedList<Map> List(int groupId,string mapbooksafename, MapsListOptions query)
         {
-            PagedList<Map> _maps = new PagedList<Map>();
+            if (mapbooksafename == null) { return null; }
+            int pageIndex = query.PageIndex < 1 ? 0 : query.PageIndex;
+            int pageSize = query.PageSize >= 10 ? query.PageSize : 10;
+            string sortBy = query.SortBy;
+            string sortOrder = query.SortOrder;// ? query.SortOrder : Entity.SortOrder.Ascending;
+                                               //new InternalApi.CoriaMapBook(InternalApi.CoriaDataService.(groupId, mapbooksafename, ""));
+            InternalApi.CoriaMapBook mapbook = InternalApi.CoriaDataService.GetCoriaMapBookByGroupId_MapBookName(groupId, mapbooksafename);
 
-            return _maps;
+            PagedList<InternalApi.CoriaMap> map = InternalApi.CoriaDataService.CoriaMapPagedList(mapbook, pageIndex, pageSize, sortBy, sortOrder);
+
+
+            return new PagedList<PublicApi.Map>(
+                map.Select(s => new Map(s)),
+                map.PageIndex,
+                map.PageSize,
+                map.TotalCount);
         }
 
         internal static AdditionalInfo Delete(Guid id)

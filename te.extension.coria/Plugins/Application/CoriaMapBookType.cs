@@ -177,10 +177,10 @@ namespace te.extension.coria.Plugins.Application
         public void RegisterUrls(IUrlController controller)
         {
             //var mapBookAction = new Action<HttpContextBase, PageContext>(MapBookAction); 
-            controller.AddPage("GroupMapBookList", "", new Telligent.Evolution.Urls.Routing.NotSiteRootRouteConstraint(), null, "coria-mapbooklist", MapBooks_PdOptions);
-            controller.AddPage("GroupMapBookSingle", "{mapBook}", null, null, "coria-mapbook-map-list", MapBook_PdOptions);
+            controller.AddPage("GroupMapBookList", "", new Telligent.Evolution.Urls.Routing.NotSiteRootRouteConstraint(), null, "coria-mapbook-list", MapBooks_PdOptions);
+            controller.AddPage("GroupMapBookSingle", "{mapBook}", new Telligent.Evolution.Urls.Routing.NotSiteRootRouteConstraint(), null, "coria-mapbook-map-list", MapBook_PdOptions);
 
-            //controller.AddPage("GroupMap", "mapbooks/{mapBook}/map", new Telligent.Evolution.Urls.Routing.NotSiteRootRouteConstraint(), null, "coria-map-page", Map_PdOptions);
+            controller.AddPage("GroupMap", "{mapBook}/map/{mapId}", new Telligent.Evolution.Urls.Routing.NotSiteRootRouteConstraint(), null, "coria-map-page", Map_PdOptions);
             //controller.AddPage("GroupMapNew", "mapbooks/{mapBook}/map/new", new Telligent.Evolution.Urls.Routing.NotSiteRootRouteConstraint(), null, "coria-map-page", Map_PdOptions);
 
 

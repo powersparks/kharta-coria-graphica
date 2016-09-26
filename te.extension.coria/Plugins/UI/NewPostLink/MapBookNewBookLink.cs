@@ -42,7 +42,7 @@ namespace te.extension.coria.Plugins.UI.NewPostLink
             get
             {
                 var translation = new Translation("en-US");
-                translation.Set("link_label", "Add a Map Book");
+                translation.Set("link_label", "Add Applications");
 
                 return new Translation[] { translation };
             }

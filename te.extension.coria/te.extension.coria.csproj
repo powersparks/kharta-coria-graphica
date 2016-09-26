@@ -145,6 +145,7 @@
     <EmbeddedResource Include="Resources\Widgets\CoriaMapList\CoriaMapList.xml" />
     <EmbeddedResource Include="Resources\Pages\coria-mapbook-map-Social-Group-Page.xml" />
     <EmbeddedResource Include="Resources\Pages\coria-mapbook-map-list-Social-Group-Page.xml" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaMapList\Supplementary\CoriaMapListQuery.vm" />
     <Content Include="Resources\Widgets\ExampleKhartaName\ExampleKhartaName.xml" />
     <Content Include="Resources\Widgets\ExampleKhartaName\Supplementary\ExampleKhartaName.css" />
     <Content Include="Resources\Widgets\ExampleKhartaName\Supplementary\ExampleKhartaName.js" />

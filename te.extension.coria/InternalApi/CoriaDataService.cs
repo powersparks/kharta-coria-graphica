@@ -202,6 +202,35 @@ namespace te.extension.coria.InternalApi
             }
             return map;
         }
+        internal static PagedList<CoriaMap> CoriaMapPagedList(MapBook mapbook,int pageIndex, int pageSize, string sortBy, string sortOrder)
+        {
+            if (mapbook == null) { return null; }
+           // Func<Map, CoriaMap> toCoriaMap = (Map fromMap) => ToCoriaMap(fromMap, new CoriaMap());
+
+            //PagedList<CoriaMap > coriaMapList = new PagedList<CoriaMap>();
+            PagedList<Map> MapList = MapPagedList(mapbook, pageIndex, pageSize, sortBy, sortOrder);
+            int totalCount = MapList.Count();
+            return new PagedList<CoriaMap>(
+                     MapList.Select(n => new CoriaMap(n)),
+                     pageSize,
+                     pageIndex,
+                     totalCount);
+        }
+        internal static PagedList<Map> MapPagedList(MapBook mapbook, int pageIndex, int pageSize, string sortBy, string sortOrder)
+        { if (mapbook == null) { return null; }
+            using (KhartaDataModel dbcontext = new KhartaDataModel())
+            {
+                int skip = pageIndex * pageSize;
+                // PagedList<Map> mapList = new PagedList<Map>();
+                IList<Map> mapList = new List<Map>();
+                mapList = (from m in dbcontext.Maps
+                           where m.MapTypeId.Equals(mapbook.ApplicationId)
+                           orderby m.SafeName ascending
+                           select m).Skip(skip).Take(pageSize).ToList();
+                int totalCount = mapList.Count();
+                return new PagedList<Map>(mapList, pageSize, pageIndex, totalCount); ;
+            }
+        }
         internal static PagedList<CoriaMapBook> CoriaMapBookPagedList(int groupId, int pageIndex, int pageSize, string sortBy, string sortOrder)
         {
             Func<MapBook, CoriaMapBook> toCoriaMapBook = (MapBook fromMapBook) => ToCoriaMapBook(fromMapBook, new CoriaMapBook());
@@ -266,7 +295,7 @@ namespace te.extension.coria.InternalApi
              */
 
 
-        private static CoriaMapBook GetCoriaMapBookByGroupId_MapBookName(int groupId, string mapBookName)
+        internal static CoriaMapBook GetCoriaMapBookByGroupId_MapBookName(int groupId, string mapBookName)
         {
             Func<MapBook, CoriaMapBook> toCoriaMapBook = (MapBook fromMapBook) => ToCoriaMapBook(fromMapBook, new CoriaMapBook());
             MapBook mapbook = GetMapBookByGroupId_MapBookName(groupId, mapBookName);
@@ -332,7 +361,6 @@ namespace te.extension.coria.InternalApi
         }
         internal static CoriaMap ToCoriaMap(Map fromMap, CoriaMap toCoriaMap) { return (CoriaMap)ConvertFromPropertiesTo(fromMap, toCoriaMap); }
         internal static Map ToMap(CoriaMap fromCoriaMap, Map toMap) { return (Map)ConvertFromPropertiesTo(fromCoriaMap, toMap); }
-
         private static Map GetMap(int id)
         {
             try

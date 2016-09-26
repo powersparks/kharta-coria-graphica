@@ -12,15 +12,15 @@
     <contentScript>
       <![CDATA[
 #set($page = $coria_v1_mapUrls.Current)
-#if($page == 'MapPost')
+#if($page == 'MapBookMap')
 	  #set($postTitle = false)
-    #set($postTitle = $coria_v1_mapPost.Current.MetaTitle)
+    #set($postTitle = $coria_v1_map.Current.MetaTitle)
     #if(!$postTitle || $postTitle == '')
-        #set($postTitle = $coria_v1_mapPost.Current.Title)
+        #set($postTitle = $coria_v1_map.Current.Title)
     #end
 	#set($title = $postTitle)
 #elseif ($page == 'UserMaps')
-	#set($title = $core_v2_language.FormatString($core_v2_language.GetResource('CF_MapTitle_UsersMapPosts'), $core_v2_user.Current.DisplayName))
+	#set($title = $core_v2_language.FormatString($core_v2_language.GetResource('CF_MapTitle_UsersMapBookMaps'), $core_v2_user.Current.DisplayName))
 #elseif ($page == 'AddMap')
 	#set($title = $core_v2_language.GetResource('CF_CreateMap'))
 #elseif ($page == 'Day')
@@ -79,7 +79,7 @@ $core_v2_widget.ApplyTokens($core_v2_widget.GetStringValue('fragmentHeader', '${
         <resource name="Maps_MapTitle_Description">Displays the title for map pages.</resource>
         <resource name="Options">Options</resource>
         <resource name="CF_Title">Widget Title</resource>
-        <resource name="CF_MapTitle_UsersMapPosts">{0}'s Map Posts</resource>
+        <resource name="CF_MapTitle_UsersMapBookMaps">{0}'s Map Posts</resource>
         <resource name="CF_CreateMap">Create Map</resource>
         <resource name="Map_Breadcrumbs_Mappers">Mappers</resource>
         <resource name="Contact">Contact</resource>

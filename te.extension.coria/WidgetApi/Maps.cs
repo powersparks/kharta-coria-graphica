@@ -13,6 +13,8 @@ namespace te.extension.coria.WidgetApi
     [Documentation(Category = "Coria")]
     public class Maps
     {
+        [Documentation("The MapBook identifier for maps.")]
+        public Guid MapBookId { get { return PublicApi.Maps.ContentTypeId; } }
 
         [Documentation("The content type identifier for maps.")]
         public Guid ContentTypeId { get { return PublicApi.Maps.ContentTypeId; } }
@@ -57,13 +59,25 @@ namespace te.extension.coria.WidgetApi
             int groupId
             )
         {
-            return List(groupId, null);
+            return List(groupId, null, null);
         }
-
         [Documentation("List maps within a group.")]
         public PagedList<PublicApi.Map> List(
-            [Documentation("The group identifier.")]
+          [Documentation("The group identifier.")]
             int groupId,
+          [Documentation("mapbook safe name")]
+            string safename
+          )
+        {
+            return List(groupId,safename, null);
+        }
+
+        [Documentation("List maps within a group and mapbook.")]
+        public PagedList<PublicApi.Map> List(
+            [Documentation("The group identifier.")]
+            int groupId, 
+            [Documentation("map book safe name")]
+            string safename,
             [
             Documentation(Name="IncludeSubGroups", Type = typeof(bool), Default = false),
             Documentation(Name="AuthorUserId", Type = typeof(int), Description = "UserId of Author"),
@@ -98,7 +112,7 @@ namespace te.extension.coria.WidgetApi
                     query.SortOrder = options["SortOrder"].ToString();
             }
 
-            return PublicApi.Maps.List(groupId, query);
+            return PublicApi.Maps.List(groupId, safename, query);
         }
 
         [Documentation("Get a map.")]

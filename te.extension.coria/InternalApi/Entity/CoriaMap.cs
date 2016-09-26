@@ -27,12 +27,13 @@ namespace te.extension.coria.InternalApi
         internal CoriaMapBook CoriaMapBook { get; set; }
         internal new kcgModels.MapBook MapBook { get; set; }
       ***/
+        internal CoriaMapBook CoriaMapBook { get; set; }
         internal Func<kcgModels.Map, CoriaMap> toCoriaMap = (kcgModels.Map fromMap) => CoriaDataService.ToCoriaMap(fromMap, new CoriaMap());
         internal Func<CoriaMap, kcgModels.Map> toMap = (CoriaMap fromCoriaMap) => CoriaDataService.ToMap(fromCoriaMap, new kcgModels.Map());
         internal CoriaMap(kcgModels.Map map) {
         //    Func<CoriaMap, kcgModels.Map> toMap = (CoriaMap fromCoriaMap) => CoriaDataService.ToMap(fromCoriaMap, new kcgModels.Map());
         //    Func<kcgModels.Map, CoriaMap> toCoriaMap = (kcgModels.Map fromMap) => CoriaDataService.ToCoriaMap(fromMap, new CoriaMap());
-            toCoriaMap(map);
+            //toCoriaMap(map);
             Id = map.Id;
             MapId = map.MapId;
             MapTypeId = map.MapTypeId;
@@ -44,8 +45,8 @@ namespace te.extension.coria.InternalApi
             ModifiedUtcDate = map.ModifiedUtcDate.HasValue ? map.ModifiedUtcDate.Value : DateTime.UtcNow;
             GroupId =  map.GroupId.Value ;
             IsIndexed = map.IsIndexed;
-           // CoriaMapBook = new CoriaMapBook(map.MapBook);
-            MapBook = map.MapBook;
+            CoriaMapBook = CoriaDataService.GetCoriaMapBookApplication(MapTypeId);
+            //MapBookId = map.MapBook.Id;
             
         }
         internal string Name { get { return Title; } }

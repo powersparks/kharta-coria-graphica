@@ -30,7 +30,7 @@
 #end
 
 
-#set ($mapBooks = $coria_v1_mapBook.List($group, $query))
+#set ($mapBooks = $coria_v1_mapbook.List($group, $query))
 
 #if ($mapBooks.TotalCount > $pageSize)
 	<div class="sort" id="$core_v2_encoding.HtmlAttributeEncode($core_v2_widget.UniqueId('sort'))">

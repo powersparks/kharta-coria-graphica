@@ -25,7 +25,7 @@ namespace te.extension.coria.WidgetApi
                 Guid groupGuid = Apis.Get<Api1.IGroups>().ContainerTypeId;
                 var mapBookNameToken = TEApi.Url.CurrentContext.GetTokenValue("mapBook");
                 var mapBooksNameToken = TEApi.Url.CurrentContext.GetTokenValue("mapBooks");
-                string mapBookName = mapBooksNameToken != null ? mapBooksNameToken.ToString() : "";
+                string mapBookName = mapBookNameToken != null ? mapBookNameToken.ToString() : "";
 
                 //CurrentContext.ContextItems.Find(c=> c.ContainerTypeId == {GroupContainerType})  
                 IContextItem contextItem = TEApi.Url.CurrentContext.ContextItems.GetItemByContainerType(groupGuid);

@@ -25,7 +25,7 @@ namespace te.extension.coria.Plugins.UI.CoriaManagementPanels
         public static readonly Guid _scriptedContentFragmentFactoryDefaultIdentifier = new Guid("23098a95-0892-41cd-bb3e-fa7f78cdd21b");
 
         public static Guid _panelId = new Guid("a06a4d37-82d6-42a4-b20c-140ffd882677");
-        Guid _applicationPanel = new Guid("c4315566-7dcc-46b3-9ab7-7715d05498ad");
+        public static Guid _applicationPanel = new Guid("c4315566-7dcc-46b3-9ab7-7715d05498ad");
         UIApi.IScriptedContentFragmentController _iScriptedContentFragmentController;
         #region IPlugin
         public string Name { get { return "MapBook Management Panel"; } }
@@ -85,7 +85,7 @@ namespace te.extension.coria.Plugins.UI.CoriaManagementPanels
             public MapBookPanelApi(PublicApi.MapBook mapbook)
             {
                 _mapbook = mapbook;
-                _maps = PublicApi.Maps.List(_mapbook.Group.Id.Value, new PublicApi.MapsListOptions() { });
+                _maps = PublicApi.Maps.List(_mapbook.Group.Id.Value,_mapbook.SafeName, new PublicApi.MapsListOptions() { });
             }
             public MapBookPanelApi(Guid applicationType, Guid applicationId)
             {

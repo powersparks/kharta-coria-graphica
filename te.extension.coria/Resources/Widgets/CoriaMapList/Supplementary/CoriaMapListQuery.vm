@@ -1,0 +1,255 @@
+﻿##
+## Perform Query
+##
+
+## Analyzes context and performs a map book Maps query based on it,
+## resulting in an exposed $maps object in widget scope
+
+## user to query
+#set ($user = false)
+#set($userFilterType = $core_v2_widget.GetStringValue("userQueryType", "all"))
+#if($userFilterType == "accessingUser")
+	#set($user = $core_v2_user.Accessing)
+#elseif($userFilterType == "currentUser")
+	#set($user = $core_v2_user.Current)
+#end
+
+## map book map data sourcing
+#set($selectedMapBookOrGroup = $core_v2_widget.GetStringValue("selectedMapBookOrGroup", ""))
+#set($parsedMapBookOrGroup = $core_v2_page.ParseQueryString($selectedMapBookOrGroup))
+#set($mapbooks = false)
+#set($mapbooks = $parsedMapBookOrGroup.Values('MapBook'))
+#set($group = false)
+#set($group = $parsedMapBookOrGroup.Value('Group'))
+#set($includeSubGroups = $parsedMapBookOrGroup.Value('IncludeSubGroups'))
+#if ($selectedMapBookOrGroup.length == 0)
+	#set ($includeSubGroups = true)
+#end
+
+#if (!$mapbook && !$group)
+	#if ($coria_v1_mapbook.Current)
+		#set($mapbook = [$coria_v1_mapbook.Current.Id])
+	#elseif($core_v2_group.Current)
+		#set($group = $core_v2_group.Current.Id)
+	#end
+#elseif (!$mapbooks && $group == '-1')
+	#set($group = $core_v2_group.Current.Id)
+#end
+
+#set($tagsToFilter = $core_v2_widget.GetStringValue('tagsToFilter', ''))
+
+## sorting
+#set ($mapSortBy = $core_v2_page.GetQueryStringValue('MapSortBy'))
+#if (!$mapSortBy || $mapSortBy.Length == 0)
+	## if not provided, use the default
+	#set($mapSortBy = $core_v2_widget.GetStringValue('mapSortBy', 'MostRecent'))
+#end
+
+## sort order
+#set ($mapSortOrder = $core_v2_page.GetQueryStringValue('MapSortOrder'))
+#if (!$mapSortOrder || $mapSortOrder != 'Ascending')
+	#set($mapSortOrder = 'Descending')
+#end
+
+## paging
+#set($pageIndex = $core_v2_ui.GetCurrentPageIndex())
+#set($pageSize = $core_v2_widget.GetIntValue('pageSize', 25))
+
+## base map book query
+#set ($query = "%{ PageSize = $pageSize, PageIndex = $pageIndex, SortBy = $mapSortBy, SortOrder = $mapSortOrder, Tags = $tagsToFilter }")
+
+## date filtering
+#set ($day = $core_v2_utility.ParseInt($core_v2_page.GetQueryStringValue('d')))
+#set ($month = $core_v2_utility.ParseInt($core_v2_page.GetQueryStringValue('m')))
+#set ($year = $core_v2_utility.ParseInt($core_v2_page.GetQueryStringValue('y')))
+#set ($minDate = $core_v2_utility.ParseDate('0001-01-01'))
+#set ($maxDate = $core_v2_utility.ParseDate('9999-12-31'))
+#if ($month > 0 && $month < 13 && $day > 0 && $day < 32 && $year > $minDate.Year && $year <= $maxDate.Year)
+	#set ($currentMapBookMap = false)
+	#set ($currentMapBookMap = $coria_v1_mapbook.Current)
+	#if (!$currentMapBookMap)
+		$query.Add('DateFilter', "${year}-${month}-${day}")
+		$query.Add('DateFilterType', 'Month')
+	#end
+#end
+
+#set($oneMapBook = true)
+
+## Query for MapBook maps
+#if($mapbooks)
+	## get maps related to a group or groups
+	## construct a comma-separated string of mapbook ids
+	#foreach ($mapbook in $mapbooks)
+		## id of 0 means use the current mapbook
+		#if ($mapbook == 0)
+			#set ($mapbook = $coria_v1_mapbook.Current.Id)
+		#end
+		#if($mapbook > 0)
+			#if(!$mapbookIds)
+				#set($mapbookIds = "$mapbook")
+			#else
+				#set($mapbookIds = "$mapbookIds,$mapbook")
+				#set($oneMapBook = false)
+			#end
+		#end
+	#end
+
+	$query.Add('MapBookIds', $mapbookIds)
+#else
+	## get maps related to a group
+	#if($group == 0 || !$group)
+		#set($groupId = $core_v2_group.Current.Id)
+	#else
+		#set($groupId = $group)
+	#end
+
+	#set($groupMapBooks = $coria_v1_mapbook.List("%{GroupId=$groupId,IncludeSubGroups=$includeSubGroups,PageIndex=0,PageSize=2}"))
+	#if($groupMapBooks && $groupMapBooks.Count > 1)
+		#set($oneMapBook = false)
+	#end
+
+	$query.Add('GroupId', $groupId)
+	$query.Add('IncludeSubGroups', $includeSubGroups)
+#end
+
+## user filtering
+#if ($user)
+	$query.Add('AuthorId', $user.Id)
+#end
+
+## Load Maps
+#set ($maps = $coria_v1_map.List($core_v2_group.Current.Id, $coria_v1_mapbook.Current.SafeName, $query))
+
+
+##
+## Render Filtering and Sorting
+##
+
+#set ($currentMapBook = $coria_v1_mapbook.Current)
+#if ($currentMapBook)
+<div class="navigation-list navigation ui-links" data-minlinks="0" data-maxlinks="0">
+    <ul>
+        #set ($mapbookTagsUrl = $coria_v1_mapbookUrls.Tags($currentMapBook.Id))
+        #if ($mapbookTagsUrl)
+        <li class="navigation-list-item">
+            <a href="$core_v2_encoding.HtmlAttributeEncode($mapbookTagsUrl)" class="internal-link">
+                $core_v2_language.GetResource('tags')
+            </a>
+        </li>
+        #end
+
+        #set($url = false)
+        #set($url = $coria_v1_mapbookUrls.About($currentMapBook.Id))
+        #if($url)
+        <li class="navigation-list-item">
+            <a href="$core_v2_encoding.HtmlAttributeEncode($url)" class="internal-link view-user-profile">
+                $core_v2_language.GetResource('MapBook_Link_AboutAuthor')
+            </a>
+        </li>
+        #set($hasLinks = true)
+        #end
+
+        #set($url = false)
+        #set($url = $coria_v1_mapbookUrls.Contact($currentMapBook.Id))
+        #if($url)
+        <li class="navigation-list-item">
+            <a href="$core_v2_encoding.HtmlAttributeEncode($url)" class="internal-link view-contact">
+                $core_v2_language.GetResource('MapBook_Link_Contact')
+            </a>
+        </li>
+        #set($hasLinks = true)
+        #end
+
+        #if ($core_v2_user.IsRegistered($core_v2_user.Accessing.Id))
+        <li class="navigation-list-item">
+            <a data-messagename="widget.${core_v2_widget.WrapperElementId}.mapbookSubscribe" data-mapbookid="$currentMapBook.Id" data-subscribed="true" href="#" #if(!$coria_v1_mapbook.IsSubscribed($currentMapBook.Id)) style="display:none" #end>
+                $core_v2_language.GetResource('MapBook_Subscribed')
+            </a>
+        </li>
+        <li class="navigation-list-item">
+            <a data-messagename="widget.${core_v2_widget.WrapperElementId}.mapbookSubscribe" data-mapbookid="$currentMapBook.Id" data-subscribed="false" href="#" #if($coria_v1_mapbook.IsSubscribed($currentMapBook.Id)) style="display:none" #end>
+                $core_v2_language.GetResource('MapBook_Unsubscribed')
+            </a>
+        </li>
+        #registerEndOfPageHtml("widget.${core_v2_widget.WrapperElementId}.mapbookSubscribe")
+        <script type="text/javascript">
+					jQuery(function(j){
+						function update(value, link) {
+							j.telligent.evolution.post({
+								url: '$core_v2_encoding.JavascriptEncode($core_v2_widget.GetExecutedFileUrl('subscribe.vm'))',
+								data: {
+									type: 'mapbook',
+									subscribe: value,
+									mapbookId: link.data('mapbookid')
+								},
+								dataType: 'json',
+								success: function(response) {
+									if (response.subscribe) {
+										link.closest('ul').find('a[data-subscribed="false"]').hide();
+										link.closest('ul').find('a[data-subscribed="true"]').show();
+									} else {
+										link.closest('ul').find('a[data-subscribed="false"]').show();
+										link.closest('ul').find('a[data-subscribed="true"]').hide();
+									}
+
+									if (response.warnings && response.warnings.length > 0) {
+										j.telligent.evolution.notifications.show(response.warnings[0], { type: 'warning' });
+									}
+								}
+							});
+						}
+						j.telligent.evolution.messaging.subscribe('widget.${core_v2_widget.WrapperElementId}.mapbookSubscribe', function(data){
+							update(!j(data.target).data('subscribed'), j(data.target));
+						});
+					});
+        </script>
+        #end
+        #else
+        <li class="navigation-list-item">
+            <a href="#" onclick="jQuery.glowModal('$core_v2_encoding.JavascriptEncode($core_v2_page.AdjustQueryString($core_v2_widget.GetExecutedFileUrl('subscribebyemail.vm'), " MapBookId=$currentMapBook.Id"))', { width 400, height 200 }); return false;">
+                $core_v2_language.GetResource('Subscribe_ByEmail')
+            </a>
+        </li>
+        #end
+
+        <li class="navigation-list-item">
+            <a href="#" data-more>$core_v2_language.GetResource('more')</a>
+        </li>
+        <li class="navigation-list-item">
+            <a href="#" data-cancel>$core_v2_language.GetResource('cancel')</a>
+        </li>
+    </ul>
+</div>
+#end
+
+<div class="sort" id="$core_v2_encoding.HtmlAttributeEncode($core_v2_widget.UniqueId('sort'))">
+    <span class="by">
+        <select class="ui-select" data-querykey="MapSortBy">
+            <option value="MostRecent" #if($mapSortBy= ='MostRecent' ) selected #end>$core_v2_language.GetResource('MostRecent')</option>
+            <option value="MostViewed" #if($mapSortBy= ='MostViewed' ) selected #end>$core_v2_language.GetResource('MostViews')</option>
+            <option value="MostComments" #if($mapSortBy= ='MostComments' ) selected #end>$core_v2_language.GetResource('MostComments')</option>
+        </select>
+    </span>
+    <span class="order">
+        <select class="ui-select" data-querykey="MapSortOrder">
+            <option value="Descending" #if ($mapSortOrder= ='Descending' ) selected #end>$core_v2_language.GetResource('Sort_Descending')</option>
+            <option value="Ascending" #if ($mapSortOrder= ='Ascending' ) selected #end>$core_v2_language.GetResource('Sort_Ascending')</option>
+        </select>
+    </span>
+</div>
+
+#registerEndOfPageHtml()
+<script type="text/javascript">
+	jQuery(function(j){
+		var sort = j('#$core_v2_encoding.JavascriptEncode($core_v2_widget.UniqueId('sort'))');
+		sort.on('change', 'select', function(e) {
+			var select = j(this), hashAdjustment = {};
+			hashAdjustment[select.data('querykey')] = select.val();
+			j.telligent.evolution.url.hashData(hashAdjustment, {
+				prefix: '$core_v2_encoding.JavascriptEncode($core_v2_ui.PageIndexQueryStringKey)'
+			});
+		});
+	});
+</script>
+#end
+

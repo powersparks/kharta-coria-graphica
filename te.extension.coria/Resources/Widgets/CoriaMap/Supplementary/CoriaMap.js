@@ -5,6 +5,17 @@
     if (typeof $.coria === 'undefined') { $.coria = {}; }
     if (typeof $.coria.map === 'undefined') { $.coria.map = {}; }
 
+    function mapthumbnail(inMapDivId, containerId, outCanvasId) {
+        html2canvas($('#' + inMapDivId), {
+            useCORS: true,
+            allowTaint: true,
+            onrendered: function (outCanvasId) {
+                $('#' + containerId).append(outCanvasId);
+            }
+        });
+        //or 
+        return html2canvas;
+    };
      
     var api = {
 

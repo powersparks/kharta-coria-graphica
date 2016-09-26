@@ -29,6 +29,7 @@ namespace te.extension.coria.PublicApi
         #region IContent
         public IApplication Application { get { return PublicApi.MapBooks.Get(_map.MapTypeId); } }
         public string Name { get { return _map.Title; } }
+        public string Title { get { return _map.Title; } }
         public string Description { get { return _map.Description; } }
         public string AvatarUrl { get { return _map.ThumbnailUrl; } }
         public Guid MapId { get { return _map.MapId; } }
@@ -45,8 +46,8 @@ namespace te.extension.coria.PublicApi
         public DateTime ModifiedDate { get { return _map.ModifiedUtcDate.HasValue ? _map.ModifiedUtcDate.Value : DateTime.UtcNow; } }
         public bool IsEnabled { get { return true; } }
         public bool IsIndexed { get { return _map.IsIndexed; } }
-
-        public string Url { get { return _map.MapId.ToString("N") ; } }
+        public int MapBookId { get{ return _map.CoriaMapBook.Id; } }
+        public string Url { get { return  _map.CoriaMapBook.SafeName + "/map/"+ _map.MapId.ToString("N") ; } }
 
         public string HtmlDescription(string target) { return _map.Description; }
 
