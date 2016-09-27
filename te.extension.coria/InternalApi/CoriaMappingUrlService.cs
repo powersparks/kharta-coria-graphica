@@ -30,43 +30,9 @@ namespace te.extension.coria.InternalApi
                 if (mapbooks == null) { return null; }
                 if (mapbooks.Count == 0) { return null; }
                 //why am I looping thru the list...umm.. why can't I select from the url, and query for it?
-                if (requestUri.AbsolutePath.Contains("/mapbooks/") )
+                if (requestUri.AbsolutePath.EndsWith("/mapbooks/") )
                 {
                     url = requestUri.AbsolutePath + "#_cptype=panel&_cpcontexttype=Container&_cppanelid=c4315566-7dcc-46b3-9ab7-7715d05498ad&__cpo=2";
-                    foreach (PublicApi.MapBook m in mapbooks)
-                    {
-                        if (requestUri.AbsolutePath.EndsWith(m.SafeName))
-                        {
-                            if (requestUri.AbsolutePath.EndsWith("/"))
-                            {
-                                if (requestUri.AbsolutePath.EndsWith(groupUri.AbsolutePath) || requestUri.AbsolutePath.Contains("/mapbooks/") || requestUri.AbsolutePath.EndsWith("/" + m.SafeName + "/") || !requestUri.AbsolutePath.EndsWith("/map/") || !requestUri.AbsolutePath.EndsWith("/map/ping/") || !requestUri.AbsolutePath.EndsWith("/map/new/") || !requestUri.AbsolutePath.EndsWith("/map/on/"))
-                                {
-                                    parameters.Add("_cptype", "panel");
-                                    parameters.Add("_cpcontexttype", "Application");
-                                    parameters.Add("_cppanelid", Plugins.UI.CoriaManagementPanels.CoriaMapBookPanel._panelId.ToString("N"));
-                                    url = requestUri.AbsolutePath + "#_cptype=panel&_cpcontexttype=Application&_cppanelid=" + Plugins.UI.CoriaManagementPanels.CoriaMapBookPanel._panelId.ToString("N");
-
-                                    break;
-                                }
-                            }
-                            else
-                            {
-                                if (requestUri.AbsolutePath.Contains(groupUri.AbsolutePath) || requestUri.AbsolutePath.Contains("/mapbooks/") || requestUri.AbsolutePath.EndsWith("/" + m.SafeName) || !requestUri.AbsolutePath.EndsWith("/map") || !requestUri.AbsolutePath.EndsWith("/map/ping") || !requestUri.AbsolutePath.EndsWith("/map/new") || !requestUri.AbsolutePath.EndsWith("/map/on"))
-                                {
-
-                                    parameters.Add("_cptype", "panel");
-                                    parameters.Add("_cpcontexttype", "Application");
-                                    parameters.Add("_cppanelid", Plugins.UI.CoriaManagementPanels.CoriaMapBookPanel._panelId.ToString("N"));
-
-                                    //#_cptype=panel&_cpcontexttype=Container&_cppanelid=c4315566-7dcc-46b3-9ab7-7715d05498ad&__cpo=2
-                                    //data-createurl="/administration/group/createapplication?w_applicationTypeId=bfdb6103-e8e5-4cbf-8fbf-42dbac4046ef&w_containerTypeId=23b05a61-c3e5-4451-90d9-bfa00453bce4&w_containerId=431e6117-b84a-49ab-ba60-98edf33189bb"
-                                    url = requestUri.AbsolutePath + "#_cptype=panel&_cpcontexttype=Application&_cppanelid=" + Plugins.UI.CoriaManagementPanels.CoriaMapBookPanel._panelId.ToString("N");
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    
                 }
                 else
                 {

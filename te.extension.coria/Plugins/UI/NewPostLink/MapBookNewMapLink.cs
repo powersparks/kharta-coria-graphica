@@ -38,14 +38,13 @@ namespace te.extension.coria.Plugins.UI.NewPostLink
             IList<PublicApi.MapBook> mapbooks = PublicApi.MapBooks.List(groupId);
             
             if (mapbooks != null && mapbooks.Count > 0)
-            {
-                Uri uri = new Uri(mapbooks.FirstOrDefault().Group.Url);
-                Uri requestedUri = HttpContext.Current.Request.Url;
-                 
-                string absPath = requestedUri.AbsolutePath;
-                
+            {    
                 foreach (PublicApi.MapBook m in mapbooks)
                 {
+                    Uri uri = new Uri( m.Group.Url);
+                    Uri requestedUri = HttpContext.Current.Request.Url;
+                    string absPath = requestedUri.AbsolutePath;
+
                     GroupNewMapLink groupNewMapLinkItem = new GroupNewMapLink(_translation.GetLanguageResourceValue("link_label"), "");
 
                     groupNewMapLinkItem.Label = linkPrefix + " to " + m.SafeName;
@@ -57,7 +56,7 @@ namespace te.extension.coria.Plugins.UI.NewPostLink
 
                     groupNewMapLinkItem.Url = TEApi.Url.ConvertQueryStringToHash( TEApi.Url.BuildUrl("GroupMapBookSingle", groupId, parameters)); 
                    
-                    if(requestedUri.AbsolutePath.Contains(uri.AbsolutePath.ToString()+"mapbooks/"+ m.SafeName))
+                    if(requestedUri.AbsolutePath.EndsWith("/mapbooks/"+ m.SafeName) )
                     {
                         IList<GroupNewMapLink> singleGroupNewPostLinks = new List<GroupNewMapLink>();
                         singleGroupNewPostLinks.Add(groupNewMapLinkItem);
