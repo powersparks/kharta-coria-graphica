@@ -92,7 +92,8 @@ namespace te.extension.coria.Plugins
                 "CoriaMapBooks/CoriaMapBooks.xml",
                 "CoriaMapTitle/CoriaMapTitle.xml",
                 "CoriaMapList/CoriaMapList.xml", 
-                "CoriaMapBookManPanel/CoriaMapBookManPanel.xml"
+                "CoriaMapBookManPanel/CoriaMapBookManPanel.xml",
+                "CoriaMapManPanel/CoriaMapManPanel.xml"
             };
 
             foreach (var definitionFile in definitionFilesSources)
@@ -130,7 +131,13 @@ namespace te.extension.coria.Plugins
                 "CoriaMapBookManPanel/Supplementary/CoriaMapBookManPanel.css",
                 "CoriaMapBookManPanel/Supplementary/CoriaMapBookManPanel.vm",
             };
-            //99f22a55-f1f4-4584-8a76-dd0a64452d6b
+            supplementaryFiles[new Guid("e4f6917d-953b-40bc-ae2f-d114a2194345")] = new string[] {
+                "CoriaMapManPanel/Supplementary/CoriaMapManPanel.js",
+                "CoriaMapManPanel/Supplementary/CoriaMapManPanel.css",
+                "CoriaMapManPanel/Supplementary/CoriaMapManPanel.vm",
+            };
+            //map man panel guid
+            //e4f6917d-953b-40bc-ae2f-d114a2194345
             foreach (var instanceId in supplementaryFiles.Keys)
             {
                 foreach (var relativePath in supplementaryFiles[instanceId])
@@ -223,7 +230,8 @@ namespace te.extension.coria.Plugins
           typeof(UI.MapBooksGroupNavigation),
           typeof(UI.NewPostLink.MapBookNewBookLink),
           typeof(UI.NewPostLink.MapBookNewMapLink),
-          typeof(InternalApi.CoriaPermissions)
+          typeof(InternalApi.CoriaPermissions),
+          typeof( UI.CoriaManagementPanels.CoriaMapPanel)
           
         };
             }

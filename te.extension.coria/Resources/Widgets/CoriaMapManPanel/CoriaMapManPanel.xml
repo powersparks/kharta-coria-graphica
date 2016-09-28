@@ -1,9 +1,9 @@
 ﻿<scriptedContentFragments>
   <scriptedContentFragment 
-    name="${resource:widget_title}" 
+     name="${resource:widget_title}" 
     version="9.2.0.2268" 
     description="${resource:widget_description}" 
-    instanceIdentifier="99f22a55f1f445848a76dd0a64452d6b" 
+    instanceIdentifier="e4f6917d953b40bcae2fd114a2194345" 
     theme="" 
     isCacheable="false" 
     varyCacheByUser="false" 
@@ -22,7 +22,7 @@
 #end
 
  <p>Coria Managament Panel</p>
-$core_v2_page.AddLink("stylesheet", "$core_v2_widget.GetFileUrl('CoriaMapBookManPanel.css')" )
+$core_v2_page.AddLink("stylesheet", "$core_v2_widget.GetFileUrl('CoriaMapManPanel.css')" )
 
 
 
@@ -117,7 +117,7 @@ $core_v2_page.AddLink("stylesheet", "$core_v2_widget.GetFileUrl('CoriaMapBookMan
 </script>
 
 #registerEndOfPageHtml ("coria.mapbooks.ui")
-<script type="text/javascript" src="$core_v2_encoding.HtmlAttributeEncode($core_v2_widget.GetFileUrl('CoriaMapBookManPanel.js'))"></script>
+<script type="text/javascript" src="$core_v2_encoding.HtmlAttributeEncode($core_v2_widget.GetFileUrl('CoriaMapManPanel.js'))"></script>
 #end
 
 #registerEndOfPageHtml()
@@ -202,9 +202,9 @@ $core_v2_widget.ApplyTokens($core_v2_widget.GetStringValue('fragmentDescription'
         <!--widget stuff-->
         <resource name="CF_Title">Widget Title:</resource>
         <resource name="CF_Description">Widget Description:</resource>
-        <resource name="MapBookOptionsApplicationPanel_Name">Map Book Options</resource>
-        <resource name="widget_title">Coria MapBook Management Panel Widget</resource>
-        <resource name="widget_description">widget for the Coria MapBook Application Panel</resource>
+        <resource name="MapBookOptionsApplicationPanel_Name">Map Options</resource>
+        <resource name="widget_title">Coria Map Management Panel Widget</resource>
+        <resource name="widget_description">widget for the Coria Map Application Panel</resource>
         <resource name="widget_modal_title_label">Widget Name</resource>
 
 <!--  CRUD and Identifiers-->

@@ -179,10 +179,7 @@ namespace te.extension.coria.Plugins.Application
             //var mapBookAction = new Action<HttpContextBase, PageContext>(MapBookAction); 
             controller.AddPage("GroupMapBookList", "", new Telligent.Evolution.Urls.Routing.NotSiteRootRouteConstraint(), null, "coria-mapbook-list", MapBooks_PdOptions);
             controller.AddPage("GroupMapBookSingle", "{mapBook}", new Telligent.Evolution.Urls.Routing.NotSiteRootRouteConstraint(), null, "coria-mapbook-map-list", MapBook_PdOptions);
-
             controller.AddPage("GroupMap", "{mapBook}/map/{mapId}", new Telligent.Evolution.Urls.Routing.NotSiteRootRouteConstraint(), null, "coria-map-page", Map_PdOptions);
-            //controller.AddPage("GroupMapNew", "mapbooks/{mapBook}/map/new", new Telligent.Evolution.Urls.Routing.NotSiteRootRouteConstraint(), null, "coria-map-page", Map_PdOptions);
-
 
         }
         private PageDefinitionOptions MapBooks_PdOptions
@@ -316,10 +313,6 @@ namespace te.extension.coria.Plugins.Application
         }
         private void ParseMapBook_Context(PageContext pageContext)
         {
-            //try
-            //{
-            //var ApplicationId = pageContext.GetTokenValue("ApplicationId");
-            //var ApplicationTypeId = pageContext.GetTokenValue("ApplicationTypeId");
             var allContext = pageContext.ContextItems.GetAllContextItems();
             var cnt = allContext.Count;
             int groupId = -1;
@@ -327,9 +320,7 @@ namespace te.extension.coria.Plugins.Application
             Guid appId = allContext[0].ApplicationId.Value;
             if (!int.TryParse(allContext[0].Id, out groupId))
             {
-                //if groupid is not 
-                // find by  mapbook name only... 
-                // TODO: optimize database with safeName and GroupId indexing
+ 
             }
             string singleMapBook = pageContext.GetTokenValue("mapBook") as string;
 
@@ -341,26 +332,7 @@ namespace te.extension.coria.Plugins.Application
                 {
                     PublicApi.MapBook mapbook = InternalApi.CoriaDataService.GetMapBookByGroupId_Name(groupId, "mapbooks", singleMapBook);
 
-                    //allContext[0].ApplicationId = mapbook.ApplicationId;
-                    //allContext[0].ApplicationTypeId = mapbook.ApplicationTypeId;
-                    //allContext[0].ContainerId = mapbook.Container.ContainerId;
-                    //allContext[0].ContainerTypeId = mapbook.Container.ContainerTypeId;    //Apis.Get<IGroups>().ContainerTypeId,  
-                    //allContext[0].ContentId = mapbook.ApplicationId;
-                    //allContext[0].ContentTypeId = mapbook.ApplicationTypeId;
-                    ////allContext[0].TypeName = ApplicationTypeName;
-                    //allContext[0].Id = mapbook.Group.Id.Value.ToString();
-
-                    //orignal
-                    /***
-                    TypeName = "Blog",
-                            ApplicationId = blog.ApplicationId,
-                            ApplicationTypeId = blogsApi.ApplicationTypeId,
-                            ContainerId = blog.Group.ApplicationId,
-                            ContainerTypeId = groupsApi.ContentTypeId,
-                            ContentId = blog.ApplicationId,
-                            ContentTypeId = blogsApi.ApplicationTypeId,
-                            Id = blog.Id.ToString()
-                        ***/
+                   
                     contextItem.ApplicationId = mapbook.ApplicationId;
                     contextItem.ApplicationTypeId = mapbook.ApplicationTypeId;
                     contextItem.ContainerId = mapbook.Container.ContainerId;
@@ -370,17 +342,10 @@ namespace te.extension.coria.Plugins.Application
                     contextItem.TypeName = ApplicationTypeName;
                     contextItem.Id = mapbook.Group.Id.Value.ToString();
 
-                }
-                //Telligent.Evolution.Urls.Routing.IContextCollection iContextCollection = new ContextCollection();
-
-                //pageContext.ContextItems = iContextCollection;
+                } 
                 pageContext.ContextItems.Put(contextItem);
             }
-            //}
-            //catch(Exception ex)
-            //{
-            //    throw new InternalApi.Utility.CoriaException(Categories[0], "ParseMapBookContex method error. ", ex);
-            //}
+            
 
         }
         #endregion

@@ -225,15 +225,15 @@
 <div class="sort" id="$core_v2_encoding.HtmlAttributeEncode($core_v2_widget.UniqueId('sort'))">
     <span class="by">
         <select class="ui-select" data-querykey="MapSortBy">
-            <option value="MostRecent" #if($mapSortBy= ='MostRecent' ) selected #end>$core_v2_language.GetResource('MostRecent')</option>
-            <option value="MostViewed" #if($mapSortBy= ='MostViewed' ) selected #end>$core_v2_language.GetResource('MostViews')</option>
-            <option value="MostComments" #if($mapSortBy= ='MostComments' ) selected #end>$core_v2_language.GetResource('MostComments')</option>
+            <option value="MostRecent" #if($mapSortBy=='MostRecent' ) selected #end>$core_v2_language.GetResource('MostRecent')</option>
+            <option value="MostViewed" #if($mapSortBy=='MostViewed' ) selected #end>$core_v2_language.GetResource('MostViews')</option>
+            <option value="MostComments" #if($mapSortBy=='MostComments' ) selected #end>$core_v2_language.GetResource('MostComments')</option>
         </select>
     </span>
     <span class="order">
         <select class="ui-select" data-querykey="MapSortOrder">
-            <option value="Descending" #if ($mapSortOrder= ='Descending' ) selected #end>$core_v2_language.GetResource('Sort_Descending')</option>
-            <option value="Ascending" #if ($mapSortOrder= ='Ascending' ) selected #end>$core_v2_language.GetResource('Sort_Ascending')</option>
+            <option value="Descending" #if ($mapSortOrder=='Descending' ) selected #end>$core_v2_language.GetResource('Sort_Descending')</option>
+            <option value="Ascending" #if ($mapSortOrder=='Ascending' ) selected #end>$core_v2_language.GetResource('Sort_Ascending')</option>
         </select>
     </span>
 </div>

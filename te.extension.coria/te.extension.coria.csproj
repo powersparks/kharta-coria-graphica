@@ -92,6 +92,7 @@
     <Compile Include="Plugins\Application\CoriaMapBookType.cs" />
     <Compile Include="Plugins\Content\MapContentType.cs" />
     <Compile Include="Plugins\CoriaApplications.cs" />
+    <Compile Include="Plugins\UI\CoriaManagementPanels\CoriaMapPanel.cs" />
     <Compile Include="Plugins\UI\CoriaManagementPanels\CoriaMapBookPanel.cs" />
     <Compile Include="Plugins\UI\Navigation\MapBookMapsSiteNavigation.cs" />
     <Compile Include="Plugins\UI\Navigation\MapBooksGroupNavigation.cs" />
@@ -146,6 +147,11 @@
     <EmbeddedResource Include="Resources\Pages\coria-mapbook-map-Social-Group-Page.xml" />
     <EmbeddedResource Include="Resources\Pages\coria-mapbook-map-list-Social-Group-Page.xml" />
     <EmbeddedResource Include="Resources\Widgets\CoriaMapList\Supplementary\CoriaMapListQuery.vm" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaMapManPanel\CoriaMapManPanel.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Widgets\CoriaMapManPanel\Supplementary\CoriaMapManPanel.css" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaMapManPanel\Supplementary\CoriaMapManPanel.js" />
     <Content Include="Resources\Widgets\ExampleKhartaName\ExampleKhartaName.xml" />
     <Content Include="Resources\Widgets\ExampleKhartaName\Supplementary\ExampleKhartaName.css" />
     <Content Include="Resources\Widgets\ExampleKhartaName\Supplementary\ExampleKhartaName.js" />
@@ -161,6 +167,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\Widgets\CoriaMapTitle\Supplementary\CoriaMapTitle.vm" />
     <EmbeddedResource Include="Resources\Widgets\CoriaMapList\Supplementary\CoriaMapList.vm" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaMapManPanel\Supplementary\CoriaMapManPanel.vm" />
     <None Include="Resources\Widgets\ExampleKhartaName\Supplementary\ExampleKhartaName.vm" />
     <EmbeddedResource Include="Resources\Widgets\CoriaMapBookManPanel\Supplementary\CoriaMapBookManPanel.vm" />
   </ItemGroup>
