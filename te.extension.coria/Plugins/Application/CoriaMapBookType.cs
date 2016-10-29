@@ -114,6 +114,7 @@ namespace te.extension.coria.Plugins.Application
         public void SetEnabled(int userId, Guid applicationId, bool enabled)
         {
             // throw new NotImplementedException();
+            InternalApi.CoriaDataService.MapBook_SetEnabled(userId, applicationId, enabled);
         }
 
         public void Delete(int userId, Guid applicationId)

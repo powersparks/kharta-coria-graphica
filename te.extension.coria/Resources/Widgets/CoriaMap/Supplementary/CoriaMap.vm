@@ -26,7 +26,8 @@
  #set($mappingApi = $core_v2_widget.GetStringValue('map_application_type', 'False'))
  #set($height = $core_v2_widget.GetUnitValue('map_canvas_height', '$defaultHeight' ))
  #set($width = $core_v2_widget.GetUnitValue('map_canvas_width', '$defaulWidth' ))
- 
+  #set($papayawhip = '#FFEFD5')
+ #set($backgroundcolor = $core_v2_widget.GetColorValue('map_canvas_background_color', $papayawhip))
 <style> 
        .map-canvas img {
         max-width:none;
@@ -38,7 +39,7 @@
     -moz-box-sizing: unset;
     box-sizing: unset ;
 }
-    .map-canvas {   height: $height; width: $width; }
+     .map-canvas { min-height:20px;  height: $height; width: $width; background-color: $backgroundcolor; }
 </style>
  <p>$mappingApi map settings and options selected: </p>
 <div id="$core_v2_widget.UniqueId('map-canvas')" class='map-canvas' ></div>

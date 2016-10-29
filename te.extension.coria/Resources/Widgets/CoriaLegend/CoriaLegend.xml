@@ -1,0 +1,113 @@
+<scriptedContentFragments>
+	<scriptedContentFragment 
+    name="${resource:widget_name}" 
+    version="9.2.0.2268" 
+    description="${resource:widget_description}" 
+    instanceIdentifier="e8b32cc0f1734048b72a919c38336f71" 
+    theme="" 
+    isCacheable="false" 
+    varyCacheByUser="false" 
+    showHeaderByDefault="true" 
+    cssClass="" 
+    provider="11d248584e704d4f9bb7de3e627bc200">
+		<contentScript>
+  <![CDATA[ 
+ 
+##$core_v2_page.AddLink("stylesheet", "$core_v2_encoding.HtmlAttributeEncode($core_v2_widget.GetFileUrl('CoriaMap.css'))" , "%{ type='text/css' }")
+<div id="newChartDivId">
+</div>
+<div id="newLegendDivId">  
+</div>
+$core_v2_page.AddLink("stylesheet", "$core_v2_encoding.HtmlAttributeEncode( '/assets/css/legend.css' )" , "%{ type='text/css' }")
+<script id="containerTemplateId" type=text/svg>
+  <svg id="containerId"></svg>
+</script>
+
+
+ <script id="coria-chevron-down-svg-id" type=text/svg>
+     <div id="legendDivId">  
+        <ul>
+            <li>inside</li>
+            <li>inside 2</li>
+        </ul>
+     </div>
+     
+</script>
+ <!--svg version="1.1" id="coria-chevron-down" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="36px" height="36px" viewBox="0 0 36 36" style="enable-background:new 0 0 36 36;" xml:space="preserve">
+                <style type="text/css">
+                <!--31154f2f1a944c64b0e644f1022f506c-cdata-start-->
+                	.coria-chevron-down-svg{
+                	fill:#FFFFFF;
+                    display:block;
+                	}
+                <!--31154f2f1a944c64b0e644f1022f506c-cdata-end-->
+                </style>
+                <g>
+                	<polyline class="coria-chevron-down-svg" points="347.8,508.2 606,274.4 574.8,246 306,489.3 37.2,246 6,274.4 306,546 347.8,508.2 	"/>
+                	<polyline class="coria-chevron-down-svg" points="347.8,612.2 606,378.4 574.8,350 306,593.3 37.2,350 6,378.4 306,650 347.8,612.2 	"/>
+                </g>
+    </svg--->
+$core_v2_widget.ExecuteFile('CoriaLegend.vm')
+ ##$core_v2_widget.GetFileUrl("chevron-up.svg")
+ ##$core_v2_ui.GetResizedImageHtml("$core_v2_widget.GetFileUrl("chevron-down.svg", 500, 400, { ResizeMethod = "ZoomAndCrop"})
+ 
+##$core_v2_page.AddLink("stylesheet", "$core_v2_encoding.HtmlAttributeEncode($core_v2_widget.GetFileUrl('CoriaLegend.css'))" , "%{ type='text/css' }")
+#*** execute the Coria Map velocity script ***#
+##$core_v2_widget.ExecuteFile('CoriaLegend.vm')
+#registerEndOfPageHtml ( "d3.js.api" )
+    <script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script> 
+#end
+#registerEndOfPageHtml('coria.legend')
+<script type="text/javascript" src="$core_v2_encoding.HtmlAttributeEncode($core_v2_widget.GetFileUrl('CoriaLegend.js'))"></script>
+#end
+#registerEndOfPageHtml()
+<script  type="text/javascript" charset="utf-8">
+jQuery(function(j){
+    j.coria.legend.register({
+        coriaChevronDownSvgId:"coria-chevron-down-svg-id",
+        newChartDivId:"newChartDivId",
+        containerId:"containerId",
+        newLegendDivId:"newLegendDivId",
+        coriaLegendId:"coria-legend-id",
+        containerTemplateId:"containerTemplateId",
+        widgetId: '$core_v2_widget.WrapperElementId'
+    });
+});
+
+</script>
+    ## end of page HTML
+#end]]></contentScript>
+		<headerScript><![CDATA[$core_v2_widget.ApplyTokens($core_v2_widget.GetStringValue('fragmentHeader', '${resource:widget_name}'))
+$core_v2_widget.ApplyTokens($core_v2_widget.GetStringValue('fragmentDescription', '${resource:widget_description}'))    
+ ]]></headerScript>
+		<configuration><![CDATA[<propertyGroup id="options" resourceName="Options">
+	<property id="fragmentHeader" resourceName="CF_Title" dataType="string" defaultValue="${resource:widget_name}" controlType="Telligent.Evolution.Controls.ContentFragmentTokenStringControl, Telligent.Evolution.Controls" />
+	<property id="fragmentDescription" resourceName="CF_Description" dataType="string" defaultValue="${resource:widget_description}" controlType="Telligent.Evolution.Controls.ContentFragmentTokenStringControl, Telligent.Evolution.Controls" />
+	
+	<!--property id="map_canvas_height" resourceName="map_canvas_height" dataType="unit" defaultValue="250px" />
+	<property id="map_canvas_width" resourceName="map_canvas_width" dataType="unit" defaultValue="100%" />
+	<property id="map_center_lat" resourceName="map_center_lat" dataType="double" defaultValue="21.5" >
+	    	<propertyRule type="Telligent.Evolution.Controls.PropertyRules.MinMaxValueRule, Telligent.Evolution.Controls" minValue="-90" maxValue="90" />
+	</property>
+	<property id="map_center_lng" resourceName="map_center_lng" dataType="double" defaultValue="-158">
+	<propertyRule type="Telligent.Evolution.Controls.PropertyRules.MinMaxValueRule, Telligent.Evolution.Controls" minValue="-180" maxValue="180" />
+	</property>
+    <property id="map_zoom_level" resourceName="map_zoom_level"  descriptionResourceName="map_zoom_level_description" dataType="integer" defaultValue="3">
+	<propertyRule type="Telligent.Evolution.Controls.PropertyRules.MinMaxValueRule, Telligent.Evolution.Controls" minValue="0" maxValue="100" />
+	</property>
+	<property id="map_application_type" resourceName="map_application_type" descriptionResourceName="map_application_type_description" dataType="string" defaultValue="Base">
+		<propertyValue value="Base" resourceName="map_application_base" />
+    <propertyValue value="MapBox" resourceName="map_application_mapbox" />
+		<propertyValue value="GoogleMaps" resourceName="map_application_googlemaps" />
+    <!--propertyValue value="ArcGis" resourceName="map_application_arcgis" /-->
+     <!--propertyValue value="ArcGis4" resourceName="map_application_arcgis4" /-->
+	</property>
+</propertyGroup>]]></configuration>
+		<languageResources><language key="en-us">
+  <resource name="widget_name">CoriaLegend</resource>
+  <resource name="widget_description">widget supporting source and map summary information</resource>
+</language></languageResources>
+		<files>
+		</files>
+	</scriptedContentFragment>
+</scriptedContentFragments>

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.UI;
-
+using TEApiPublicApi = Telligent.Evolution.Extensibility.Api.Version1.PublicApi;
 using Telligent.Evolution.Extensibility.Version1;
 using Telligent.Evolution.Extensibility.UI.Version1;
 
@@ -14,8 +14,8 @@ namespace te.extension.coria.Plugins.UI
 {
     public class CoriaWidgetContextProvider : IScriptedContentFragmentContextProvider
     {
-        
-            private readonly Guid CoriaContextId = new Guid("336abd13-7910-42d0-b338-4f8c74a5c432");
+
+        private readonly Guid CoriaContextId = CoriaFactoryDefaultWidgetProvider.WidgetFactoryDefault_id;//new Guid("336abd13-7910-42d0-b338-4f8c74a5c432");
             public string Name { get { return "Coria Widget Context Provider"; } }
             public string Description { get { return "Coria Widgets using this provider ensure to only be used in the appropriate context"; } }
             public IEnumerable<ContextItem> GetSupportedContextItems()
@@ -26,7 +26,11 @@ namespace te.extension.coria.Plugins.UI
             }
             public bool HasContextItem(System.Web.UI.Page page, Guid contextItemId)
             {
-                bool coriaExistance = false;
+            return contextItemId == CoriaContextId && TEApiPublicApi.Url.CurrentContext != null &&
+       TEApiPublicApi.Url.CurrentContext.ContextItems.GetAllContextItems()
+           .Any(item => item.ContentTypeId == this.CoriaContextId );// TEApiPublicApi.Blogs.ApplicationTypeId);
+            /***
+            bool coriaExistance = false;
                 string[] coriaTypeIds = { "CoriaId" };
                 object coriaIdObject;
                 Guid coriaGuid;
@@ -64,6 +68,7 @@ namespace te.extension.coria.Plugins.UI
 
                 }
                 return coriaExistance;
+            */
                 //InternalApi.OntologyDataService.KhartaExist(khartId)!= null;
             }
 

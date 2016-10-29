@@ -4,9 +4,9 @@
 ## Render Filtering and Sorting
 ##
 ##above velocity is from mapbook-map-list's query.vm
-$core_v2_widget.ExecuteFile('CoriaMapListQuery.vm')
-
+##$core_v2_widget.ExecuteFile('CoriaMapListQuery.vm')
 #set ($currentMapBook = $coria_v1_mapbook.Current)
+
 #if ($currentMapBook)
 	<div class="navigation-list navigation ui-links" data-minlinks="0" data-maxlinks="0">
 		<ul>
@@ -177,24 +177,31 @@ $core_v2_widget.ExecuteFile('CoriaMapListQuery.vm')
 
 			<div class="author">
 				<div class="avatar">
-					#if ($map.Author.ProfileUrl)
-						<a href="$core_v2_encoding.HtmlAttributeEncode($map.Author.ProfileUrl)">
+						#if ($map.Author.ProfileUrl)
+							<a href="$core_v2_encoding.HtmlAttributeEncode($map.Author.ProfileUrl)">
+								$core_v2_ui.GetResizedImageHtml($map.Author.AvatarUrl, 44, 44, "%{border='0px', alt=$map.Author.DisplayName, ResizeMethod = 'ZoomAndCrop' }")
+							</a>
+						#elseif($map.Author)
 							$core_v2_ui.GetResizedImageHtml($map.Author.AvatarUrl, 44, 44, "%{border='0px', alt=$map.Author.DisplayName, ResizeMethod = 'ZoomAndCrop' }")
-						</a>
-					#else
-						$core_v2_ui.GetResizedImageHtml($map.Author.AvatarUrl, 44, 44, "%{border='0px', alt=$map.Author.DisplayName, ResizeMethod = 'ZoomAndCrop' }")
-					#end
-				</div>
-				<span class="user-name">
-					#if ($map.Author.ProfileUrl)
-						<a href="$core_v2_encoding.HtmlAttributeEncode($map.Author.ProfileUrl)" class="internal-link view-user-profile">
+						#else
+					##	$core_v2_ui.GetResizedImageHtml("/resized-image/__size/180x180/__key/system/images/defaulthub.gif", 44, 44, "%{border='0px', alt="no author", ResizeMethod = 'ZoomAndCrop' }")
+						#end
+			  </div>
+					<span class="user-name">
+						#if ($map.Author.ProfileUrl)
+							<a href="$core_v2_encoding.HtmlAttributeEncode($map.Author.ProfileUrl)" class="internal-link view-user-profile">
+								$map.Author.DisplayName
+							</a>
+						#elseif($map.Author)
 							$map.Author.DisplayName
-						</a>
-					#else
-						$map.Author.DisplayName
-					#end
-				</span>
-			</div>
+						#else
+							<a href="$core_v2_encoding.HtmlAttributeEncode($map.Author.ProfileUrl)" class="internal-link view-user-profile">
+								No Map Author
+							</a>
+					
+						#end
+					</span>
+				</div>
 			<div class="attributes">
 				<ul class="attribute-list">
 					<li class="attribute-item">
@@ -216,8 +223,12 @@ $core_v2_widget.ExecuteFile('CoriaMapListQuery.vm')
 					<div class="map-summary">
 						#if($map.Excerpt && $map.Excerpt.Length > 0)
 							$core_v2_language.Truncate($map.Excerpt, $excerptSize, '...')
-						#else
+						#elseif ($map.Body && $map.Body.Length > 0)
 							$core_v2_language.Truncate($map.Body('WebQuote'), $excerptSize, '...')
+						#elseif ($map.Description && $map.Description.Length > 0)
+						$core_v2_language.Truncate($map.Description, $excerptSize, '...')
+						#else
+						$core_v2_language.Truncate("Map has no other information", $excerptSize, '...')
 						#end
 					</div>
 				#elseif ($viewDetail == 'detail')

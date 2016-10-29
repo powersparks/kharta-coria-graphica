@@ -162,8 +162,8 @@
             //prepend will add content order, last is first
             $(context.fieldInputListId ,//+ " li:first",
                 $.telligent.evolution.administration.panelWrapper())
-                //.prepend(addColorInput(clrOptions))
-                //.prepend(addTextInput())
+                .prepend(addColorInput(clrOptions))
+                 .prepend(addTextInput())
 				.prepend(addTextInput(options));
              
              

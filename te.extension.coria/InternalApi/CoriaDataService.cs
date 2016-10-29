@@ -216,6 +216,33 @@ namespace te.extension.coria.InternalApi
                      pageIndex,
                      totalCount);
         }
+
+        internal static void MapBook_SetEnabled(int userId, Guid applicationId, bool enabled)
+        {
+            using (KhartaDataModel dbcontext = new KhartaDataModel())
+            {
+
+                var mapbook = (from m in dbcontext.MapBooks
+                               where m.ApplicationId.Equals(applicationId)
+                               select m
+                               ).FirstOrDefault();
+                mapbook.IsEnabled = enabled;
+                try
+                {
+                    dbcontext.Entry(mapbook).State = System.Data.Entity.EntityState.Modified;
+                    dbcontext.SaveChanges();
+                }
+                catch (DbUpdateConcurrencyException ex)
+                {
+
+                    var exception = ex;
+                    throw;
+                }
+
+            }
+        }
+         
+
         internal static PagedList<Map> MapPagedList(MapBook mapbook, int pageIndex, int pageSize, string sortBy, string sortOrder)
         { if (mapbook == null) { return null; }
             using (KhartaDataModel dbcontext = new KhartaDataModel())

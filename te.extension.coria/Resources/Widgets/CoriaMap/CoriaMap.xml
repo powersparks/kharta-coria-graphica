@@ -34,7 +34,8 @@ jQuery(function(j){
       mapCenterLat: $mapCenterLat,
       mapZoomLevel: $mapZoomLevel,
       height: '$height',
-      width: '$width'
+      width: '$width',
+      backgroundColor: '$backgroundcolor'
   });
 });  
 </script>

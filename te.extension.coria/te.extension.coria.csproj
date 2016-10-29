@@ -152,10 +152,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Widgets\CoriaMapManPanel\Supplementary\CoriaMapManPanel.css" />
     <EmbeddedResource Include="Resources\Widgets\CoriaMapManPanel\Supplementary\CoriaMapManPanel.js" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaLegend\CoriaLegend.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Widgets\CoriaLegend\Supplementary\CoriaLegend.css" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaLegend\Supplementary\chevron-down.svg" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaLegend\Supplementary\chevron-up.svg" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaLegend\Supplementary\CoriaLegend.js" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaLegend\Supplementary\CoriaLegend.vm" />
+    <Content Include="Resources\Css\site.css" />
     <Content Include="Resources\Widgets\ExampleKhartaName\ExampleKhartaName.xml" />
     <Content Include="Resources\Widgets\ExampleKhartaName\Supplementary\ExampleKhartaName.css" />
     <Content Include="Resources\Widgets\ExampleKhartaName\Supplementary\ExampleKhartaName.js" />
-    <EmbeddedResource Include="Resources\Widgets\CoriaMap\CoriaMap.xml" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaMap\CoriaMap.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Widgets\CoriaMap\Supplementary\CoriaMap.css" />
     <EmbeddedResource Include="Resources\Widgets\CoriaMap\Supplementary\CoriaMap.js" />
     <EmbeddedResource Include="Resources\Widgets\CoriaMap\Supplementary\CoriaMap.vm" />
@@ -173,7 +184,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\REST\" />
-    <Folder Include="Resources\Css\" />
     <Folder Include="Resources\EcmaScript\" />
     <Folder Include="Resources\Sql\" />
     <Folder Include="RestApi\Entity\" />

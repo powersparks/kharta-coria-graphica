@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Web;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -70,9 +71,29 @@ namespace te.extension.coria.Plugins.UI.CoriaManagementPanels
             public string ExtensionName { get { return "coria_v1_panel_context"; } }
             public object GetExtension(NameValueCollection context)
             {
-                Guid applicationId   = Guid.TryParse(context["applicationId"], out applicationId)     ? applicationId : Guid.Empty;
-                Guid applicationType = Guid.TryParse(context["applicationTypeId"], out applicationType) ? applicationType : Guid.Empty;
+                //https://harleyparks.com/departments/fuzzy/mapbooks/mapbook#_cptype=panel&_cpcontexttype=Container&_cppanelid=c4315566-7dcc-46b3-9ab7-7715d05498ad
 
+                Guid applicationId   = Guid.TryParse(context["applicationId"], out applicationId)     ? applicationId : Guid.Empty;
+                if (applicationId.Equals(Guid.Empty)) {  return null; }
+                Guid applicationType = Guid.TryParse(context["applicationTypeId"], out applicationType) ? applicationType : Guid.Empty;
+                string mapbookSafeName = context["mapBook"];
+                //this url service needs to be in the internalapi url service
+                Dictionary<string, string> parameters = new Dictionary<string, string>();
+                //parameters.Add("mapBook", m.SafeName.ToString());
+                //parameters.Add("_cptype", "panel");
+                //http://localhost/departments/fuzzy/mapbooks/
+                //admin panel, Manage MapBook
+                //#_cptype=category&_cpcontexttype=Application&_cpcontextid=bfdb6103-e8e5-4cbf-8fbf-42dbac4046ef
+                //
+                //#_cptype=panel&_cpcontexttype=Application&_cppanelid=a06a4d37-82d6-42a4-b20c-140ffd882677
+
+                NameValueCollection param = HttpContext.Current.Request.Params;
+                var _cptype = param["_cptype"];
+                var _cpcontexttype = param["_cpcontexttype"];// Application 
+                var _cppanelid = param["_cppanelid"];
+                Uri requestUri = HttpContext.Current.Request.Url;
+                var hash = requestUri.GetHashCode();
+                //_cptype = root, if so, then we need to provide managment of specific mapbooks.
                 return new MapBookPanelApi(applicationType, applicationId);
             }
         }

@@ -69,7 +69,7 @@ namespace te.extension.coria.Plugins.UI.CoriaManagementPanels
             {
                 Guid applicationId   = Guid.TryParse(context["applicationId"], out applicationId)     ? applicationId : Guid.Empty;
                 Guid applicationType = Guid.TryParse(context["applicationTypeId"], out applicationType) ? applicationType : Guid.Empty;
-
+                if (applicationId.Equals(Guid.Empty)) { return null; }
                 return new MapPanelApi(applicationType, applicationId);
             }
         }

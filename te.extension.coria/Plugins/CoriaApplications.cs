@@ -93,7 +93,8 @@ namespace te.extension.coria.Plugins
                 "CoriaMapTitle/CoriaMapTitle.xml",
                 "CoriaMapList/CoriaMapList.xml", 
                 "CoriaMapBookManPanel/CoriaMapBookManPanel.xml",
-                "CoriaMapManPanel/CoriaMapManPanel.xml"
+                "CoriaMapManPanel/CoriaMapManPanel.xml", 
+                "CoriaLegend/CoriaLegend.xml"
             };
 
             foreach (var definitionFile in definitionFilesSources)
@@ -110,6 +111,15 @@ namespace te.extension.coria.Plugins
                 "CoriaMap/Supplementary/CoriaMap.css",
                 "CoriaMap/Supplementary/CoriaMap.vm",
             };
+            supplementaryFiles[new Guid("e8b32cc0-f173-4048-b72a-919c38336f71")] = new string[] {
+                "CoriaLegend/Supplementary/CoriaLegend.js",
+                "CoriaLegend/Supplementary/CoriaLegend.css",
+                "CoriaLegend/Supplementary/CoriaLegend.vm",
+                "CoriaLegend/Supplementary/chevron-up.svg",
+                "CoriaLegend/Supplementary/chevron-down.svg"
+            };
+            //e8b32cc0-f173-4048-b72a-919c38336f71
+            //"CoriaLegend/CoriaLegend.xml"
             supplementaryFiles[new Guid("887d27c0-deb0-440d-b4c8-7452df690410")] = new string[] {
                 "CoriaMapBooks/Supplementary/CoriaMapBooks.js",
                 "CoriaMapBooks/Supplementary/CoriaMapBooks.css",
@@ -138,6 +148,8 @@ namespace te.extension.coria.Plugins
             };
             //map man panel guid
             //e4f6917d-953b-40bc-ae2f-d114a2194345
+            //e8b32cc0-f173-4048-b72a-919c38336f71
+            //CoriaLegend
             foreach (var instanceId in supplementaryFiles.Keys)
             {
                 foreach (var relativePath in supplementaryFiles[instanceId])

@@ -1,0 +1,107 @@
+﻿ <script id="coria-legend-id" type=text/svg>
+<div id="SourcesLayersLegends" class="coria-nav-pane" style="max-height:550px;visibility:visible;" >
+  <div class="coria-nav-bar-container">
+    <div class="coria-nav-bar-btns">
+      <div class="coria-chevron-down">
+            <!---svg version="1.1" id="coria-chevron-down" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="612px" height="792px" viewBox="0 0 612 792" style="enable-background:new 0 0 612 792;" xml:space="preserve">
+            <style type="text/css">
+            <![CDATA[
+            	.coria-chevron-down-svg{fill:#FFFFFF;
+            	width:35px;
+                height:35px;
+                display:none;
+            	}
+            ]]>
+            </style>
+            <g>
+            	<polyline class="coria-chevron-down-svg" points="347.8,508.2 606,274.4 574.8,246 306,489.3 37.2,246 6,274.4 306,546 347.8,508.2 	"/>
+            	<polyline class="coria-chevron-down-svg" points="347.8,612.2 606,378.4 574.8,350 306,593.3 37.2,350 6,378.4 306,650 347.8,612.2 	"/>
+            </g>
+            </svg-->
+      </div>
+    </div>
+     <!--div class="coria-chevron-up" style={display:none}>
+            <svg version="1.1" id="coria-chevron-up" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="612px" height="792px" viewBox="0 0 612 792" style="enable-background:new 0 0 612 792;" xml:space="preserve">
+            <style type="text/css">
+            <![CDATA[
+            .coria-chevron-up-svg{
+                fill:#FFFFFF;
+                width:35px;
+                height:35px;
+                display:none;
+            }
+            ]]>
+            </style>
+            <polyline class="coria-chevron-up-svg" points="264.2,387.8 6,621.6 37.2,650 306,406.7 574.8,650 606,621.6 306,350 264.2,387.8 "/>
+            <polyline class="coria-chevron-up-svg" points="264.2,283.8 6,517.6 37.2,546 306,302.7 574.8,546 606,517.6 306,246 264.2,283.8 "/>
+            </svg>
+
+      </div-->
+    <div class="gcntl-nav-bar gcntl-nav-bar-horizontal gcntl-nav-bar-top" style=" -moz-user-select: none;" role="tablist" tabindex="0">
+      <div class="gcntl-btn" aria-selected="false" role="tab" style="-moz-user-select: none;" id="gcntl-btnAbstracts">Abstract</div>
+      <div class="gcntl-btn" aria-selected="false" role="tab" style="-moz-user-select: none;" id="gcntl-btnLayers">Layers</div>
+      <div class="gcntl-btn" aria-selected="false" role="tab" style="-moz-user-select: none;" id="gcntl-btnLegends">Legend</div>
+      <div class="gcntl-btn" aria-selected="true" role="tab" style="-moz-user-select: none; " id="gcntl-btnDetails">Details</div>
+    </div>
+  </div>
+  <!--- END OF: coria-nav-bar-container --->
+  <div class="coria-nav-content" style="max-height:515px;  ">
+
+    <div class="coria-inner-nav-content">
+      <!-- coria pane header, or map header provides the Source metadata -->
+      <div></div>
+      <div class="coria-scrolling-nav-content" style="max-height:500px; top:35px; " >
+        <div class="coria-map-header" >
+          <h1 id="coriaMapTitleId" class="coria-map-title coria-map-title-picker">
+            Title
+          </h1>
+          <div class="coria-map-picker-button" style="display:none;"></div>
+          <div id="coriaMapAuthorId" class="coria-map-author">
+            Author:  
+          </div>
+        </div>
+
+        <div  class="coria-abstract-pane coria-map-panels">
+          <div id="coriaMapAbstractSummaryId" class="coria-map-summary">
+           description
+         </div>
+        </div>
+        <!-- end of coria-map-pane -->
+        <div id="coriaLayerPaneId" class="coria-layer-pane coria-map-panels">
+        </div>
+        <div class="coria-legend-pane coria-map-panels">
+          <div class="coria-layer-legend-box coria-first-layer-legend-box">
+            <span class="coria-layer-title">Layer Example Title</span>
+            <div class="coria-layer-legend-content">
+              <div class="coria-legend-item"  >
+                <div style="float:left;">
+                  <div style="background-color: rgb(245 , 200 , 175);" class="coria-legend-graphic coria-legend-color"></div>
+                </div>
+                <div  >
+                  <div class="coria-legend-text">Layer Example Feature 1</div>
+                </div>
+              </div>
+              <div class="coria-legend-item" >
+                <div style="float:left;">
+                  <div style="background-color: rgb(234 , 100 , 42);" class="coria-legend-graphic coria-legend-color"></div>
+                </div>
+                <div>
+                  <div class="coria-legend-text" >Layer Example Feature 2</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="coria-detail-pane coria-map-panels">
+          <div style="font-family: Roboto,Arial,sans-serif; font-size: small" class="coria-feature-info-content">
+            <div style="font-weight: 500; font-size: medium; margin-bottom: 0em">Sample Details</div>
+          </div>
+        </div>
+      </div>
+      <!--end of scrolling -->
+    </div>
+    <!--end of coria-inner-nav-content -->
+  </div>
+  <!--end of coria-nav-content -->
+</div>
+></script>
