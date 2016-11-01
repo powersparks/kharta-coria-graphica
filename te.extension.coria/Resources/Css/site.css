@@ -16,8 +16,8 @@
     --lowlightshadow-color: #B08250;
 	--kelly-green-color: #51cb23; 
 	--lime-green-color; /***#32CD32 is limegreen ***/
-    
-    --black-color: #000000 ;
+    --white-color: #FFFFFF;
+    --black-color: #000000;
     --black-color-alpha:rgba(0,0,0,0.7);
      --black-color-alpha-low:rgba(0,0,0,0.3);
       --black-color-alpha-high:rgba(0,0,0,1);
@@ -25,12 +25,25 @@
 	  --gray-blue-color: #bdc3c7;
 	  --gray-color: #e6e9ea;
 	  --telligent-blue-color: #4aa3df;
+      --apan-blue-color: #02456e;
       /*rgba(255,204,102,0)*/
-      --r: 255;
+      /*change to modify to apan banner color
+          #02456e rgb(2, 69, 110)*/
+      /*
+      --r: 2;
+      --g: 69;
+      --b: 110;
+      --a: 0;
+      --a-banner: 0.85;
+      */
+      /*harleyparks
+            --r: 255;
       --g: 204;
       --b: 102;
       --a: 0;
       --a-banner: 0.85;
+      */
+    
       /* rgba(var(--r),var(--g),var(--b),var(--a))
           rgba(var(--r),var(--g),var(--b),var(--a-banner))
       */
@@ -61,6 +74,30 @@
 	   --text-light-on-background-color: var(--gray-blue-color); /**#bdc3c7 var(--text-light-on-background-color)*/
 	   --text2-light-on-background-color: var(--gray-color); /**#e6e9ea var(--text2-light-on-background-color)*/
 	   --text3-light-on-background-color: var(--papayawhip-color);
+       --r: 255;
+       --g: 204;
+       --b: 102;
+       --a: 0;
+       --a-banner: 0.85;
+       /*apan colors 
+       --page-bg-color: var(--white-color);
+       --main-bg-color: var(--white-color);
+	   --link-dark-on-lighter-color: var(--telligent-blue-color);  
+	   --link-light-on-darker-color: var(--telligent-blue-color);  
+	   --link-nav-was-blue-color: var(--telligent-blue-color);  
+	   --link-visited-color: var(--telligent-blue-color);  
+	   --link-hover-color: var(--flatblue-color);  
+	   --link-active-color: var(--flatblue-color);  
+	   --text-area-color: var(--white-color);  
+	   --text-light-on-background-color: var(--black-color);  
+	   --text2-light-on-background-color: var(--gray-color);  
+	   --text3-light-on-background-color: var(--gray-color);
+       --r: 2;
+       --g: 69;
+       --b: 110;
+       --a: 0;
+       --a-banner: 0.85;
+       */
 	   
 }
 /*body{   background: linear-gradient(90deg, rgb(76,61,30), rgb(255,204,102));}
