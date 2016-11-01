@@ -1,13 +1,13 @@
 ﻿:root {
        --flatblue-color:#336699;
-    --flatblue-color-alpha:rgba(51,102,153, 0.7);
+    /**--flatblue-color-alpha:rgba(51,102,153, 0.7);*/
     --papayawhip-color: papayawhip;
     --flatbrown-color:#A57B54;
 	--dark-gold-brown: #4c3d1e;
 	--red-flatbrown-color:#90560b;
 	--dark-orange-color:#FFCC66;
     --flatyellow-color:#ffe066;
-    --flatyellow-color-alpha: rgba(255,204,102, 0.9); /***function within a var() does not work*/
+    /**--flatyellow-color-alpha: rgba(255,204,102, 0.9); **function within a var() does not work*/
 	--yellow-color: yellow;
     --pinkskin-color: #ffcc99;
     --flatfrog-color:#E4EAD0;
@@ -16,7 +16,7 @@
     --lowlightshadow-color: #B08250;
 	--kelly-green-color: #51cb23; 
 	--lime-green-color; /***#32CD32 is limegreen ***/
-    --transparant-color: transparent;
+    
     --black-color: #000000 ;
     --black-color-alpha:rgba(0,0,0,0.7);
      --black-color-alpha-low:rgba(0,0,0,0.3);
@@ -25,6 +25,15 @@
 	  --gray-blue-color: #bdc3c7;
 	  --gray-color: #e6e9ea;
 	  --telligent-blue-color: #4aa3df;
+      /*rgba(255,204,102,0)*/
+      --r: 255;
+      --g: 204;
+      --b: 102;
+      --a: 0;
+      --a-banner: 0.85;
+      /* rgba(var(--r),var(--g),var(--b),var(--a))
+          rgba(var(--r),var(--g),var(--b),var(--a-banner))
+      */
  /***
  rgba(0,0,0,0.3)
  rgb(76,61,30)
@@ -57,6 +66,7 @@
 /*body{   background: linear-gradient(90deg, rgb(76,61,30), rgb(255,204,102));}
 body{   background: linear-gradient(90deg, #4c3d1e, #ffcc66 );}*/
 body{   background: linear-gradient(90deg, var(--page-bg-color), var(--main-bg-color) );}
+
 @media only screen and (min-width: ${theme:minimumWidth}) {
   .page-editing,
   .header-fragments .layout .layout-content,
@@ -169,13 +179,18 @@ body{   background: linear-gradient(90deg, var(--page-bg-color), var(--main-bg-c
   .content-fragment.quick-post .navigation-list ul li a:hover   { color: var(--link-hover-color) !important;}
   .content-fragment.quick-post .navigation-list ul li a:active  { color: var(--link-dark-on-lighter-color) !important;}
   
-  .content-fragment-page{ background-color: transparent;}
-  .content-fragment-page .common-home .evolution-reflow-container{ background-color:transparent;}
+  .content-fragment.quick-post a.upload:link    { color: var(--link-light-on-darker-color); }  
+  .content-fragment.quick-post a.upload:visited { color: var(--link-light-on-darker-color); }
+  .content-fragment.quick-post a.upload:hover   { color: var(--link-hover-color); }
+  .content-fragment.quick-post a.upload:active  { color: var(--link-active-color); }
+  
+  .content-fragment-page{ background-color: rgba(var(--r),var(--g),var(--b),var(--a));}
+  .content-fragment-page .common-home .evolution-reflow-container{ background-color:rgba(var(--r),var(--g),var(--b),var(--a));}
   .content-fragment-page .layout-region.content .layout-region-inner .content-fragment .content-fragment-content > .content .name {color:var(--link-light-on-darker-color);}
   .content-fragment .content.full.text p{color:var(--text-light-on-background-color);}
   
-  .content-fragment-footer{ background-color:rgba(255,204,102,0);}
-.header-fragments .layout .header-top-content .layout-region.header{ background-color: rgba(255,204,102,0.85); border-bottom: none; }
+  .content-fragment-footer{ background-color:rgba(var(--r),var(--g),var(--b),var(--a))/*rgba(255,204,102,0)*/;}
+.header-fragments .layout .header-top-content .layout-region.header{ background-color: rgba(var(--r),var(--g),var(--b),var(--a-banner)) /*rgba(255,204,102,0.85)*/; border-bottom: none; }
 .header-fragments .layout .header-top-content.with-adaptable-elements .layout-region.header { background-color: var(--main-bg-color); }
 .header-fragments .layout .header-top-content.with-adaptable-elements .layout-region.header { border-bottom: none; }
 .header-fragments .layout .header-top-content.with-adaptable-elements .layout-region.content{ background-color: var(--main-bg-color); }
@@ -214,7 +229,7 @@ body{   background: linear-gradient(90deg, var(--page-bg-color), var(--main-bg-c
     text-align: center;
     border: 0px solid var(--link-nav-was-blue-color);
     color: var(--link-nav-was-blue-color);
-    background-color: rgba(0,0,0,0.3);
+    background-color: rgba(var(--r),var(--g),var(--b),var(--a))/*rgba(0,0,0,0.3)*/;
     border-radius: 3px; }
 .single-column.content-fragment-page
 {
@@ -235,14 +250,14 @@ body{   background: linear-gradient(90deg, var(--page-bg-color), var(--main-bg-c
 .popup-list.site .content-list .content-item:hover
 {background-color:var(--link-dark-on-lighter-color)}
 .popup-list .navigation-list.filter{ border: 1px solid var(--text2-light-on-background-color); }
-.popup-list .content-list-footer{ border: 0px; background-color: rgba(255,204,102, 0.85);}
-.multiple-column-item .column-1ist{ background-color: rgba(255,204,102, 0.85); }
-
+.popup-list .content-list-footer{ border: 0px; background-color: rgba(var(--r),var(--g),var(--b),var(--a-banner))/*rgba(255,204,102, 0.85)*/;}
+.multiple-column-item .column-1ist { background-color: rgba(var(--r),var(--g),var(--b),var(--a-banner));}/*rgba(255,204,102, 0.85); }*/
+.popup-list .multiple-column-list {border-color: var(--text2-light-on-background-color);}
 .banner.site fieldset ul li .field-item-input input {
     border:thin !important;
-    border-color: rgba(255,204,102, 0.85);
+    border-color: rgba(var(--r),var(--g),var(--b),var(--a-banner));/*rgba(255,204,102, 0.85);*/
     border-radius:8px;
-    background-color: rgba(255,204,102, 0.85);
+    background-color: rgba(var(--r),var(--g),var(--b),var(--a-banner));/*rgba(255,204,102, 0.85);*/
 
 }
 .banner.site fieldset ul li .field-item-input input:hover{
@@ -320,14 +335,15 @@ textarea{ border:1px ;
    .user-info-popup-content .recent-activity .internal-link.recent-activity{ background-color:var(--text-area-color);}
   .user-info-popup-content .navigation-list .navigation-item a.internal-link  {border:1px solid var(--link-dark-on-lighter-color);}
  
-.uiselect.options > div > div {background-color: var(--text-area-color) !important;}
-.uiselect.options > div > div:hover, .uiselect.options > div > div.selected {background-color:var(--main-bg-color) !important;}
+.uiselect.options > div > div, .view .uiselect > span, uiselect {background-color: var(--text-area-color) !important;}
+.uiselect.options > div > div:hover, .uiselect.options > div > div.selected,.view .uiselect > span:hover {background-color:var(--main-bg-color) !important;}
+.view .uiselect > span {background-color: var(--text-area-color) !important}
 
 /**following is banner top bar for site css*/
- .header-fragments .layout .header-top-content .layout-region.header {rgba(255,204,102,0);}
- .header-fragments .layout .header-top-content{background-color: rgba(255,204,102,0);}
-  .banner.context{background-color: rgba(255,204,102,0);}
-  .banner.site{background-color: rgba(255,204,102,0);}
- .header-fragments .layout .header-top-content.with-adaptable-elements .layout-region.content{background-color: rgba(255,204,102, 0);}
- .header-fragments .layout .header-top-content.with-adaptable-elements.scrolled .layout-region.content{background-color: rgba(255,204,102, 0.85);}
- .header-fragments .layout .header-top-content.with-adaptable-elements .layout-region.header{background-color: rgba(255,204,102, 0.85);}
+.header-fragments .layout .header-top-content .layout-region.header { background-color:rgba(var(--r),var(--g),var(--b),var(--a-banner));}/* rgba(255,204,102,0.85);}*/
+.header-fragments .layout .header-top-content { background-color:rgba(var(--r),var(--g),var(--b),var(--a)); }/*rgba(255,204,102,0);}*/
+.banner.context { background-color:rgba(var(--r),var(--g),var(--b),var(--a));}/*rgba(255,204,102,0);}*/
+.banner.site { background-color:rgba(var(--r),var(--g),var(--b),var(--a));}/*rgba(255,204,102,0);}*/
+.header-fragments .layout .header-top-content.with-adaptable-elements .layout-region.content {  background-color:rgba(var(--r),var(--g),var(--b),var(--a));}/*rgba(255,204,102, 0);}*/
+.header-fragments .layout .header-top-content.with-adaptable-elements.scrolled .layout-region.content { background-color:rgba(var(--r),var(--g),var(--b),var(--a-banner));}/*rgba(255,204,102, 0.85);}*/
+.header-fragments .layout .header-top-content.with-adaptable-elements .layout-region.header { background-color:rgba(var(--r),var(--g),var(--b),var(--a-banner));}/*rgba(255,204,102, 0.85);}*/
