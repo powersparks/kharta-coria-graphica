@@ -48,7 +48,7 @@ namespace te.extension.coria.Plugins.Application
             mapBook.Properties.Add(new Property("mapBookIsEnabled", "Is Enabled", PropertyType.Bool, mapBook.Properties.Count, "true") { DescriptionText = "Map Book is enabled after creating" });
             mapBook.Properties.Add(new Property("mapBookUrl", "URL name of mapbooks list", PropertyType.String, mapBook.Properties.Count, "mapbooks") { DescriptionText = "URL name of mapbook list" });
             mapBook.Properties.Add(new Property("safeNameUrl", "URL name of mapbook", PropertyType.String, mapBook.Properties.Count, "mapbook") { DescriptionText = "key name" });
-
+            
             Property apiProperty = new Property("defaultApi", "Default Mapping Api", PropertyType.String, mapBook.Properties.Count, "googleMaps") { DescriptionText = "New maps will use this api by default." };
             apiProperty.SelectableValues.Add(new PropertyValue("none", System.Web.HttpUtility.HtmlEncode("raw information for debugging"), apiProperty.SelectableValues.Count));
             apiProperty.SelectableValues.Add(new PropertyValue("mapbox", System.Web.HttpUtility.HtmlEncode("Map Box Api"), apiProperty.SelectableValues.Count));
@@ -382,88 +382,5 @@ namespace te.extension.coria.Plugins.Application
 
         #endregion
     }
-        /***
-        private readonly string siteHomePageXml = @"<contentFragmentPage pageName=""common-home"" isCustom=""false"" layout=""Content"" themeType=""0c647246-6735-42f9-875d-c8b991fe739b"">
-                                                <regions>
-                                                  <region regionName=""Content"" >
-                                                    <contentFragments>
-                                                      <contentFragment type=""Telligent.Evolution.ScriptedContentFragments.ScriptedContentFragment, Telligent.Evolution.Platform::906f3e32e53c4dce8bc495d8c9bd83ff"" showHeader=""False"" cssClassAddition=""no-wrapper with-spacing responsive-1"" isLocked=""False"" configuration="""" />
-                                                    </contentFragments>
-                                                  </region>
-                                                </regions>
-                                              <contentFragmentTabs />
-                                            </contentFragmentPage>";
-
-
-        controller.AddPage("home", "", null, null, "common-home", new PageDefinitionOptions()
-        {
-            ParseContext = ParseUserContext,
-            TitleFunction = () => _translation.GetLanguageResourceValue("page-common-home-site"),
-            DescriptionFunction = () => _translation.GetLanguageResourceValue("page-common-home-site-description"),
-            DefaultPageXml = siteHomePageXml,
-        });
-    ***/
-    /***
-
- using Telligent.Evolution.Extensibility.UI.Version1;
-using Telligent.Evolution.Extensibility.Version1;
-
-namespace Telligent.Evolution.Extensibility.Content.Version1
-{
-public interface IWebContextualApplicationType : IPlugin, IApplicationType
-{
-IApplication GetCurrentApplication(IWebContext context);
-bool IsCurrentApplicationType(IWebContext context);
-}
-}
-
-    #endregion
-    //IContent IWebContextualContentType.GetCurrentContent(Extensibility.UI.Version1.IWebContext context)
-    //{
-    //    if (PublicApi.Url.CurrentContext == null) return null;
-    //    var item = PublicApi.Url.CurrentContext.ContextItems.GetItemByContentType(ContentTypeId);
-
-    //    if (item != null && item.ContentId.HasValue)
-    //        return IdeasApi.Ideas.Get(item.ContentId.Value);
-
-    //    return null;
-    //}
-}
-/**********
- public class CoriaMapManagePanel : IPlugin, IManageableApplicationType, IQueryableApplicationType
- {
-     #region IPlugin
-     public string Name { get { throw new NotImplementedException(); } }
-     public string Description { get { throw new NotImplementedException(); } }
-     public void Initialize() { }
-     #endregion
-     #region IQueryableApplicationType
-     public string ApplicationTypeName { get { throw new NotImplementedException(); } }
-
-     public Guid ApplicationTypeId { get { throw new NotImplementedException(); } }
-
-     public Guid[] ContainerTypes { get { throw new NotImplementedException(); } }
-
-     public IList<IApplication> List(int userId, Guid containerTypeId, Guid containerId) { throw new NotImplementedException(); }
-
-     public IList<IApplication> Search(int userId, Guid containerTypeId, Guid containerId, string searchText) { throw new NotImplementedException(); }
-
-     public IApplication Get(Guid applicationId) { throw new NotImplementedException(); }
-
-     public void AttachChangeEvents(IApplicationStateChanges stateChanges) { throw new NotImplementedException(); }
-
-     #endregion
-     #region IManageableApplicationType
-
-     public bool CanCreate(int userId, Guid containerTypeId, Guid containerId) { throw new NotImplementedException(); }
-     public bool CanDelete(int userId, Guid applicationId) { throw new NotImplementedException(); }
-     public bool CanEdit(int userID, Guid applicationId) { throw new NotImplementedException(); }
-     public bool CanSetEnabled(int userId, Guid applicationId) { throw new NotImplementedException(); }
-     public IApplication Create(int userId, Guid containerTypeId, Guid containerId, ConfigurationDataBase createConfigurationData) { throw new NotImplementedException(); }
-     public void Delete(int userId, Guid applicationId) { throw new NotImplementedException(); }
-     public PropertyGroup[] GetCreateConfiguration(int userId, Guid containerTypeId, Guid containerId) { throw new NotImplementedException(); }
-     public void SetEnabled(int userId, Guid applicationId, bool enabled) { throw new NotImplementedException(); }
-     #endregion
- }
- ***/
+         
 }

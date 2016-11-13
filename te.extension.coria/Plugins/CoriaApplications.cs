@@ -237,13 +237,14 @@ namespace te.extension.coria.Plugins
           typeof (UI.CoriaWidgetContextProvider),
           typeof(UI.WidgetExtension.MapWidgetExtension),
           typeof(UI.WidgetExtension.MapBookWidgetExtension),
-          typeof(UI.CoriaManagementPanels.CoriaMapBookPanel),
+          typeof(UI.ManagementPanels.CoriaMapBookPanel),
           typeof(Content.MapContentType),
           typeof(UI.MapBooksGroupNavigation),
           typeof(UI.NewPostLink.MapBookNewBookLink),
           typeof(UI.NewPostLink.MapBookNewMapLink),
           typeof(InternalApi.CoriaPermissions),
-          typeof( UI.CoriaManagementPanels.CoriaMapPanel)
+          typeof( UI.ManagementPanels.CoriaMapPanel),
+          typeof(UI.Navigation.MapBookForumNavigation)
           
         };
             }

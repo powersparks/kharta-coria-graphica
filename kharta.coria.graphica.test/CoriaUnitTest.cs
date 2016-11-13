@@ -82,6 +82,7 @@ namespace kharta.coria.graphica.test
 
             map = te.extension.coria.InternalApi.CoriaDataService.CreateCoriaMap(map);
             Assert.IsTrue(map.Id > 0);
+            te.extension.coria.InternalApi.CoriaDataService.DeleteCoriaMap(map.MapId);
         }
 
         [TestMethod]
@@ -124,8 +125,21 @@ namespace kharta.coria.graphica.test
             Assert.Fail();
               }
         [TestMethod]
-        public void DeleteCoriaMapTest() {
-            //var maps = te.extension.coria.InternalApi.CoriaDataService.
-            Assert.Fail(); }
+        public void DeleteCoriaMapTest()
+        {
+            Guid mapid = new Guid("B7020BEB-231C-444F-8BB1-0632D1D20AEB");
+            var map = te.extension.coria.InternalApi.CoriaDataService.GetCoriaMap(mapid);
+            if (map.MapId == mapid)
+            {
+                te.extension.coria.InternalApi.CoriaDataService.DeleteCoriaMap(map.MapId);
+                var map2 = te.extension.coria.InternalApi.CoriaDataService.GetCoriaMap(mapid);
+                Assert.IsNull(map2);
+            }
+            else
+            {
+                //var maps = te.extension.coria.InternalApi.CoriaDataService.CreateCoriaMap();
+                Assert.Fail();
+            }
+        }
     }
 }

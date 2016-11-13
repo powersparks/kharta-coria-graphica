@@ -18,7 +18,7 @@ using Telligent.Evolution.Components;
 using Telligent.Evolution.Extensibility.Content.Version1;
 using Telligent.Evolution.Extensibility.UI.Version1;
 
-namespace te.extension.coria.Plugins.UI.CoriaManagementPanels
+namespace te.extension.coria.Plugins.UI.ManagementPanels
 {
     public class CoriaMapBookPanel : IPlugin, IApplicationPanel, UIApi.IScriptablePlugin //, IContainerPanel
     {

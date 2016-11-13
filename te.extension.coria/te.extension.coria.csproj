@@ -92,8 +92,9 @@
     <Compile Include="Plugins\Application\CoriaMapBookType.cs" />
     <Compile Include="Plugins\Content\MapContentType.cs" />
     <Compile Include="Plugins\CoriaApplications.cs" />
-    <Compile Include="Plugins\UI\CoriaManagementPanels\CoriaMapPanel.cs" />
-    <Compile Include="Plugins\UI\CoriaManagementPanels\CoriaMapBookPanel.cs" />
+    <Compile Include="Plugins\UI\ManagementPanels\CoriaMapPanel.cs" />
+    <Compile Include="Plugins\UI\ManagementPanels\CoriaMapBookPanel.cs" />
+    <Compile Include="Plugins\UI\Navigation\MapBookForumNavigation.cs" />
     <Compile Include="Plugins\UI\Navigation\MapBookMapsSiteNavigation.cs" />
     <Compile Include="Plugins\UI\Navigation\MapBooksGroupNavigation.cs" />
     <Compile Include="Plugins\UI\Navigation\MapBookUserNavigation.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="PublicApi\MapBooks.cs" />
     <Compile Include="PublicApi\Maps.cs" />
     <Compile Include="PublicApi\MapsListOptions.cs" />
+    <Compile Include="RestApi\CoriaRestResponse.cs" />
     <Compile Include="RestApi\MapBookRestEndpoints.cs" />
     <Compile Include="WidgetApi\MapBooks.cs" />
     <Compile Include="WidgetApi\Maps.cs" />

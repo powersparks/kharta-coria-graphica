@@ -7,7 +7,12 @@ using System.Web.UI.WebControls;
 using Telligent.Evolution.Extensibility.Api.Entities.Version1;
 using Telligent.Evolution.Extensibility.Rest.Version2;
 using Telligent.Evolution.Extensibility.Version1;
- 
+
+
+
+
+
+
 
 namespace te.extension.coria.RestApi
 {
@@ -37,15 +42,18 @@ namespace te.extension.coria.RestApi
              * api.ashx/v2/coria/mapbooks/{mapbookId}.{ext}                   // mapbook
              * api.ashx/v2/coria/mapbooks/{mapbookId}/maps.{ext}              // mapbook maps
              * api.ashx/v2/coria/mapbooks/{mapbookId}/{mapId}.{ext}           // mapbook map 
-             ************ layers for map
+             * api.ashx/v2/coria/maps/{mapId}.{ext}           // map 
+             * ************ layers for map
              * api.ashx/v2/coria/mapbooks/map/{mapId}.{ext}                   // mapbook 
              * api.ashx/v2/coria/mapbooks/map/{mapId}/layers.{ext}            // mapbook map layers 
              * api.ashx/v2/coria/mapbooks/map/{mapId}/layer/{layerId}.{ext}   // mapbook map layer
              *******/
+
         public void Register(IRestEndpointController restRoutes)
         {
             object parameterList = new { resource = "CoriaMapBook", action = "List" };
             object parameterCreate = new { resource = "CoriaMapBook", action = "Create" };
+            object parameterDelete = new { resource = "CoriaMapBookMaps", action = "Delete" };
             object parameterConstraints = new { };
             int version = 2;
             HttpMethod postMethod = HttpMethod.Post;
@@ -54,15 +62,22 @@ namespace te.extension.coria.RestApi
             HttpMethod deleteMethod = HttpMethod.Delete;
 
             #region coria/mapbooks/groups/{groupId}
-            Func<IRestRequest, IRestResponse> ListGroupMapBooksResponse = (IRestRequest request) => ListGroupMapBooksRequestResponseFunc(request);
+            Func<IRestRequest, IRestResponse> ListGroupMapBooksResponse  = (IRestRequest request) => ListGroupMapBooksRequestResponseFunc(request);
             Func<IRestRequest, IRestResponse> CreateGroupMapBookResponse = (IRestRequest request) => CreateGroupMapBookRequestResponseFunc(request);
 
+            Func<IRestRequest, IRestResponse> DeleteMapResponse = (IRestRequest request) => DeleteMapRequestResponseFunc(request);
             /*****
              * Rest Endpoints: 
              *   api.ashx/v2/coria/mapbooks/groups/{groupId}.{ext} 
              ********/
             restRoutes.Add(version, "coria/mapbooks/groups/{groupId}", parameterList,   parameterConstraints, getMethod , ListGroupMapBooksResponse);
             restRoutes.Add(version, "coria/mapbooks/groups/{groupId}", parameterCreate, parameterConstraints, postMethod, CreateGroupMapBookResponse);
+
+            /*************
+             * api.ashx/v2/coria/maps/{mapId}.{ext}
+             */
+            restRoutes.Add(version, "coria/maps/{mapId}", parameterDelete, parameterConstraints, deleteMethod, DeleteMapResponse);
+
             #endregion
             #region
             /*****
@@ -75,6 +90,45 @@ namespace te.extension.coria.RestApi
             #endregion
 
         }
+
+        private IRestResponse DeleteMapRequestResponseFunc(IRestRequest request)
+        { 
+            var response = new CoriaRestResponse();
+            Guid id;
+            bool deleted;
+            try
+            {
+                if (!Guid.TryParse(request.PathParameters["mapId"].ToString(), out id))
+                {
+                    throw new ArgumentException("Map ID is required.");
+                }
+                AdditionalInfo additionalInfo = PublicApi.Maps.Delete(id);
+                deleted = additionalInfo.HasErrors();
+
+                if (deleted)
+                {
+                    response.Data = "Map deleted.";
+                }
+                else
+                {
+                    response.Data = "Map failed to delete.";
+                    IList<Error> ers = additionalInfo.Errors;// new List<Error>();
+                    IList<string> s = new List<string>();
+                    ers.ToList().ForEach(e => s.Add(e.ToString()));
+                  
+                    response.Errors = s.ToArray();
+                      
+                }
+            }
+            catch (Exception ex)
+            {
+
+                response.Errors = new string[] { ex.Message };
+            }
+            response.Name = "DeleteMapResponse";
+            return response;
+       
+    }
 
         private IRestResponse CreateGroupMapBookRequestResponseFunc(IRestRequest request)
         {

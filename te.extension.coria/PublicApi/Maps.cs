@@ -77,7 +77,21 @@ namespace te.extension.coria.PublicApi
 
         internal static AdditionalInfo Delete(Guid id)
         {
-            throw new NotImplementedException();
+            Guid mapId = id;
+            try
+            {
+                var map = InternalApi.CoriaDataService.GetCoriaMap(mapId);
+                if (map != null)
+                {
+                    InternalApi.CoriaDataService.DeleteCoriaMap(map.MapId);
+                }
+
+                return new AdditionalInfo();
+            }
+            catch (Exception ex)
+            {
+                return new AdditionalInfo(new Error(ex.GetType().FullName, ex.Message));
+            }
         }
 
         internal static Map Create(int groupId, string name, string description)

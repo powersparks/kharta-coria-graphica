@@ -20,7 +20,7 @@ using Permission = Telligent.Evolution.Extensibility.Security.Version1.Permissio
 using TEApi = Telligent.Evolution.Extensibility.Api.Version1.PublicApi;
 using UIApi = Telligent.Evolution.Extensibility.UI.Version1;
 
-namespace te.extension.kharta.Plugins.UI
+namespace te.extension.kharta.Plugins.UI.AdminPanels
 {
     public class AdminPanel : IPlugin, IScriptablePlugin, IAdministrationPanel, IAdministrationPanelCategory //, IAdministrationExplicitPanel, IAdministrationExplicitPanelController
     {

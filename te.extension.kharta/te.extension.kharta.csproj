@@ -103,7 +103,8 @@
     <Compile Include="Plugins\Content\KhartaOntologyType.cs" />
     <Compile Include="Plugins\KhartaCoriaGraphicaPluginGroup.cs" />
     <Compile Include="Plugins\REST\KhartaRestEndpoints.cs" />
-    <Compile Include="Plugins\UI\AdminPanel\AdminPanel.cs" />
+    <Compile Include="Plugins\UI\AdminPanels\AdminPanel.cs" />
+    <Compile Include="Plugins\UI\ManagementPanels\KhartaGroupOptionsManPanel.cs" />
     <Compile Include="Plugins\UI\Navigation\SourceGroupNavigation.cs" />
     <Compile Include="Plugins\UI\NewPostLink\HostingNewPostLink.cs" />
     <Compile Include="Plugins\UI\NewPostLink\OntologyNewPostLink.cs" />
@@ -144,6 +145,7 @@
     <EmbeddedResource Include="Resources\Widgets\KhartaSourceApps\Supplementary\KhartaSourceApps.vm" />
     <EmbeddedResource Include="Resources\Widgets\KhartaAdminPanel\Supplementary\KhartaAdminPanel.vm" />
     <EmbeddedResource Include="Resources\Widgets\KhartaSource\Supplementary\KhartaSource.vm" />
+    <EmbeddedResource Include="Resources\Widgets\KhataGroupOptionsManPanel\Supplementary\KhataGroupOptionsManPanel.vm" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -175,6 +177,17 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Sql\testDropCreateTable.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Widgets\KhataGroupOptionsManPanel\KhataGroupOptionsManPanel.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Widgets\KhataGroupOptionsManPanel\Supplementary\KhataGroupOptionsManPanel.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Widgets\KhataGroupOptionsManPanel\Supplementary\KhataGroupOptionsManPanel.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -570,6 +570,20 @@ namespace te.extension.coria.InternalApi
             }
 
         }
+        internal static void DeleteCoriaMap(Guid id)
+        {
+            using (KhartaDataModel dbcontext = new KhartaDataModel())
+            {
+                var result = (from m in dbcontext.Maps
+                              where m.MapId.Equals(id)
+                              select m).FirstOrDefault();
+                Map map = result;
+                dbcontext.Maps.Remove(map);
+                dbcontext.SaveChanges(); 
+
+            }
+
+        }
         /*****
 internal static KhartaSource AddUpdateSourceApplication(KhartaSource khartaSource)
 {

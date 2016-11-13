@@ -52,7 +52,7 @@ namespace te.extension.coria.Plugins.UI.NewPostLink
                     parameters.Add("mapBook", m.SafeName.ToString());
                     parameters.Add("_cptype", "panel");
                     parameters.Add("_cpcontexttype", "Application");
-                    parameters.Add("_cppanelid", Plugins.UI.CoriaManagementPanels.CoriaMapBookPanel._panelId.ToString("N"));
+                    parameters.Add("_cppanelid", Plugins.UI.ManagementPanels.CoriaMapBookPanel._panelId.ToString("N"));
 
                     groupNewMapLinkItem.Url = TEApi.Url.ConvertQueryStringToHash( TEApi.Url.BuildUrl("GroupMapBookSingle", groupId, parameters)); 
                    

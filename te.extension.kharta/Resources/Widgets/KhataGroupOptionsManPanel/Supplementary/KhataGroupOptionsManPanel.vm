@@ -1,0 +1,27 @@
+﻿#if ($core_v2_page.IsPost)
+$core_v2_page.SetContentType('application/json')
+#set($options = "%{}")
+#set ($id = $core_v2_utility.ParseInt($core_v2_page.GetFormValue('id')))
+#set ($name = $core_v2_page.GetFormValue('name'))
+#set ($description = $core_v2_page.GetFormValue('description'))
+#set ($enable = $core_v2_utility.ParseBool($core_v2_page.GetFormValue('enable')))
+#set ($groupId = $core_v2_utility.ParseInt($core_v2_page.GetFormValue('groupId')))
+#set ($authors = $core_v2_page.GetFormValue('authors'))
+
+$options.Add('name', $name)
+$options.Add('description', $description)
+$options.Add('enable', $enable)
+$options.Add('groupId', $groupId)
+$options.Add('authors', $authors)
+
+#set($response = $context.Update($options))
+
+#if($response.HasErrors())
+$core_v2_page.SendJsonError($response.Errors)
+#end
+
+#set ($mapbook = $kharta_v1_panel_context.Get("%{Id = $id}"))
+
+{"success":true, "redirectUrl":"$mapbook.Url"}
+
+#end

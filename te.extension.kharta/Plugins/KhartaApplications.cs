@@ -32,9 +32,9 @@ namespace te.extension.kharta.Plugins
         private static readonly Version _emptyVersion = new Version(0, 0, 0, 0);
         public static readonly Guid ApplicationsType_id = new Guid("e504f58d-c1d8-40a8-bf55-bc38c65625e9");
        // private KhartaFactoryDefaultWidgetProvider _widgetProvider;
-        private AdminPanel _adminWidgetProvider;
+        private UI.AdminPanels.AdminPanel _adminWidgetProvider;
         private KhartaFactoryDefaultWidgetProvider _widgetProvider ;
-        
+        private UI.ManagementPanels.KhartaGroupOptionsManPanel _manWidgetProvider;
      
         #region IPlugin
         public string Name { get { return "Kharta Applications"; } }
@@ -66,16 +66,17 @@ namespace te.extension.kharta.Plugins
         {
             #region Install SQL
             //if (lastInstalledVersion == null || lastInstalledVersion.Major == 0)
-                
+
 
             // if (lastInstalledVersion == null || lastInstalledVersion <= new Version(1, 1))
-               
+
             #endregion
 
             #region Install Widgets
+       
             #region AdminPanelWidget Install
-            
-            _adminWidgetProvider = Telligent.Evolution.Extensibility.Version1.PluginManager.Get<UI.AdminPanel>().FirstOrDefault();
+
+            _adminWidgetProvider = Telligent.Evolution.Extensibility.Version1.PluginManager.Get<UI.AdminPanels.AdminPanel>().FirstOrDefault();
             UIApi.FactoryDefaultScriptedContentFragmentProviderFiles.DeleteAllFiles(_adminWidgetProvider);
             var definitionFiles = new string[] {
                 "KhartaAdminPanel/KhartaAdminPanel.xml"
@@ -104,17 +105,47 @@ namespace te.extension.kharta.Plugins
                 }
             }
             #endregion
+            #region manPanelWidget Install
+
+            _manWidgetProvider = Telligent.Evolution.Extensibility.Version1.PluginManager.Get<UI.ManagementPanels.KhartaGroupOptionsManPanel>().FirstOrDefault();
+            UIApi.FactoryDefaultScriptedContentFragmentProviderFiles.DeleteAllFiles(_manWidgetProvider);
+            var manDefinitionFiles = new string[] {
+                "KhataGroupOptionsManPanel/KhataGroupOptionsManPanel.xml"
+            };
+            foreach (var manDefinitionFile in manDefinitionFiles)
+            {
+                using (var stream = InternalApi.Utility.EmbeddedResources.GetStream("te.extension.kharta.Resources.Widgets." + manDefinitionFile.Replace("/", ".")))
+                {
+                    UIApi.FactoryDefaultScriptedContentFragmentProviderFiles.AddUpdateDefinitionFile(_manWidgetProvider, manDefinitionFile.Substring(manDefinitionFile.LastIndexOf("/", StringComparison.InvariantCultureIgnoreCase) + 1), stream);
+
+                }
+            }
+            var manSupplementaryFiles = new Dictionary<Guid, string[]>();
+            manSupplementaryFiles[new Guid("c23d40789a6d48809ff69da6e868ec8a")] = new string[] {
+                "KhataGroupOptionsManPanel/Supplementary/KhataGroupOptionsManPanel.css",
+                "KhataGroupOptionsManPanel/Supplementary/KhataGroupOptionsManPanel.js",
+                "KhataGroupOptionsManPanel/Supplementary/KhataGroupOptionsManPanel.vm",
+            };
+            foreach (var manSupFile in manSupplementaryFiles.Keys)
+            {
+                foreach (var manRelativePath in manSupplementaryFiles[manSupFile])
+                {
+                    using (var stream = InternalApi.Utility.EmbeddedResources.GetStream("te.extension.kharta.Resources.Widgets." + manRelativePath.Replace("/", ".")))
+                    {
+                        UIApi.FactoryDefaultScriptedContentFragmentProviderFiles.AddUpdateSupplementaryFile(_manWidgetProvider, manSupFile, manRelativePath.Substring(manRelativePath.LastIndexOf("/", StringComparison.InvariantCultureIgnoreCase) + 1), stream);
+                    }
+                }
+            }
+            #endregion
             #region Kharta Sources Widgets
 
-           
-             
+
+
             _widgetProvider = Telligent.Evolution.Extensibility.Version1.PluginManager.Get<KhartaFactoryDefaultWidgetProvider>().FirstOrDefault();
             UIApi.FactoryDefaultScriptedContentFragmentProviderFiles.DeleteAllFiles(_widgetProvider);
 
             var definitionFilesSources = new string[] {
-                "KhartaSourceApps/KhartaSourceApps.xml",
-                //"KhartaFrameScrubber/KhartaFrameScrubber.xml",
-                //"KhartaGlobeViewer/KhartaGlobeViewer.xml",
+                "KhartaSourceApps/KhartaSourceApps.xml", 
             };
 
             foreach (var definitionFile in definitionFilesSources)
@@ -171,8 +202,10 @@ namespace te.extension.kharta.Plugins
         public void Uninstall()
         {
             #region Remove Widget Files
-            _adminWidgetProvider = Telligent.Evolution.Extensibility.Version1.PluginManager.Get<AdminPanel>().FirstOrDefault();
+            _adminWidgetProvider = Telligent.Evolution.Extensibility.Version1.PluginManager.Get<UI.AdminPanels.AdminPanel>().FirstOrDefault();
             UIApi.FactoryDefaultScriptedContentFragmentProviderFiles.DeleteAllFiles(_adminWidgetProvider);
+            _manWidgetProvider = Telligent.Evolution.Extensibility.Version1.PluginManager.Get<UI.ManagementPanels.KhartaGroupOptionsManPanel>().FirstOrDefault();
+            UIApi.FactoryDefaultScriptedContentFragmentProviderFiles.DeleteAllFiles(_manWidgetProvider);
             _widgetProvider = Telligent.Evolution.Extensibility.Version1.PluginManager.Get<KhartaFactoryDefaultWidgetProvider>().FirstOrDefault();
             UIApi.FactoryDefaultScriptedContentFragmentProviderFiles.DeleteAllFiles(_widgetProvider);
             /******/
@@ -200,9 +233,9 @@ namespace te.extension.kharta.Plugins
             typeof(UI.WidgetExtension.SourceWidgetExtension),
             typeof(UI.SourceNewPostLink),
             typeof(UI.SourceGroupNavigation),
-            typeof(UI.AdminPanel),
+            typeof(UI.AdminPanels.AdminPanel),
             typeof(UI.WidgetExtension.OntologyWidgetExtension),
-            //typeof(KhartaCore)
+            typeof(UI.ManagementPanels.KhartaGroupOptionsManPanel)
            
             
         };} }
