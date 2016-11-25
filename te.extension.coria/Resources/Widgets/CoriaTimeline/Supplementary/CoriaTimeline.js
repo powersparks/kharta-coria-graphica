@@ -82,49 +82,7 @@
         dot.r = function (value) { if (!arguments.length) { return _r; } _r = value; return dot; };
         return dot;
     };
-    var searchApiOptions = function () {
-        function searchApiOptions(searchOpts) {
-            var _query, _filters, _sort, _startDate, _endDate, _collapse, _fieldFacets, _dateRangeFacets, _fieldFilters, _dateRangeFilters, _tags, _logicallyOrTags, _mlt, _id, _guidId, _applicationId, _containerId, _category, _isContent, _isApplication, _isContainer, _pageSize, _pageIndex;
-            if (!arguments.length) {
-                searchOpts = {
-                    query: _query,
-                    filters: _filters,
-                    sort: _sort,
-                    startDate: _startDate,
-                    endDate: _endDate,
-                    collapse: _collapse,
-                    fieldFacets: _fieldFacets,
-                    dateRangeFacets: _dateRangeFacets,
-                    fieldFilters: _fieldFilters,
-                    dateRangeFilters: _dateRangeFilters,
-                    tags: _tags,
-                    logicallyOrTags: _logicallyOrTags,
-                    mlt: _mlt,
-                    id: _id,
-                    guidId: _guidId,
-                    applicationId: _applicationId,
-                    containerId: _containerId,
-                    category: _category,
-                    isContent: _isContent,
-                    isApplication: _isApplication,
-                    isContainer: _isContainer,
-                    pageSize: _pageSize,
-                    pageIndex: _pageIndex
-                };
-                return searchOpts;
-            }
-
-            //_query, _filters, _sort, _startDate, _endDate, _collapse, _fieldFacets, _dateRangeFacets, _fieldFilters, _dateRangeFilters, _tags, _logicallyOrTags, _mlt, _id, _guidId, _applicationId, _containerId, _category, _isContent, _isApplication, _isContainer, _pageSize,
-
-
-        }
-
-        //add accessors as you need them
-        searchApiOptions.query = function (value) { if (!arguments.length) { return _query; } _query = value; return searchApiOptions; };
-
-        return searchApiOptions;
-
-    };
+  
     var api = {
         clipPath: function () {
             var _id = "clip", _svg, _hgt, _wit, _shp = "rect";
@@ -211,6 +169,22 @@
 
             $("span.ui-loading").hide();
             $("timeline-container-toolbar").show();
+            /****
+            rules for loading timeline data
+            1) pick a data source
+            2) identify which fields to use
+                a) x-axis is Date
+                b) y-axis is assumed to be 100 
+                    TODO: uncomment and make y field dynamic 
+            3) identify date format used
+                a) except utc format, assumed to be local time
+            4) Optional, identify y-axis data format
+
+
+                //            d3.csv(opts.tempSourceCsv, type, function (error, data) {
+            //                //  d3.csv("amzn.csv", type, function(error, data) {
+            */
+
             $(timelineEditBtn).on('click', function () {
                 $("span.ui-loading").show();
                 var search = api.search();
@@ -224,145 +198,7 @@
 
             });
 
-            //            d3.csv(opts.tempSourceCsv, type, function (error, data) {
-            //                //  d3.csv("amzn.csv", type, function(error, data) {
-            //                if (error) throw error;
-
-
-            //              data = data.filter(function (i) { return i.date.getMonth() >= Math.floor(Math.random() * 12); });
-            //                var clipPath = api.clipPath();
-            //                var clipRect = clipPath(svg, width, height);
-            //                api.clipRect = clipRect;
-            //               // svg = clipPath.svg();
-            //  /*              svg.append("defs").append("clipPath")
-            //                    .attr("id", "clip")
-            //                  .append("rect")
-            //                    .attr("width", width)
-            //                    .attr("height", height);
-            //*/
-
-            //                x.domain(d3.extent(data, function (d) { return d.date; }));
-            //                y.domain([0, d3.max(data, function (d) { return d.price; })]);
-            //                x2.domain(x.domain());
-            //                y2.domain(y.domain());
-
-            //                /**** this provides the line graph in the focus view
-            //                *
-            //                  focus.append("path")
-            //                  .datum(data)
-            //                    .attr("class","line")
-            //                    .attr("clip-path", "url('#clip')")
-            //                    .attr("d",line)
-            //                    .attr("stroke-linecap","round")
-            //                    .attr("stroke-width", "1")
-            //                   .attr('stroke', '#723')
-            //                   .attr('stroke-opacity', 0.5);
-            //                   ***/
-
-
-            //                /***
-            //                *main or focus timline view   .attr("clip-path", "url('/~powersparks/bz.html#clip')")
-            //                  focus.append("path")
-            //                      .datum(data)
-            //                      .attr("class", "area")
-            //                      .attr("clip-path", "url('#clip')")
-            //                      .attr("d", area);
-            //                **/
-
-            //                focus.append("g")
-            //                    .attr("class", "axis axis--x")
-            //                    .attr("transform", "translate(0," + height + ")")
-            //                    .call(xAxis);
-
-            //                focus.append("g")
-            //                    .attr("class", "axis axis--y")
-            //                    .call(yAxis);
-
-            //                /****for the lower or context timeline and brush *
-            //                  context.append("path")
-            //                      .datum(data)
-            //                      .attr("class", "area")
-            //                      .attr("d", area2);
-            //                **/
-
-            //                /**
-            //                 * this focus select doesn't use the datum approach
-            //                 * which may be a problem...
-            //                 * TODO: figure out how to bind the datum
-            //                 */
-            //                focus.selectAll("circle")
-            //                  .data(data).enter().append("circle")
-            //                  .attr("clip-path", "url('#clip')")
-            //                  .attr("d", line)
-            //                  .attr("class", "dot")
-            //                  .attr("r", 3.5)
-            //                  .attr("opacity", 0.7)
-            //                  .style("fill", "steelblue");
-
-            //                focus.selectAll("line")
-            //                  .data(data).enter().append("line")
-            //                  .attr("clip-path", "url('#clip')")
-            //                  .attr("d", line)
-            //                  .attr("class", "line")
-            //                  .attr("stroke-linecap", "round")
-            //                  .attr("stroke-width", "1")
-            //                 .attr('stroke', "steelblue")
-            //                 .attr('stroke-opacity', 0.5);
-            //                //.attr("r", 3.5)
-            //                //    .attr("opacity", 0.7)
-            //                //    .style("fill",  "steelblue");
-
-            //                /**
-            //                 * brush get's drawn by user
-            //                 */
-            //                var focusBrushSlider = focus.append("g")
-            //                     .attr("class", "brush focus-brush")
-
-            //                     .style("cursor", "pointer")
-            //                     .call(focusBrush)
-            //                     .call(focusBrush.move, [width - Math.floor(width / 2) - (width / 5), width - Math.floor(width / 2) + (width / 5)]);
-            //                /*  focusBrushSlider.on({
-            //                      "mouseover": function (d) {
-            //                          d3.select(this).style("cursor", "pointer");
-            //                      },
-            //                      "mouseout": function (d) {
-            //                          d3.select(this).style("cursor", "")
-            //                      }
-            //                  });
-            //                  */
-            //                //console.info(x.range());
-            //                /**
-            //                 * context time line setup:
-            //                 */
-            //                context.append("g")
-            //                        .attr("class", "axis axis--y")
-            //                        .call(yAxis2);
-
-            //                context.append("g")
-            //                     .attr("class", "axis axis--x")
-            //                     .attr("transform", "translate(0," + height2 + ")")
-            //                     .call(xAxis2)
-
-
-            //                context.append("g")
-            //                     .attr("class", "brush")
-            //                    // .attr("stroke-width", "1")
-            //                    //.attr('stroke', '#000')
-            //                    //.attr('stroke-opacity', 1)
-            //                //.attr("border", "solid 1px #000")
-            //                     .call(brush)
-            //                     .call(brush.move, x.range());
-
-            //                focus.append("rect")
-            //                    .attr("class", "zoom")
-            //                    .attr("width", width)
-            //                    .attr("height", height)
-            //                    .attr("transform", "translate(" + 0  + "," + Math.floor(margin.top/2) + ")")
-            //                  //.attr("transform", "translate(" + margin.left  + "," + margin.top + ")")
-
-            //                    .call(zoom);
-            ////[width - Math.floor(width / 2) - (width / 5), width - Math.floor(width / 2) + (width / 5)]
-            //            });
+         
         },
         initializeTimeline: function (data) {
             // d3.json(data, type, function (error, data) {
@@ -462,15 +298,7 @@
                  .style("cursor", "pointer")
                  .call(focusBrush)
                  .call(focusBrush.move, [width - Math.floor(width / 2) - (width / 5), width - Math.floor(width / 2) + (width / 5)]);
-            /*  focusBrushSlider.on({
-                  "mouseover": function (d) {
-                      d3.select(this).style("cursor", "pointer");
-                  },
-                  "mouseout": function (d) {
-                      d3.select(this).style("cursor", "")
-                  }
-              });
-              */
+          
             //console.info(x.range());
             /**
              * context time line setup:
@@ -512,40 +340,11 @@
     $.coria = $.coria ? $.coria : {};
     $.coria.timeline = api;
 
-
-
     /**
      * two files for demo
      * TODO: need to add a live data source
      * amzn.csv sp500.csv, change on line 21
      **/
-
-
-    /***
-    *following is just a template for functional programming style, and not part of the timeline
-    *
-         Options = function () {
-                 var _cx = 0,
-                     _cy = 0
-                     _r =  1;
-                 function Options(opts) {
-                     if (!arguments.length) {
-                         return {
-                             cx: _cx,
-                             cy: _cy,
-                             r: _r
-                         };
-                     }
-                     _cx = opts.x ?;
-                     _cy = opts.y;
-                     _r  = opts.r;
-                 };
-                 Options.cx  = function (value) { if (!arguments.length) { return _cx;   } _cx = value; return Options; };
-                 Options.cy  = function (value) { if (!arguments.length) { return _cy;   } _cy = value; return Options; };
-                 Options.r   = function (value) { if (!arguments.length) { return _r;    } _r  = value; return Options; };
-                 return Options;
-             };
-    ***/
 
     function focusBrushed() {
 
@@ -639,6 +438,49 @@
 })(jQuery);
 
 /*
+  var searchApiOptions = function () {
+        function searchApiOptions(searchOpts) {
+            var _query, _filters, _sort, _startDate, _endDate, _collapse, _fieldFacets, _dateRangeFacets, _fieldFilters, _dateRangeFilters, _tags, _logicallyOrTags, _mlt, _id, _guidId, _applicationId, _containerId, _category, _isContent, _isApplication, _isContainer, _pageSize, _pageIndex;
+            if (!arguments.length) {
+                searchOpts = {
+                    query: _query,
+                    filters: _filters,
+                    sort: _sort,
+                    startDate: _startDate,
+                    endDate: _endDate,
+                    collapse: _collapse,
+                    fieldFacets: _fieldFacets,
+                    dateRangeFacets: _dateRangeFacets,
+                    fieldFilters: _fieldFilters,
+                    dateRangeFilters: _dateRangeFilters,
+                    tags: _tags,
+                    logicallyOrTags: _logicallyOrTags,
+                    mlt: _mlt,
+                    id: _id,
+                    guidId: _guidId,
+                    applicationId: _applicationId,
+                    containerId: _containerId,
+                    category: _category,
+                    isContent: _isContent,
+                    isApplication: _isApplication,
+                    isContainer: _isContainer,
+                    pageSize: _pageSize,
+                    pageIndex: _pageIndex
+                };
+                return searchOpts;
+            }
+
+            //_query, _filters, _sort, _startDate, _endDate, _collapse, _fieldFacets, _dateRangeFacets, _fieldFilters, _dateRangeFilters, _tags, _logicallyOrTags, _mlt, _id, _guidId, _applicationId, _containerId, _category, _isContent, _isApplication, _isContainer, _pageSize,
+
+
+        }
+
+        //add accessors as you need them
+        searchApiOptions.query = function (value) { if (!arguments.length) { return _query; } _query = value; return searchApiOptions; };
+
+        return searchApiOptions;
+
+    };
                         Query: query, //Query is not required but you should use either Query or Filters otherwise you'll get all documents in the search index.
                         Filters: _string, //Filters is not required but you should use either Query or Filters otherwise you'll get all documents in the search index.
                         Sort: _string, //Two options for sort are titlesort and date and it also supports asc and desc. To sort by title ascending use sort=titlesort+asc, to sort by date descending use sort=date+desc.
@@ -662,3 +504,167 @@
                         IsContainer: _bool, //? Is Container
                         PageSize: _int, //? Specify the number of results to return per page. If not set the default is 20. The max is 100.
                         PageIndex: _int */ //? Specify the page number of paged results to return. Zero-based index. If not specified the default is 0.
+/***
+    *following is just a template for functional programming style, and not part of the timeline
+    *
+         Options = function () {
+                 var _cx = 0,
+                     _cy = 0
+                     _r =  1;
+                 function Options(opts) {
+                     if (!arguments.length) {
+                         return {
+                             cx: _cx,
+                             cy: _cy,
+                             r: _r
+                         };
+                     }
+                     _cx = opts.x ?;
+                     _cy = opts.y;
+                     _r  = opts.r;
+                 };
+                 Options.cx  = function (value) { if (!arguments.length) { return _cx;   } _cx = value; return Options; };
+                 Options.cy  = function (value) { if (!arguments.length) { return _cy;   } _cy = value; return Options; };
+                 Options.r   = function (value) { if (!arguments.length) { return _r;    } _r  = value; return Options; };
+                 return Options;
+             };
+    ***/
+//            d3.csv(opts.tempSourceCsv, type, function (error, data) {
+//                //  d3.csv("amzn.csv", type, function(error, data) {
+//                if (error) throw error;
+
+
+//              data = data.filter(function (i) { return i.date.getMonth() >= Math.floor(Math.random() * 12); });
+//                var clipPath = api.clipPath();
+//                var clipRect = clipPath(svg, width, height);
+//                api.clipRect = clipRect;
+//               // svg = clipPath.svg();
+//  /*              svg.append("defs").append("clipPath")
+//                    .attr("id", "clip")
+//                  .append("rect")
+//                    .attr("width", width)
+//                    .attr("height", height);
+//*/
+
+//                x.domain(d3.extent(data, function (d) { return d.date; }));
+//                y.domain([0, d3.max(data, function (d) { return d.price; })]);
+//                x2.domain(x.domain());
+//                y2.domain(y.domain());
+
+//                /**** this provides the line graph in the focus view
+//                *
+//                  focus.append("path")
+//                  .datum(data)
+//                    .attr("class","line")
+//                    .attr("clip-path", "url('#clip')")
+//                    .attr("d",line)
+//                    .attr("stroke-linecap","round")
+//                    .attr("stroke-width", "1")
+//                   .attr('stroke', '#723')
+//                   .attr('stroke-opacity', 0.5);
+//                   ***/
+
+
+//                /***
+//                *main or focus timline view   .attr("clip-path", "url('/~powersparks/bz.html#clip')")
+//                  focus.append("path")
+//                      .datum(data)
+//                      .attr("class", "area")
+//                      .attr("clip-path", "url('#clip')")
+//                      .attr("d", area);
+//                **/
+
+//                focus.append("g")
+//                    .attr("class", "axis axis--x")
+//                    .attr("transform", "translate(0," + height + ")")
+//                    .call(xAxis);
+
+//                focus.append("g")
+//                    .attr("class", "axis axis--y")
+//                    .call(yAxis);
+
+//                /****for the lower or context timeline and brush *
+//                  context.append("path")
+//                      .datum(data)
+//                      .attr("class", "area")
+//                      .attr("d", area2);
+//                **/
+
+//                /**
+//                 * this focus select doesn't use the datum approach
+//                 * which may be a problem...
+//                 * TODO: figure out how to bind the datum
+//                 */
+//                focus.selectAll("circle")
+//                  .data(data).enter().append("circle")
+//                  .attr("clip-path", "url('#clip')")
+//                  .attr("d", line)
+//                  .attr("class", "dot")
+//                  .attr("r", 3.5)
+//                  .attr("opacity", 0.7)
+//                  .style("fill", "steelblue");
+
+//                focus.selectAll("line")
+//                  .data(data).enter().append("line")
+//                  .attr("clip-path", "url('#clip')")
+//                  .attr("d", line)
+//                  .attr("class", "line")
+//                  .attr("stroke-linecap", "round")
+//                  .attr("stroke-width", "1")
+//                 .attr('stroke', "steelblue")
+//                 .attr('stroke-opacity', 0.5);
+//                //.attr("r", 3.5)
+//                //    .attr("opacity", 0.7)
+//                //    .style("fill",  "steelblue");
+
+//                /**
+//                 * brush get's drawn by user
+//                 */
+//                var focusBrushSlider = focus.append("g")
+//                     .attr("class", "brush focus-brush")
+
+//                     .style("cursor", "pointer")
+//                     .call(focusBrush)
+//                     .call(focusBrush.move, [width - Math.floor(width / 2) - (width / 5), width - Math.floor(width / 2) + (width / 5)]);
+//                /*  focusBrushSlider.on({
+//                      "mouseover": function (d) {
+//                          d3.select(this).style("cursor", "pointer");
+//                      },
+//                      "mouseout": function (d) {
+//                          d3.select(this).style("cursor", "")
+//                      }
+//                  });
+//                  */
+//                //console.info(x.range());
+//                /**
+//                 * context time line setup:
+//                 */
+//                context.append("g")
+//                        .attr("class", "axis axis--y")
+//                        .call(yAxis2);
+
+//                context.append("g")
+//                     .attr("class", "axis axis--x")
+//                     .attr("transform", "translate(0," + height2 + ")")
+//                     .call(xAxis2)
+
+
+//                context.append("g")
+//                     .attr("class", "brush")
+//                    // .attr("stroke-width", "1")
+//                    //.attr('stroke', '#000')
+//                    //.attr('stroke-opacity', 1)
+//                //.attr("border", "solid 1px #000")
+//                     .call(brush)
+//                     .call(brush.move, x.range());
+
+//                focus.append("rect")
+//                    .attr("class", "zoom")
+//                    .attr("width", width)
+//                    .attr("height", height)
+//                    .attr("transform", "translate(" + 0  + "," + Math.floor(margin.top/2) + ")")
+//                  //.attr("transform", "translate(" + margin.left  + "," + margin.top + ")")
+
+//                    .call(zoom);
+////[width - Math.floor(width / 2) - (width / 5), width - Math.floor(width / 2) + (width / 5)]
+//            });
