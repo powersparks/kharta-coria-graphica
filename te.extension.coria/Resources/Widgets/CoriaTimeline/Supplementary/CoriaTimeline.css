@@ -1,0 +1,148 @@
+﻿.timeline-div svg{
+ /*  these are settings important for mapping svgs
+      position: absolute;
+   -webkit-box-sizing: unset ;
+   -moz-box-sizing: unset;
+    box-sizing: unset ;
+*/
+}
+.timeline-container{ margin: 10px;}
+.timeline-container-toolbar {
+position:relative;
+top:8px;
+width:100%;
+ 
+}
+.timeline-edit-btn {
+}
+.timeline-edit {
+width:2%;
+float: right;
+}
+.timeline-div{
+    background-color:rgba(130, 130, 130, 0.3);
+    border-radius: 12px;
+    border:none;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+   
+   
+  /*
+  font-size: 50px;
+  text-align: center;
+  line-height: 100px;*/
+ 
+ /* height:100px;
+    width: 820px;
+    min-height:20px;
+    min-width:400px;
+ */ 
+}
+
+.line{
+  border: solid 1px steelblue;
+    margin: 4px;
+    padding: 4px;
+   background-color: #eeeeec;
+     fill: none;
+    /*   clip-path: url("/~powersparks/bz.html#clip");
+*/
+}
+/**
+g .brush > .overlay{
+  stroke: #000 !important;
+  border: solid 1px #000;
+}
+***/
+.brush .handle{
+  fill: steelblue;
+}
+/**
+.brush .overlay{
+    border: solid 1px steelblue;
+ fill:rgba(70,130,180,0.5);
+}
+ */
+.area {
+  fill: steelblue;
+ /* clip-path: url("/~powersparks/bz.html#clip");*/
+}
+rect.zoom{
+  cursor:ns-resize;
+
+}
+.zoom {
+  cursor: move;
+  fill: none;
+  pointer-events: all;
+
+}
+/*
+ <div id="container-glass-id">
+  <img id="img-glass-id" src="http://lorempixel.com/450/300/sports" />
+  <div id="overlay-glass-id">chipChocolate.py</div>
+  <svg id="svg-glass-id" width="450" height="100" viewBox="0 0 450 100" style="position: absolute; left:0;top: 0;">
+    <defs>
+      <filter id="blur-glass-id">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="3" />
+      </filter>
+    </defs>
+    <image id="image-glass-id" filter="url(#blur)" xlink:href="http://lorempixel.com/450/300/sports" x="0" y="0" height="300px" width="450px" />
+  </svg>
+</div>
+*/
+/*
+#svg-glass-id{}
+ #blur-glass-id{}
+#container-glass-id {
+  position: relative;
+  width: 450px;
+  margin: 0 auto;
+}
+#img-glass-id {
+  height: 300px;
+}
+#overlay-glass-id {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+  color: rgba(188, 143, 143, 0.2);
+  font-size: 50px;
+  text-align: center;
+  line-height: 100px;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+}
+
+.container{
+  width:auto;;
+  height:auto;
+  background-color: papayawhip;
+  box-sizing: border-box;
+
+}
+svg .responsive-graph
+{
+
+   width:960px;
+   height:500px;
+
+
+
+}
+
+.axis--grid .domain {
+  fill: #ddd;
+  stroke: none;
+}
+
+.axis--x .domain,
+.axis--grid .tick line {
+  stroke: #fff;
+}
+
+.axis--grid .tick--minor line {
+  stroke-opacity: .5;
+}
+
+*/

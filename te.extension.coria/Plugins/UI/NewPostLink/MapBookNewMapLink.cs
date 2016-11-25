@@ -92,6 +92,7 @@ namespace te.extension.coria.Plugins.UI.NewPostLink
 
         }
         public bool HasNewPostLinks(int groupId, int userId) {
+            return true;
             var group = TEApi.Groups.Get(new GroupsGetOptions { Id = groupId });
             if (group == null && group.HasErrors()) { return false; }
              

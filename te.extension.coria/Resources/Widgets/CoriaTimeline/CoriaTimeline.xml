@@ -1,0 +1,69 @@
+﻿<scriptedContentFragments>
+  <scriptedContentFragment 
+    name="Timeline"    
+    version="9.2.0.3094" 
+    description="prototype" 
+    instanceIdentifier="1937ef2b73c94cd194fdfc59626285ad" 
+    theme="" 
+    isCacheable="false" 
+    varyCacheByUser="false" 
+    showHeaderByDefault="true" 
+    cssClass="" 
+     provider="11d248584e704d4f9bb7de3e627bc200">
+    <contentScript>
+      <![CDATA[ 
+  	$core_v2_widget.ExecuteFile('CoriaTimeline.vm')
+ <link href='$core_v2_encoding.HtmlAttributeEncode($core_v2_widget.GetFileUrl("CoriaTimeline.css"))' rel='stylesheet' type='text/css'>
+
+<div id='$core_v2_widget.UniqueId("timelineContainerDivId")' class="timeline-container">
+
+  <div id='$core_v2_widget.UniqueId("timelineId")' class="timeline-div" >
+  <div id='$core_v2_widget.UniqueId("timelineContainerToolBar")' style="{display:none;}" class="timeline-container-toolbar">
+    <a href="#" id='$core_v2_widget.UniqueId("timelineEditBtn")' class="timeline-edit-btn">
+    <img src='$core_v2_encoding.HtmlAttributeEncode($core_v2_widget.GetFileUrl("edit.svg"))' class="timeline-edit" alt="timeline edit tool"/>
+    </a>
+    </div>
+    <span class="ui-loading" data-width="24" data-height="24"></span> 
+    <svg id='$core_v2_widget.UniqueId("timelineSvgFilterId")' class="timeline-svg-filter" viewBox="0 0 600 80" preserveAspectRatio="xMidYMid"></svg>
+  <!--svg id="timeFilterId"   viewBox="0 0 960 500" preserveAspectRatio="xMidYMid"></svg-->
+  </div>
+</div>
+   <!--div id="container-glass-id">
+  <img id="img-glass-id" src="http://lorempixel.com/450/300/sports" />
+  <div id="overlay-glass-id">chipChocolate.py</div>
+  <svg id="svg-glass-id" width="450" height="100" viewBox="0 0 450 100" style="position: absolute; left:0;top: 0;">
+    <defs>
+      <filter id="blur-glass-id">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="3" />
+      </filter>
+    </defs>
+    <image id="image-glass-id" filter="url(#blur-glass-id)" xlink:href="http://lorempixel.com/450/300/sports" x="0" y="0" height="300px" width="450px" />
+  </svg>
+</div-->
+#registerEndOfPageHtml ('coria.timeline')
+## end of page HTML <script src="https://d3js.org/d3.v4.min.js"https://cdnjs.cloudflare.com/ajax/libs/d3/4.3.0/d3.min.js></script>
+## <script type="text/javascript" src='https://d3js.org/d3.v4.min.js' charset="utf-8"></script>
+<script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/d3/4.3.0/d3.min.js' charset="utf-8"></script>
+<script type="text/javascript" src='$core_v2_encoding.HtmlAttributeEncode($core_v2_widget.GetFileUrl("CoriaTimeline.js"))'></script>
+ 
+#end
+#registerEndOfPageHtml (  )
+<script type="text/javascript">
+	jQuery(function (j){
+		j.coria.timeline.register({
+		timelineId:  "$core_v2_widget.UniqueId('timelineId')",
+    timelineSvgFilterId: '$core_v2_widget.UniqueId("timelineSvgFilterId")',
+    tempSourceCsv: '$core_v2_encoding.HtmlAttributeEncode($core_v2_widget.GetFileUrl("CoriaTimeline.txt"))',
+		editSvgUrl: '$core_v2_encoding.HtmlAttributeEncode($core_v2_widget.GetFileUrl("edit.svg"))',
+    timelineEditBtn:'$core_v2_widget.UniqueId("timelineEditBtn")'
+    });
+	});
+  </script>
+
+
+#end]]>
+    </contentScript>
+    <files>
+    </files>
+  </scriptedContentFragment>
+</scriptedContentFragments>

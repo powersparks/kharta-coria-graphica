@@ -71,6 +71,7 @@ namespace te.extension.coria.Plugins.UI.NewPostLink
 
         public bool HasNewPostLinks(int groupId, int userId)
         {
+            return true;
             var links = GetNewPostLinks(groupId, userId);
             return links == null ? false : links.Any();
         }
