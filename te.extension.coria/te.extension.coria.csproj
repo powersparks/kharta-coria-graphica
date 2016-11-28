@@ -169,6 +169,8 @@
     <EmbeddedResource Include="Resources\Widgets\CoriaTimeline\Supplementary\CoriaTimeline.css" />
     <EmbeddedResource Include="Resources\Widgets\CoriaTimeline\Supplementary\CoriaTimeline.js" />
     <EmbeddedResource Include="Resources\Widgets\CoriaTimeline\Supplementary\edit.svg" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaTimeline\Supplementary\d3.v4.min.js" />
+    <EmbeddedResource Include="Resources\Widgets\CoriaTimeline\Supplementary\CoriaTimeFilter.js" />
     <Content Include="Resources\Widgets\ExampleKhartaName\ExampleKhartaName.xml" />
     <Content Include="Resources\Widgets\ExampleKhartaName\Supplementary\ExampleKhartaName.css" />
     <Content Include="Resources\Widgets\ExampleKhartaName\Supplementary\ExampleKhartaName.js" />

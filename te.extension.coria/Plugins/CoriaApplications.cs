@@ -152,7 +152,9 @@ namespace te.extension.coria.Plugins
                 "CoriaTimeline/Supplementary/CoriaTimeline.css",
                 "CoriaTimeline/Supplementary/CoriaTimeline.vm",
                 "CoriaTimeline/Supplementary/CoriaTimeline.txt",
+                 "CoriaTimeline/Supplementary/CoriaTimeFilter.js",
                 "CoriaTimeline/Supplementary/edit.svg",
+                "CoriaTimeline/Supplementary/d3.v4.min.js",
             };
             //map man panel guid
             //1937ef2b-73c9-4cd1-94fd-fc59626285ad

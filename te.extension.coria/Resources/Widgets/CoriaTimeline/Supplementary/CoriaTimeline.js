@@ -82,7 +82,7 @@
         dot.r = function (value) { if (!arguments.length) { return _r; } _r = value; return dot; };
         return dot;
     };
-  
+
     var api = {
         clipPath: function () {
             var _id = "clip", _svg, _hgt, _wit, _shp = "rect";
@@ -166,9 +166,13 @@
             var timelineSvgFilterId = '#' + opts.timelineSvgFilterId;
             var editSvgUrl = opts.editSvgUrl;
             var timelineEditBtn = '#' + opts.timelineEditBtn;
+            var timelineEditSvgUrl = opts.timelineEditSvgUrl, timelineEditImgId = '#' + opts.timelineEditImgId;
 
             $("span.ui-loading").hide();
-            $("timeline-container-toolbar").show();
+            $("input.timeline-search").show();
+            $("a.timeline-edit-btn").show();
+            $(timelineEditImgId).attr("src", timelineEditSvgUrl);
+            $("img.timeline-edit").show();
             /****
             rules for loading timeline data
             1) pick a data source
@@ -198,7 +202,7 @@
 
             });
 
-         
+
         },
         initializeTimeline: function (data) {
             // d3.json(data, type, function (error, data) {
@@ -298,7 +302,7 @@
                  .style("cursor", "pointer")
                  .call(focusBrush)
                  .call(focusBrush.move, [width - Math.floor(width / 2) - (width / 5), width - Math.floor(width / 2) + (width / 5)]);
-          
+
             //console.info(x.range());
             /**
              * context time line setup:
