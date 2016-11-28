@@ -120,7 +120,7 @@
                  _xAxis = d3.axisTop(_x).tickSize(tfc_layout.height()),
                  _yAxis = d3.axisRight(_y).ticks(0).tickSize(tfc_layout.width());
              /****
-             *    f) Domain Data Charateistics,  EXAMPLES provided. 
+             *    f) Domain has Data Charateistics,  EXAMPLES provided. 
              *    e) Scaling Domain - overide d3 default domains on x and y axis 
              **/
              var X_MinFromDateExample = new Date().setFullYear(2016, 01, 01), X_MaxToDateExample = Date.now();
@@ -154,27 +154,27 @@
      },
      tfc_data: function(){},
      register: function (opts) {
-         //new layout and main time chart
-         var tfc_layout = new $.coria.timeFilterControl.tfc_layout();
+         //new layout and main time chart setup
+         var tfc_layout_focus = new $.coria.timeFilterControl.tfc_layout();
          
-         tfc_layout
+         tfc_layout_focus
               .margin.top(10)
               .margin.bottom(60)
              .margin.left(10)
              .margin.right(10);
          
-         var _timeFilterChart = new $.coria.timeFilterControl.tfc_chart();
-         _timeFilterChart(tfc_layout);
+         var _timeFilterChart_focus = new $.coria.timeFilterControl.tfc_chart();
+         _timeFilterChart_focus(tfc_layout_focus);
       
-        //new layout and bass time chart
+        //new layout and bass time chart setup
          var tfc_layout_bass = new $.coria.timeFilterControl.tfc_layout();
          tfc_layout_bass
              .margin.top(35)
              .margin.bottom(35)
              .margin.left(10)
              .margin.right(10);
-         var _timeFilterChartBass = new $.coria.timeFilterControl.tfc_chart();
-         _timeFilterChartBass(tfc_layout_bass);
+         var _timeFilterChart_bass = new $.coria.timeFilterControl.tfc_chart();
+         _timeFilterChart_bass(tfc_layout_bass);
 
         // context.select(".brush").call(brush.move, x.range().map(t.invertX, t));
         //_timeFilterChartBass().chart.select(".brush").call(brush.move, _timeFilterChartBass().x.range().map(t.invertX, t));
@@ -187,43 +187,55 @@
          */
 
          //Setup Brush for focus time filter
-         var brushFocus = d3.brushX()
-         .extent([[0, 0], [tfc_layout.width(), tfc_layout.height()]])
-         .on("brush end", brushedFocus);
+         var brush_focus = d3.brushX()
+         .extent([[0, 0], [tfc_layout_focus().width, tfc_layout_focus().height]])
+         .on("brush end", brushed_focus)
+         ;
 
          //Append brush to focus chart
-         _timeFilterChart().chart
+         _timeFilterChart_focus().chart
             .append("g")
          .attr("class", "brush")
-          .call(brushFocus)
-         .call(brushFocus.move, _timeFilterChart().x.range());
+          .call(brush_focus)
+         .call(brush_focus.move, _timeFilterChart_focus().x.range());
 
-         //method for brushing
-         function brushedFocus() {
-             console.info("brushed focus returned domain");
-             console.info(_timeFilterChart().x.domain());
-             console.info(_timeFilterChart().y.domain());
+         //method for brushing event
+         function brushed_focus() {
+             if (d3.event.sourceEvent && d3.event.sourceEvent.type !== "mousemove") return; // ignore brush-by-zoom
+             if (d3.event.sourceEvent && (d3.event.sourceEvent.type === "mousemove" || d3.event.sourceEvent.type === "touchmove")) {
+                 console.info("brushed Focus brush event3");
+                 console.info(_timeFilterChart_focus().x.domain());
+                 console.info(_timeFilterChart_focus().y.domain());
+
+             }
          }
         
        //Setup Brush for bass time filter
-       var brushBass = d3.brushX()
+       var brush_bass = d3.brushX()
        .extent([[0, 0], [tfc_layout_bass.width(), tfc_layout_bass.height()]])
-       .on("brush end", brushedBass);
+       .on("brush end", brushed_bass);
 
         // Append brush to bass chart
-         _timeFilterChartBass().chart
+         _timeFilterChart_bass().chart
               .append("g")
                .attr("class", "brush")
-               .call(brushBass)
-               .call(brushBass.move, _timeFilterChartBass().x.range());
+               .call(brush_bass)
+               .call(brush_bass.move, _timeFilterChart_bass().x.range());
 
-         //method for brushing 
-         function brushedBass() {
-             console.info("brushed Bass returned domain");
-             console.info(_timeFilterChartBass().x.domain());
-             console.info(_timeFilterChartBass().y.domain());
+         //method for brushing event
+         function brushed_bass() {
+            
+            
              
-             if (d3.event.sourceEvent && d3.event.sourceEvent.type === "zoom") return; // ignore brush-by-zoom
+             if (d3.event.sourceEvent && d3.event.sourceEvent.type !== "mousemove") return; // ignore brush-by-zoom
+             if (d3.event.sourceEvent && (d3.event.sourceEvent.type === "mousemove" || d3.event.sourceEvent.type === "touchmove")) 
+             {
+                 console.info("brushed Bass brush event2");
+                 console.info(_timeFilterChart_bass().x.domain());
+                 console.info(_timeFilterChart_bass().y.domain());
+                 
+             }
+             
              /****
              var s = d3.event.selection || x2.range();
              x.domain(s.map(x2.invert, x2));
