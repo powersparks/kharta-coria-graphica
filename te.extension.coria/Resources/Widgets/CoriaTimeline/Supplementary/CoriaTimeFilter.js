@@ -157,27 +157,34 @@
          //new layout and main time chart
          var tfc_layout = new $.coria.timeFilterControl.tfc_layout();
          
-         tfc_layout.margin
-              .top(10)
-              .bottom(60)
-             .left(10)
-             .right(10);
+         tfc_layout
+              .margin.top(10)
+              .margin.bottom(60)
+             .margin.left(10)
+             .margin.right(10);
          
          var _timeFilterChart = new $.coria.timeFilterControl.tfc_chart();
          _timeFilterChart(tfc_layout);
       
         //new layout and bass time chart
          var tfc_layout_bass = new $.coria.timeFilterControl.tfc_layout();
-         tfc_layout_bass.margin
-             .top(35)
-             .bottom(35)
-             .left(10)
-             .right(10);
+         tfc_layout_bass
+             .margin.top(35)
+             .margin.bottom(35)
+             .margin.left(10)
+             .margin.right(10);
          var _timeFilterChartBass = new $.coria.timeFilterControl.tfc_chart();
          _timeFilterChartBass(tfc_layout_bass);
 
-       
         // context.select(".brush").call(brush.move, x.range().map(t.invertX, t));
+        //_timeFilterChartBass().chart.select(".brush").call(brush.move, _timeFilterChartBass().x.range().map(t.invertX, t));
+
+         /**
+         * 6) Brushes (bass & focus) to interact between time filter charts
+         *    a) Setup brush on X axis, 
+         *    b) extend of rendered brush
+         *    c) event method on "brush" and "end"    
+         */
 
          //Setup Brush for focus time filter
          var brushFocus = d3.brushX()
@@ -188,6 +195,7 @@
          _timeFilterChart().chart
             .append("g")
          .attr("class", "brush")
+          .call(brushFocus)
          .call(brushFocus.move, _timeFilterChart().x.range());
 
          //method for brushing
@@ -196,7 +204,7 @@
              console.info(_timeFilterChart().x.domain());
              console.info(_timeFilterChart().y.domain());
          }
-
+        
        //Setup Brush for bass time filter
        var brushBass = d3.brushX()
        .extent([[0, 0], [tfc_layout_bass.width(), tfc_layout_bass.height()]])
@@ -205,7 +213,8 @@
         // Append brush to bass chart
          _timeFilterChartBass().chart
               .append("g")
-               .attr("class", "brush").call(brushBass)
+               .attr("class", "brush")
+               .call(brushBass)
                .call(brushBass.move, _timeFilterChartBass().x.range());
 
          //method for brushing 
@@ -213,8 +222,19 @@
              console.info("brushed Bass returned domain");
              console.info(_timeFilterChartBass().x.domain());
              console.info(_timeFilterChartBass().y.domain());
+             
+             if (d3.event.sourceEvent && d3.event.sourceEvent.type === "zoom") return; // ignore brush-by-zoom
+             /****
+             var s = d3.event.selection || x2.range();
+             x.domain(s.map(x2.invert, x2));
+             //focus.select(".line").attr("d", line); 
+
+             focus.select(".axis--x").call(xAxis);
+             svg.select(".zoom").call(zoom.transform, d3.zoomIdentity
+                 .scale(width / (s[1] - s[0]))
+                 .translate(-s[0], 0));
+             */
          }
-      
                
    /*
          var tfc_layout3 = new $.coria.timeFilterControl.tfc_layout();
