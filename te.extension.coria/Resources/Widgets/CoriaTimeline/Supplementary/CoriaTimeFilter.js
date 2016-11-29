@@ -67,7 +67,11 @@
      },
      tfc_chart: function () {
          /**
-            * Class Name: Time Filter Control
+            * Class Name: Time Filter Control (servos)
+            *  Description: TFC uses a paradigm of gears or virtual servo-mechanisms. 
+            *               using d3js, the objects consist of master and slave gear ratios, 
+            *               feedback, and adjustment surfaces( or pentiometers) 
+            *               to sense, move (rotate) and zoom on axis. 
             * 1) "Variable" - define layout dimensions (required as input) 
             *   a) Height, width, margins required for svg control
             *   b) Use the default settings, or set your own
@@ -191,42 +195,59 @@
          var brush_sensor_slave = d3.brushX()
              .extent([[0, 0], [_tfc_layout_slave().width, _tfc_layout_slave().height]])
              .on("brush end", slave_feedback);
-
-         var zoom = d3.zoom()
-                .scaleExtent([1, Infinity])
-                .translateExtent([[0, 0], [_tfc_layout_slave().width, _tfc_layout_slave().height]])
-                .extent([[0, 0], [_tfc_layout_slave().width, _tfc_layout_slave().height]])
-                .on("zoom", slave_feedback);
-
-        _slaveChart().chart.append("rect")
-                .attr("class", "zoom")
-                .attr("width", _tfc_layout_slave().width)
-                .attr("height", _tfc_layout_slave().height)
-                .attr("transform", "translate(" + 0 + "," + Math.floor(_tfc_layout_slave().margin.top / 2) + ")") 
-                .call(zoom);
-
          //Append brush to slave chart
          _slaveChart().chart
             .append("g")
                 .attr("class", "brush")
                 .call(brush_sensor_slave)
                 .call(brush_sensor_slave.move, _slaveChart().x.range());
+         /*
+         * Sets up a zoom servo as an adjustment surface for changing Gear(master/slave) Ratio
+         * uses a lazy setting, "Infinity" which assumes a level of precision in our data that is not realistic. 
+         * realistic would calculate data resolution, e.g. date/time may only go to seconds, days, weeks, etc 
+         * Spatial, temporal, or aspatial data resolutions need to be reported back to user in a meaningful anology
+         */
+         var zoom_ratio = d3.zoom()
+              .scaleExtent([1, Infinity]) 
+              .translateExtent([[0, 0], [_tfc_layout_slave().width, _tfc_layout_slave().height]])
+              .extent([[0, 0], [_tfc_layout_slave().width, _tfc_layout_slave().height]])
+              .on("zoom", slave_feedback);
+         //append zoom servo
+         _slaveChart().chart
+             .append("rect")
+                .attr("class", "zoom servo ratio-adjustment-surface")
+                .attr("width", _tfc_layout_slave().width)
+                .attr("height", _tfc_layout_slave().height)
+                .attr("transform", "translate(" + 0 + "," + Math.floor(_tfc_layout_slave().margin.top / 2) + ")")
+                .call(zoom_ratio);
 
          //method for brushing event
          function slave_feedback() {
-             if (d3.event.sourceEvent && d3.event.sourceEvent.type === "zoom")
+             if (d3.event.sourceEvent) {
+                 console.info(d3.event.sourceEvent.type);
+             }
+             if (d3.event.sourceEvent && (d3.event.sourceEvent.type === "wheel" || d3.event.sourceEvent.type === "zoom"))
              {
+                 //change resolution of axis and data on slave chart, slave chart brush, and master chart brush
                  console.info("zoom");
+               
+                 var transform = d3.event.transform;
+                 _slaveChart().x.domain(transform.rescaleX(_masterChart().x).domain());
+                
+              
+                 _slaveChart().chart.select(".axis--x").call(_slaveChart().xAxis);
+                  _masterChart().chart.select(".brush").call(brush_sensor_master.move, _slaveChart().x.range().map(transform.invertX, transform));
+             /**/
              } 
              if (d3.event.sourceEvent && (d3.event.sourceEvent.type === "mousemove" || d3.event.sourceEvent.type === "touchmove")) {
-                 console.info("brushed Focus brush event3");
+                 console.info("slaved chart's brush event");
                  console.info(_slaveChart().x.domain());
                  console.info(_slaveChart().y.domain());
              }
          }
     
         
-       //Setup Brush for master time filter
+       //Setup Brush sensor for master chart's time filter
        var brush_sensor_master = d3.brushX()
        .extent([[0, 0], [tfc_layout_master.width(), tfc_layout_master.height()]])
        .on("brush end", master_feeback);
@@ -242,10 +263,8 @@
 
          //method for brushing event
          function master_feeback() {
-            
-            
              
-             if (d3.event.sourceEvent && d3.event.sourceEvent.type !== "mousemove") return; // ignore brush-by-zoom
+             //if (d3.event.sourceEvent && d3.event.sourceEvent.type !== "mousemove") return; // ignore brush-by-zoom
              if (d3.event.sourceEvent && (d3.event.sourceEvent.type === "mousemove" || d3.event.sourceEvent.type === "touchmove")) 
              {
                  //array from brush sensor or use default x-axis range
@@ -255,9 +274,9 @@
                  //drive domain mapping sensor output over master x-min and max values
                   _slaveChart().x.domain(sensor.map(_masterChart().x.invert, _masterChart().x));
                  //rescale the x axis after setting the domain.
-                  _slaveChart().chart.select(".axis--x").call(xAxis);
+                  _slaveChart().chart.select(".axis--x").call(_slaveChart().xAxis);
 
-                  _masterChart().chart.select(".zoom").call(zoom.transform, d3.zoomIdentity
+                  _slaveChart().chart.select(".zoom").call(zoom_ratio.transform, d3.zoomIdentity
                       .scale(width / (sensor[1] - sensor[0]))
                       .translate(-sensor[0], 0));
                  //
