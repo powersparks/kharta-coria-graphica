@@ -158,6 +158,7 @@
      },
      tfc_data: function(){},
      register: function (opts) {
+         
          //new layout and main time chart setup
          var _tfc_layout_slave = new $.coria.timeFilterControl.tfc_layout()  
             .margin.top(10)
@@ -198,7 +199,7 @@
          //Append brush to slave chart
          _slaveChart().chart
             .append("g")
-                .attr("class", "brush")
+                .attr("class", "brush brush-sensor brush-sensor-slave")
                 .call(brush_sensor_slave)
                 .call(brush_sensor_slave.move, _slaveChart().x.range());
          /*
@@ -250,21 +251,21 @@
        //Setup Brush sensor for master chart's time filter
        var brush_sensor_master = d3.brushX()
        .extent([[0, 0], [tfc_layout_master.width(), tfc_layout_master.height()]])
-       .on("brush end", master_feeback);
+       .on("brush end", master_feedback);
 
         // Append brush to master chart
          _masterChart().chart
               .append("g")
-               .attr("class", "brush")
+               .attr("class", "brush brush-sensor brush-sensor-master")
                .call(brush_sensor_master)
                .call(brush_sensor_master.move, _masterChart().x.range());
 
        
 
          //method for brushing event
-         function master_feeback() {
+         function master_feedback() {
              
-             //if (d3.event.sourceEvent && d3.event.sourceEvent.type !== "mousemove") return; // ignore brush-by-zoom
+              
              if (d3.event.sourceEvent && (d3.event.sourceEvent.type === "mousemove" || d3.event.sourceEvent.type === "touchmove")) 
              {
                  //array from brush sensor or use default x-axis range
@@ -277,7 +278,7 @@
                   _slaveChart().chart.select(".axis--x").call(_slaveChart().xAxis);
 
                   _slaveChart().chart.select(".zoom").call(zoom_ratio.transform, d3.zoomIdentity
-                      .scale(width / (sensor[1] - sensor[0]))
+                      .scale(_tfc_layout_slave().width / (sensor[1] - sensor[0]))
                       .translate(-sensor[0], 0));
                  //
                  //_slaveChart().x.domain(s

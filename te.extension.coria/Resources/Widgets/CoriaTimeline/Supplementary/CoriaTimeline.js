@@ -118,7 +118,7 @@
             return clipPath;
         },
         search: function () {
-            var _baseUrl = $.telligent.evolution.site.getBaseUrl(),
+            var _baseUrl = $.telligent.evolution.site.getBaseUrl(true),
                 _searchRestApi = "api.ashx/v2/search.json",
                 x3rand = Math.floor(Math.random() * 1000 + 0),
                 y3rand = Math.floor(Math.random() * 1000 + 0),
@@ -167,7 +167,9 @@
             var editSvgUrl = opts.editSvgUrl;
             var timelineEditBtn = '#' + opts.timelineEditBtn;
             var timelineEditSvgUrl = opts.timelineEditSvgUrl, timelineEditImgId = '#' + opts.timelineEditImgId;
-
+            $.extend(api, {
+                timelineEditBtn: function () { return timelineEditBtn; }
+            });
             $("span.ui-loading").hide();
             $("input.timeline-search").show();
             $("a.timeline-edit-btn").show();
@@ -189,19 +191,59 @@
             //                //  d3.csv("amzn.csv", type, function(error, data) {
             */
 
+            //button click event for loading timeline and loading search results
+            /***
+            $($.coria.timeline.timelineEditBtn()).on('click', function () {
+             $('#timelineUiLoadingId').show();
+             if ($("span.ui-loading").hasClass("hidden")) {
+
+                 $("span.ui-loading").removeClass("hidden");
+             } else {
+                 $("span.ui-loading").addClass("hidden");
+                 $("span.ui-loading").hide();
+             }
+
+            
+
+         });
+            **/
+            //$("span.ui-loading").css("position", "relative");
+            //$("span.ui-loading").css("z-index", "1000");
+ //           $("span.ui-loading").css("position", "relative");
             $(timelineEditBtn).on('click', function () {
+ 
                 $("span.ui-loading").show();
-                var search = api.search();
-                search(function (results) {
-                    api.initializeTimeline(results.SearchResults.map(function (d) {
-                        return type(d);
-                    })
-                        );
+                //if ($("span.ui-loading").hasClass("hidden"))
+                //{
+                //    console.info("has class hidden");
+                //    $("span.ui-loading").removeClass("hidden");
+                //} else {
+                //    console.info("not hidden class");
+                //    $("span.ui-loading").addClass("hidden");
+                //}
+                if (true) {
+                    var search = api.search();
+                    search(function (results) {
+                        api.initializeTimeline(results.SearchResults.map(function (d) {
+                            return type(d);
+                        })
+                            );
+                        $("span.ui-loading").hide();
+                    });
+                }
+                /**
+                   $("span.ui-loading").show();
+                if ($("span.ui-loading").hasClass("hidden")) {
+
+                    $("span.ui-loading").removeClass("hidden");
+                } else {
+                    $("span.ui-loading").addClass("hidden");
                     $("span.ui-loading").hide();
-                });
-
+                }
+                */
+             
             });
-
+        
 
         },
         initializeTimeline: function (data) {

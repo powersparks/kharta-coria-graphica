@@ -10,20 +10,20 @@
     showHeaderByDefault="true" 
     cssClass="" 
      provider="11d248584e704d4f9bb7de3e627bc200">
-    <contentScript>
-      <![CDATA[ 
+    <contentScript><![CDATA[#if($core_v2_widget.IsInWidgetPreviewMode)
+$core_v2_widget.Hide()
+#end
   	$core_v2_widget.ExecuteFile('CoriaTimeline.vm')
  <link href='$core_v2_encoding.HtmlAttributeEncode($core_v2_widget.GetFileUrl("CoriaTimeline.css"))' rel='stylesheet' type='text/css'>
 
 <div id='$core_v2_widget.UniqueId("timelineContainerDivId")' class="timeline-container">
-
-  <div id='$core_v2_widget.UniqueId("timelineId")' class="timeline-div" >
+   <div id='$core_v2_widget.UniqueId("timelineId")' class="timeline-div" >
   <div id='$core_v2_widget.UniqueId("timelineContainerToolBar")' style="{display:none;}" class="timeline-container-toolbar">
 <ul>
   <li class="field-item-input timeline-search">
       <span>
     <input id='$core_v2_widget.UniqueId("timelineSearch")' style="{display:none;}"  class="ui-tourtip timeline-search " autocomplete="off" placeholder="Search" value="" data-tourtipkey="1234" data-tourtipmessage="Add text to filter timeline posts" type="search">
-    <span class="ui-loading" style="{display:none;}" data-width="24" data-height="24"></span>
+    <span class="ui-loading" style="{display:none; }" data-width="30" data-height="30"></span>
     <a href="#" id='$core_v2_widget.UniqueId("timelineEditBtn")' style="{display:none;}"  class="timeline-edit-btn">
         <img id='$core_v2_widget.UniqueId("timelineEditImgId")' src="" style="{display:none;}"  class="timeline-edit" alt="timeline edit tool"/>
     </a>
@@ -75,8 +75,72 @@
   </script>
 
 
-#end]]>
-    </contentScript>
+#end]]></contentScript>
+		<headerScript><![CDATA[$core_v2_widget.ApplyTokens($core_v2_widget.GetStringValue('fragmentHeader', '${resource:widget_name}'))
+$core_v2_widget.ApplyTokens($core_v2_widget.GetStringValue('fragmentDescription', '${resource:widget_description}'))    
+ ]]></headerScript>
+		<configuration><![CDATA[<propertyGroup id="options" resourceName="Options">
+	<property id="fragmentHeader" resourceName="CF_Title" dataType="string" defaultValue="${resource:widget_name}" controlType="Telligent.Evolution.Controls.ContentFragmentTokenStringControl, Telligent.Evolution.Controls" />
+	<property id="fragmentDescription" resourceName="CF_Description" dataType="string" defaultValue="${resource:widget_description}" controlType="Telligent.Evolution.Controls.ContentFragmentTokenStringControl, Telligent.Evolution.Controls" />
+	<property id="source_type" resourceName="source_type" descriptionResourceName="source_type_description" dataType="string" defaultValue="InternalRestJsonApiSource">
+		<propertyValue orderNumber="0" value="InternalRestJsonApiSource" resourceName="rest_api_source" descriptionResourceName="rest_api_source" text="REST API"/>
+        <propertyValue orderNumber="1" value="InternalWidgetApiSource" resourceName="widget_api_source" text="Widget API" />
+	    <propertyValue orderNumber="2" value="ArcGisServerSource" resourceName="ags_source" text="ArcGIS Server URL" />
+		<propertyValue orderNumber="3" value="JsonSource" resourceName="json_source" text="JSON URL" />
+	</property>
+</propertyGroup>
+
+<propertyGroup id="RestApiSourceOpts" resourceName="RestApiSourceOpts">
+ <property id="restapisearchtype"></property>
+</propertyGroup>
+
+ <propertyGroup id="JsonUrlSourceOpts" resourceName="JsonUrlSourceOpts">
+ <property ></property>
+</propertyGroup>
+
+<propertyGroup id="ArcGisServerSourceOpts" resourceName="ArcGisServerSourceOpts">
+ <property ></property>
+</propertyGroup>
+
+<propertyGroup id="WidgetApiSourceOpts" resourceName="WidgetApiSourceOpts">
+  <property id="app_type" resourceName="app_type" descriptionResourceName="app_type_description"  defaultValue="true"   controlType="Telligent.Evolution.Controls.CheckboxListControl, Telligent.Evolution.Controls" >
+        <propertyValue orderNumber="0" value="blogs" resourceName="blogs"  />
+        <propertyValue orderNumber="1" value="forums" resourceName="forums"   />
+	    <propertyValue orderNumber="2" value="wikis" resourceName="wikis" text="ArcGIS Server URL" />
+		<propertyValue orderNumber="3" value="media galleries" resourceName="media" text="JSON URL" />
+      
+  </property>
+ >
+</propertyGroup>]]></configuration>
+		<languageResources><language key="en-us">
+  <resource name="CF_Title">Widget Name</resource>
+  <resource name="CF_Description">Widget Description</resource>
+  <resource name="widget_name">Time Filter Widget</resource>
+  <resource name="widget_description">Reads the selected source type and provides a filter</resource>
+  <resource name="search_term">Search To Filter Data (Query)</resource>
+  <resource name="x_axis_field">X-Field Data Domain</resource>
+  <resource name="y_axis_field">Y-Field Data Domain</resource>
+  <resource name="data_source_url">URL</resource>
+  <resource name="group_applications">Blogs, Forums, Wikis, Media via Widget Api</resource>
+  <resource name="source_type">Source Type Options</resource>
+  <resource name="source_type_description">pick one source type to use</resource>
+  <resource name="rest_api_source">rest api search</resource>
+  <resource name="widget_api_source">widget api source</resource>
+  <resource name="json_source">other json source</resource>
+  <resource name="ags_source">arcgis source</resource>
+  <resource name="Options">Widget settings</resource>
+  <resource name="RestApiSourceOpts">REST API</resource>
+  <resource name="JsonUrlSourceOpts">JSON URL</resource>
+  <resource name="ArcGisServerSourceOpts">ArcGIS Server URL</resource>
+  <resource name="WidgetApiSourceOpts">Widget API</resource>
+  <resource name="app_type">Applications</resource>
+  <resource name="app_type_description">select types</resource>
+  <resource name="blog">blog</resource>
+    <resource name="forum">forum</resource>
+    <resource name="wiki">wiki</resource>
+      <resource name="media">media</resource>
+    
+</language></languageResources>
     <files>
     </files>
   </scriptedContentFragment>

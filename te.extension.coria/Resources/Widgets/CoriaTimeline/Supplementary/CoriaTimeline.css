@@ -4,7 +4,27 @@
    -webkit-box-sizing: unset ;
    -moz-box-sizing: unset;
     box-sizing: unset ;
+     shape-rendering: crispEdges
 */
+}
+.axis--x .domain, .axis--grid .tick line {
+    stroke: #000;
+}
+.axis--x, .axis--y, .tick, .domain, .axis--grid .tick  {
+     shape-rendering: crispEdges;
+     border: thin;
+     border-color:black;
+
+
+}
+.brush .brush-sensor {
+     shape-rendering: crispEdges;
+     border: thin;
+     border-color:black;
+}
+.brush .handle{
+    shape-rendering: crispEdges;
+  fill: steelblue;
 }
 .timeline-container{ margin: 10px;}
 .timeline-container-toolbar {
@@ -87,9 +107,7 @@ g .brush > .overlay{
   border: solid 1px #000;
 }
 ***/
-.brush .handle{
-  fill: steelblue;
-}
+
 /**
 .brush .overlay{
     border: solid 1px steelblue;
