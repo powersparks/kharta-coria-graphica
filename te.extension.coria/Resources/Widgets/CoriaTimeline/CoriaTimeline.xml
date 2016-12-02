@@ -10,7 +10,8 @@
     showHeaderByDefault="true" 
     cssClass="" 
      provider="11d248584e704d4f9bb7de3e627bc200">
-    <contentScript><![CDATA[#if($core_v2_widget.IsInWidgetPreviewMode)
+    <contentScript>
+  <![CDATA[#if($core_v2_widget.IsInWidgetPreviewMode)
 $core_v2_widget.Hide()
 #end
   	$core_v2_widget.ExecuteFile('CoriaTimeline.vm')
@@ -39,23 +40,23 @@ $core_v2_widget.Hide()
   
 #registerEndOfPageHtml ('d3js.org')
 ## end of page HTML <script src="https://d3js.org/d3.v4.min.js"https://cdnjs.cloudflare.com/ajax/libs/d3/4.3.0/d3.min.js></script>
-## <script type="text/javascript" src='https://d3js.org/d3.v4.min.js' charset="utf-8"></script>
-<script type="text/javascript" src='$core_v2_encoding.HtmlAttributeEncode($core_v2_widget.GetFileUrl("d3.v4.min.js"))'></script>
+ <script type="text/javascript" src='https://d3js.org/d3.v4.js' charset="utf-8"></script>
+##<script type="text/javascript" src='$core_v2_encoding.HtmlAttributeEncode($core_v2_widget.GetFileUrl("d3.v4.min.js"))' charset="utf-8"></script>
 ##<script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/d3/4.3.0/d3.min.js' charset="utf-8"></script>
 #end
 #registerEndOfPageHtml('coria.timeFilterControl')
-<script type="text/javascript" src='$core_v2_encoding.HtmlAttributeEncode($core_v2_widget.GetFileUrl("CoriaTimeline.js"))'></script>
+<!--script type="text/javascript" src='$core_v2_encoding.HtmlAttributeEncode($core_v2_widget.GetFileUrl("CoriaTimeline.js"))'></script-->
 <script type="text/javascript" src='$core_v2_encoding.HtmlAttributeEncode($core_v2_widget.GetFileUrl("CoriaTimeFilter.js"))'></script>
 #end
 #registerEndOfPageHtml (  )
 <script type="text/javascript">
 	jQuery(function (j){
- 	j.coria.timeFilterControl.register({
-    tfc_clipPathId:  '$core_v2_widget.UniqueId("clip")', /***generate id. html appended**/
-    tfcSvgId: '$core_v2_widget.UniqueId("tfcSvgId")',
+	j.coria.timeFilterControl.register({
+   tfc_clipPathId:  '$core_v2_widget.UniqueId("clip")', /***generate id. html appended**/
+   tfcSvgId: '$core_v2_widget.UniqueId("tfcSvgId")',
     timelineEditSvgUrl: '$core_v2_encoding.HtmlAttributeEncode($core_v2_widget.GetFileUrl("edit.svg"))',
     timelineEditImgId:'$core_v2_widget.UniqueId("timelineEditImgId")'
-  });
+ }); 
 	});
   </script>
 
