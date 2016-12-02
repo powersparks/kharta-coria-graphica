@@ -1,7 +1,40 @@
 ﻿/// <reference path="d3.js" />
 (function ($) {
 
- var api = {
+    var api = {
+     tfc_clipPath: function () {
+            var _id = "clip", _svg, _hgt, _wit, _shp = "rect";
+            function clipPath(svg, width, height) {
+                if (!arguments.length) {
+                    return {
+                        id: _id,
+                        svg: _svg,
+                        height: _hgt,
+                        width: _wit,
+                        shape: _shp
+                    };
+                }
+                svg.append("defs").append("clipPath")
+                  .attr("id", "clip")
+                  .append("rect")
+                  .attr("width", width)
+                  .attr("height", height);
+                _id = "clip";
+                _svg = svg;
+                _hgt = height;
+                _wit = width;
+                _shp = "rect";
+                return clipPath();
+            }
+
+            clipPath.id = function (value) { if (!arguments.length) { return _id; } _id = value; return clipPath; };
+            clipPath.svg = function (value) { if (!arguments.length) { return _svg; } _svg = value; return clipPath; };
+            clipPath.height = function (value) { if (!arguments.length) { return _hgt; } _hgt = value; return clipPath; };
+            clipPath.width = function (value) { if (!arguments.length) { return _wit; } _wit = value; return clipPath; };
+            clipPath.shape = function (value) { if (!arguments.length) { return _shp; } _shp = value; return clipPath; };
+
+            return clipPath;
+        },
      tfc_layout: function () {
          //var margin = { top: 20, right: 10, bottom: 20, left: 10 };
          //var width = 600 - margin.left - margin.right,
@@ -48,15 +81,15 @@
          }
          tfc_layout.svgSelector = function (value) { if (!arguments.length) { return _svgSelector; } _svgSelector = value; return tfc_layout; };// gets or sets selection string
          tfc_layout.svg = function (value) { if (!arguments.length) { return _svg; }  _svg = value; return tfc_layout; };//gets svg if selector is defined or sets (using selector string)
-         tfc_layout.cntrl_width  = function (value) { if (!arguments.length) { return _cntrl_width;  } _cntrl_width = value;  return tfc_layout; };//get or set control width
-         tfc_layout.cntrl_height = function (value) { if (!arguments.length) { return _cntrl_height; } _cntrl_height = value; return tfc_layout; };//get or set control height
-         tfc_layout.width = function (value) { if (!arguments.length) { return _width; }  _cntrl_width = (value + _margin.left + _margin.right); return tfc_layout; };//gets width based on margins or sets width,  as a number calculated base on margins                      /*if (checkNum(value)) tfc_layout({ "width" : value, "height": (value * 0.02)  }); return tfc_layout; };
-         tfc_layout.height = function (value) { if (!arguments.length) { return _height; } _cntrl_height = (value + _margin.top + _margin.bottom); return tfc_layout; };//if (checkNum(value)) tfc_layout({ "height": value, "width" : (value / 0.02)  }); return tfc_layout; };
+         tfc_layout.cntrl_width = function (value) { if (!arguments.length) { return _cntrl_width; } _cntrl_width = value; _width = (_cntrl_width - _margin.right - _margin.left);  return tfc_layout; };//get or set control width
+         tfc_layout.cntrl_height = function (value) { if (!arguments.length) { return _cntrl_height; } _cntrl_height = value; _height = (_cntrl_height - _margin.top - _margin.bottom); return tfc_layout; };//get or set control height
+         tfc_layout.width = function (value) { if (!arguments.length) { return _width; } _width = value; _cntrl_width = (_width + _margin.left + _margin.right); return tfc_layout; };//gets width based on margins or sets width,  as a number calculated base on margins                      /*if (checkNum(value)) tfc_layout({ "width" : value, "height": (value * 0.02)  }); return tfc_layout; };
+         tfc_layout.height = function (value) { if (!arguments.length) { return _height; } _height = value; _cntrl_height = (_height + _margin.top + _margin.bottom); return tfc_layout; };//if (checkNum(value)) tfc_layout({ "height": value, "width" : (value / 0.02)  }); return tfc_layout; };
          tfc_layout.margin = function (value) { if (!arguments.length) { return _margin; } _margin = value; return tfc_layout; };//margin
-         tfc_layout.margin.top = function (value) { if (!arguments.length) { return _margin.top; } _margin.top = value; return tfc_layout; };//top margin
-         tfc_layout.margin.bottom = function (value) { if (!arguments.length) { return _margin.bottom; } _margin.bottom = value; return tfc_layout; };//bottom margin
-         tfc_layout.margin.right  = function (value) { if (!arguments.length) { return _margin.right;  } _margin.right  = value; return tfc_layout; };//right margin
-         tfc_layout.margin.left   = function (value) { if (!arguments.length) { return _margin.left;   } _margin.left   = value; return tfc_layout; };//left margin
+         tfc_layout.margin.top = function (value) { if (!arguments.length) { return _margin.top; } _margin.top = value; _height = (_cntrl_height - _margin.top - _margin.bottom); return tfc_layout; };//top margin
+         tfc_layout.margin.bottom = function (value) { if (!arguments.length) { return _margin.bottom; } _margin.bottom = value; _height = (_cntrl_height - _margin.top - _margin.bottom); return tfc_layout; };//bottom margin
+         tfc_layout.margin.right = function (value) { if (!arguments.length) { return _margin.right; } _margin.right = value; _width = (_cntrl_width - _margin.left - _margin.right); return tfc_layout; };//right margin
+         tfc_layout.margin.left = function (value) { if (!arguments.length) { return _margin.left; } _margin.left = value; _width = (_cntrl_width - _margin.left - _margin.right); return tfc_layout; };//left margin
         // tfc_layout.x = function (value) { if (!arguments.length) { return x; } x = value; return tfc_layout; };// x scales or sets range
          //tfc_layout.y = function (value) { if (!arguments.length) { return y; } y = value; return tfc_layout; };// y scales or sets range
         // tfc_layout.xAxis = _xAxis ;//d3.axisTop(x).tickSize([_height]);//function (value) { if (!arguments.length) { return _xAxis; } _xAxis = value; return tfc_layout; };// xAxis setup
@@ -156,15 +189,20 @@
          
          return TimeFilterChart;
      },
-     tfc_data: function(){},
+     tfc_data: function () { },
+     addEditIcon: function (iconId, url) {
+         $('#'+ iconId).attr("src",url);
+     },
      register: function (opts) {
-         
+         svg = d3.select("svg.timeline-svg-filter");
+         var tfc_clipPathId = opts.tfc_clipPathId, tfcSvgId = opts.tfcSvgId;
+         api.addEditIcon(opts.timelineEditImgId, opts.timelineEditSvgUrl);
          //new layout and main time chart setup
          var _tfc_layout_slave = new $.coria.timeFilterControl.tfc_layout()  
             .margin.top(10)
             .margin.bottom(60)
-            .margin.left(10)
-            .margin.right(10);
+            .margin.left(30)
+            .margin.right(30);
          
          var _slaveChart = new $.coria.timeFilterControl.tfc_chart();
          _slaveChart(_tfc_layout_slave);
@@ -173,8 +211,8 @@
          var tfc_layout_master = new $.coria.timeFilterControl.tfc_layout()
              .margin.top(35)
              .margin.bottom(35)
-             .margin.left(10)
-             .margin.right(10);
+             .margin.left(30)
+             .margin.right(30);
 
          var _masterChart = new $.coria.timeFilterControl.tfc_chart();
          _masterChart(tfc_layout_master);
@@ -201,8 +239,10 @@
             .append("g")
                 .attr("class", "brush brush-sensor brush-sensor-slave")
                 .call(brush_sensor_slave)
-                .call(brush_sensor_slave.move, _slaveChart().x.range());
+                .call(brush_sensor_slave.move, [_tfc_layout_slave().width - Math.floor(_tfc_layout_slave().width / 2) - (_tfc_layout_slave().width / 5), _tfc_layout_slave().width - Math.floor(_tfc_layout_slave().width / 2) + (_tfc_layout_slave().width / 5)]);
+//                .call(brush_sensor_slave.move, _slaveChart().x.range());
          /*
+         *[width - Math.floor(width / 2) - (width / 5), width - Math.floor(width / 2) + (width / 5)]
          * Sets up a zoom servo as an adjustment surface for changing Gear(master/slave) Ratio
          * uses a lazy setting, "Infinity" which assumes a level of precision in our data that is not realistic. 
          * realistic would calculate data resolution, e.g. date/time may only go to seconds, days, weeks, etc 
