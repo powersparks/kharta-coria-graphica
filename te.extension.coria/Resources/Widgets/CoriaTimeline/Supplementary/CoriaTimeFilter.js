@@ -501,8 +501,7 @@
         getLayouts: function () { return api.tfc_layout_array; } ,
         register: function (opts) {
             if (typeof d3 === 'undefined') return;
-            
-           
+             
             var tfc_clipPathId = opts.tfc_clipPathId, tfcSvgId = opts.tfcSvgId;
             api.tfc_addEditIconBtn(opts);
             //api.tfc_setup(opts);
