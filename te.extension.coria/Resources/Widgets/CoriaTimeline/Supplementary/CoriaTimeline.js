@@ -1,4 +1,6 @@
-﻿///<reference path="_agsReferences.js" />
+﻿/// <reference path="d3.js" />
+/// <reference path="C:\Program Files\Telligent\9.2\Utility\JQuery\jquery.min.js" />
+/// <reference path="C:\Program Files\Telligent\9.2\Utility\JQuery\evolution\telligent.evolution.js" />
 (function ($) {
     // community.apan.org/api.ashx/v2/search.json?formatresponse=true&r=15524474&filters=GeoTagGeoHash:*&_=1479254506086
     // cdnjs.cloudflare.com/ajax/libs/d3/4.3.0/d3.js"

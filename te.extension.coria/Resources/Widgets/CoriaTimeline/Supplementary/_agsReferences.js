@@ -1,8 +1,12 @@
-﻿/// <reference path="https://d3js.org/d3.v4.js" />
-/// <reference path="https://harleyparks.com/Utility/JQuery/jquery.min.js" />
-/// <reference path="https://harleyparks.com/Utility/JQuery/evolution/telligent.evolution.js" />
-// <reference path="https://maps.google.com/maps/api/js?sensor=false&signed_in=true&client=gme-disaapan" />
- 
+﻿/// <reference path="d3.js" />
+/// <reference path="C:\Program Files\Telligent\9.2\Utility\JQuery\jquery.min.js" />
+/// <reference path="C:\Program Files\Telligent\9.2\Utility\JQuery\evolution\telligent.evolution.js" />
+
+/*** <reference path="https://d3js.org/d3.v4.js" />
+ <reference path="https://harleyparks.com/Utility/JQuery/jquery.min.js" />
+ <reference path="https://harleyparks.com/Utility/JQuery/evolution/telligent.evolution.js" />
+ <reference path="https://maps.google.com/maps/api/js?sensor=false&signed_in=true&client=gme-disaapan" />
+ */
  
 
 $ = $ || {};
