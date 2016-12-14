@@ -19,19 +19,38 @@ $core_v2_widget.Hide()
 
 <div id='$core_v2_widget.UniqueId("timelineContainerDivId")' class="timeline-container">
    <div id='$core_v2_widget.UniqueId("timelineId")' class="timeline-div" >
-  <div id='$core_v2_widget.UniqueId("timelineContainerToolBar")' style="{display:none;}" class="timeline-container-toolbar">
-    <div>
-        <input id='$core_v2_widget.UniqueId("timelineSearch")' style="{display:none;}"  class="ui-tourtip timeline-search " autocomplete="off" placeholder="Search" value="" data-tourtipkey="1234" data-tourtipmessage="Add text to filter timeline posts" type="search">
-    </div>
-    <div>
-       <span class="ui-loading" style="{display:none; }" data-width="30" data-height="30"></span>
-    </div>
-    <div>
-      <a href="#" id='$core_v2_widget.UniqueId("timelineEditBtnId")' style="{display:none;}"  class="timeline-edit-btn">
-          <img id='$core_v2_widget.UniqueId("timelineEditImgId")' src="" style="{display:none;}"  class="timeline-edit" alt="timeline edit tool"/>
-      </a>
-    </div>
-</div> 
+    <div id='$core_v2_widget.UniqueId("timelineContainerToolBar")' style="{display:none;}" class="timeline-container-toolbar">
+         
+          <div>
+        
+            <input id='$core_v2_widget.UniqueId("timelineSearch")' style="{display:none;}"  class="ui-tourtip timeline-search " autocomplete="off" placeholder="Search" value="" data-tourtipkey="1234" data-tourtipmessage="Add text to filter timeline posts" type="search">
+          </div>
+          <div>
+       
+            <select id='$core_v2_widget.UniqueId("sourceId")'>
+              <option value="restApi">REST API Search</option>
+              <option value="jsonUrl_earthquakes">GeoJson USGS Earthquakes</option>
+              <!-- https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php -->
+            </select>   
+           
+          </div>
+          <div>
+            <span class="ui-loading" style="{display:none; }" data-width="30" data-height="30"></span>
+          </div>
+          <div><span style="{display:inline-block;}">from:
+          <input id='$core_v2_widget.UniqueId("fromDateId")' type="date"   /> </span>
+          </div>
+        <div><span style="{display:inline-block;}">To:
+           <input id='$core_v2_widget.UniqueId("toDateId")' type="date" /> </span>
+          </div>
+
+        <div>
+            <a href="#" id='$core_v2_widget.UniqueId("timelineEditBtnId")' style="{display:none;}"  class="timeline-edit-btn">
+              <img id='$core_v2_widget.UniqueId("timelineEditImgId")' src="" style="{display:none;}"  class="timeline-edit" alt="timeline edit tool"/>
+            </a>
+          </div> 
+      
+    </div> 
     <!--svg id='$core_v2_widget.UniqueId("timelineSvgFilterId")' class="timeline-svg-filter" viewBox="0 0 600 80" preserveAspectRatio="xMidYMid"></svg-->
      <svg id='$core_v2_widget.UniqueId("tfcSvgId")' class="timeline-svg-filter2" viewBox="0 0 600 80"  preserveAspectRatio="xMidYMid"></svg>
   <!--svg id="timeFilterId"   viewBox="0 0 960 500" preserveAspectRatio="xMidYMid"></svg-->
@@ -40,7 +59,7 @@ $core_v2_widget.Hide()
   
 #registerEndOfPageHtml ('d3js.org')
 ## end of page HTML <script src="https://d3js.org/d3.v4.min.js"https://cdnjs.cloudflare.com/ajax/libs/d3/4.3.0/d3.min.js></script>
- ##<script type="text/javascript" src='https://d3js.org/d3.v4.js' charset="utf-8"></script>
+##<script type="text/javascript" src='https://d3js.org/d3.v4.js' charset="utf-8"></script>
 ##<script type="text/javascript" src='$core_v2_encoding.HtmlAttributeEncode($core_v2_widget.GetFileUrl("d3.v4.min.js"))' charset="utf-8"></script>
 ##<script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/d3/4.3.0/d3.min.js' charset="utf-8"></script>
 #end
@@ -53,6 +72,9 @@ $core_v2_widget.Hide()
 <script type="text/javascript">
 	jQuery(function (j){
 	j.coria.timeFilterControl.register({
+  tfc_toDateId: '$core_v2_widget.UniqueId("toDateId")',
+  tfc_fromDateId: '$core_v2_widget.UniqueId("fromDateId")',
+  tfc_sourceId: '$core_v2_widget.UniqueId("sourceId")',
    tfc_clipPathId:  '$core_v2_widget.UniqueId("clip")', /***generate id. html appended**/
    tfcSvgId: '$core_v2_widget.UniqueId("tfcSvgId")',
    timelineEditBtnId:'$core_v2_widget.UniqueId("timelineEditBtnId")',

@@ -1,8 +1,58 @@
 ﻿/// <reference path="d3.js" />
 /// <reference path="C:\Program Files\Telligent\9.2\Utility\JQuery\jquery.min.js" />
 /// <reference path="C:\Program Files\Telligent\9.2\Utility\JQuery\evolution\telligent.evolution.js" />
+var quakeResultsTemp ={
+    "type": "FeatureCollection",
+    "metadata": {
+        "generated": 1481433099000,
+        "url": "http://earthquake.usgs.gov/fdsnws/event/1/query?callback=quake321705&format=geojson&starttime=2014-01-01&endtime=2014-01-02",
+        "title": "USGS Earthquakes",
+        "status": 200,
+        "api": "1.5.2",
+        "count": 277
+    },
+    "features": [{
+        "type": "Feature",
+        "properties": {
+            "mag": 1.29,
+            "place": "10km SSW of Idyllwild, CA",
+            "time": 1388620296020,/****Times are reported in milliseconds since the epoch ( 1970-01-01T00:00:00.000Z)*/
+            "updated": 1457728844428,
+            "tz": -480,
+            "url": "http://earthquake.usgs.gov/earthquakes/eventpage/ci11408890",
+            "detail": "http://earthquake.usgs.gov/fdsnws/event/1/query?eventid=ci11408890&format=geojson",
+            "felt": null,
+            "cdi": null,
+            "mmi": null,
+            "alert": null,
+            "status": "reviewed",
+            "tsunami": 0,
+            "sig": 26,
+            "net": "ci",
+            "code": "11408890",
+            "ids": ",ci11408890,",
+            "sources": ",ci,",
+            "types": ",cap,focal-mechanism,general-link,geoserve,nearby-cities,origin,phase-data,scitech-link,",
+            "nst": 39,
+            "dmin": 0.06729,
+            "rms": 0.09,
+            "gap": 51,
+            "magType": "ml",
+            "type": "earthquake",
+            "title": "M 1.3 - 10km SSW of Idyllwild, CA"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [-116.7776667, 33.6633333, 11.008]
+        },
+        "id": "ci11408890"
+    }],
+    "bbox": [-179.688, -56.1218, -0.653, 167.8106, 64.8073, 582.05]
+};
+
 (function ($) {
     var date_dynField = "Date";
+    var y_dynField  = "price";
     var api = {
         tfc_layout_array: [],
         tfc_charts_array: [],
@@ -228,21 +278,29 @@
             api.tfc_setup(opts);
         },
         tfc_addEditIconBtn: function (opts) {
+            d3.selectAll('svg'+ ">*").remove();
             var  iconId = opts.timelineEditImgId, btnId = opts.timelineEditBtnId, url = opts.timelineEditSvgUrl;
             $('#' + iconId).attr("src", url);
             $("span.ui-loading").hide();
             $('#' + btnId).on('click', function () { 
                 $("span.ui-loading").show();
-                var DataChoice = "restApi";
+                /*****
+                * <option value="internalSearch">REST API Search</option>
+                * <option value="earthquakes">GeoJson USGS Earthquakes</option> 
+                **/
+                var DataChoice = $('#' +opts.tfc_sourceId).val();
                 switch (DataChoice) {
-                    case "restApi": 
+                    case "restApi":
+                        console.info("rest api");
                         tfc_dataRestApi(opts);
                         break;
                     case "csvFile": 
                         tfc_dataCsvFie(opts);
                         break;
-                    case "jsonUrl": 
+                    case "jsonUrl_earthquakes":
+                        
                         tfc_dataJsonUrl(opts);
+                   
                         break;
                     default:
                         tfc_dataRestApi(opts);
@@ -259,16 +317,31 @@
                         });
                      }
                      function tfc_dataCsvFile(opts) { }
-                     function tfc_dataJsonUrl(opts) { }
- 
+                     function tfc_dataJsonUrl(opts) {
+                         var quakeRequest = api.tfc_data_UsgsEarthquake();
+                         quakeRequest(function (results) {
+                             console.info(results);
+                            
+                             opts.data = results.features.map(function (d) {
+                                 d.Date = new Date(d.properties.time);
+                                 d.price = d.properties.mag;
+                                 return d;
+                             });
+                             api.tfc_setup(opts);
+                             $("span.ui-loading").hide();
+                         });
+                             
+                     } 
             });
         },
         tfc_setup: function (opts) {
             var data = opts.data ? opts.data : null;
             var svgMainHeight = 80;
            
+            d3.selectAll('svg' + ">*").remove();
+    
             api.svgMain = d3.selectAll('#' + opts.tfcSvgId);
-                api.svgMain.attr("viewBox", "0 0 600 " + svgMainHeight);
+            api.svgMain.attr("viewBox", "0 0 600 " + svgMainHeight);
              
             //api.tfc_charts_array.push( svgMain );
            
@@ -293,7 +366,7 @@
                   .defined(function (d) { return d; })
                      .x(function (d) { return x(d[date_dynField]); })
                      //.y(y(100));
-            .y(function (d) { return y(d.price); });
+            .y(function (d) { return y(d[y_dynField]); });
             if (data != null) {
                 console.info("slave chart");
                 console.info(_slaveChart());
@@ -454,6 +527,43 @@
                   _timeFilterChart2(tfc_layout3);
                   */
         },/****tfc_setup end**/
+        tfc_data_UsgsEarthquake: function () {
+                //https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2014-01-01&endtime=2014-01-02&callback=test
+                //https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2014-01-01&endtime=2014-01-02&callback=quake558755&_=1481418159231
+         var _baseUrl = "https://earthquake.usgs.gov/fdsnws/event/1/query",
+        x3rand = Math.floor(Math.random() * 1000 + 0),
+        y3rand = Math.floor(Math.random() * 1000 + 0),
+        callbackname = "quake" + x3rand + y3rand;
+                function quakeResult(callback) {
+                    console.info("ajax");
+                    $.ajax({
+                        url: _baseUrl,//input.replace(/\/+$/, "") + "?f=json", 
+                        dataType: "jsonp",
+                        jsonpCallback: callbackname,
+                        data: {
+                            format: "geojson",
+                            starttime: "2014-01-01",
+                            endtime: "2014-01-02"
+                        },
+                        dataType: 'jsonp',
+                        cache: true,
+                        success: function (response) {
+
+                            if (typeof callback !== 'undefined' && typeof callback === 'function') {
+                                callback(response);
+                            }
+
+                        },
+                        error: function (state, status, message) {
+                            console.info("fail: ");
+                            console.info(state);
+                            console.info(status);
+                            console.info(message);
+                        }
+                    });
+                };
+                return quakeResult;
+        },
         tfc_data_SearchTelligentRestCall: function () {
 
                    var _baseUrl = $.telligent.evolution.site.getBaseUrl(true),
@@ -501,13 +611,38 @@
         getLayouts: function () { return api.tfc_layout_array; } ,
         register: function (opts) {
             if (typeof d3 === 'undefined') return;
-             
+            console.info(opts.tfc_fromDateId);
+            console.info(opts.tfc_toDateId);
+            //$('#' + opts.tfc_fromDateId).on("change", function (value) {
+            //    console.info(value)
+            //});
+            //$('#' + opts.tfc_toDateId).on("change", function (value) {
+            //    console.info(value)
+            //});
+            opts.toDate = new Date(Date.now());
+            opts.fromDate = new Date(Date.now() - 1*24*60*60*1000);
+            console.info(opts.fromDate.getFullYear() + "-" + opts.fromDate.getMonth() + "-" + opts.fromDate.getDay());
+            
+            var fromDate = TheDate();
+            fromDate(opts.fromDate);
+            var toDate = TheDate();
+            toDate(opts.toDate);
+            console.info(opts.tfc_fromDateId);
+            console.info(fromDate.is() + " : " + toDate.is())
+            $('#' + opts.tfc_fromDateId).val(toDate.is());
+            $('#' + opts.tfc_toDateId).val(toDate.is());
+            $('#' + opts.tfc_fromDateId).val(fromDate.is());
+
+
+           
+
             var tfc_clipPathId = opts.tfc_clipPathId, tfcSvgId = opts.tfcSvgId;
             api.tfc_addEditIconBtn(opts);
-            //api.tfc_setup(opts);
+            api.tfc_setup(opts);
           
            
-        }
+        },
+        TheDate: TheDate
  };
  $.coria = $.coria ? $.coria : {};
  $.coria.timeFilterControl = api;
@@ -535,5 +670,31 @@
      var num = isNaN(d[y_dynField]) ? Math.floor(Math.random() * 1000) : d[y_dynField] * 100;
      d[y_dynField] = num <1000 ? num : 1000 ;//d.price;
      return d;
+ }
+ function TheDate() {
+     var _now, _day, _month, _year, _theDate;
+     function TheDate(date) {
+         if (!arguments.length) {
+             return {
+                 dd_text: _day,
+                 mm_text: _month,
+                 yyyy_text: _year,
+                 is: _theDate
+             };
+
+         }
+         _now = new Date(date);
+         _day = ("0" + _now.getDate()).slice(-2);
+         _month = ("0" + (_now.getMonth() + 1)).slice(-2);
+         _year = _now.getFullYear() + "";
+         _theDate = _year + "-" + (_month) + "-" + (_day);
+         return TheDate;
+     }
+     TheDate.dd_text = function (value) { if (!arguments.length) { return _day; } _day = value; return TheDate; };
+     TheDate.mm_text = function (value) { if (!arguments.length) { return _month; } _month = value; return TheDate; };
+     TheDate.yyyy_text = function (value) { if (!arguments.length) { return _year; } _year = value; return TheDate; };
+     TheDate.is = function (value) { if (!arguments.length) { return _theDate; } _theDate = value; return TheDate; };
+
+     return TheDate;
  }
 })(jQuery);
